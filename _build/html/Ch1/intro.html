@@ -1,0 +1,326 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Classification &#8212; Machine Learning</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.e7340bb3dbd8dde6db86f25597f54a1b.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="The MNIST dataset" href="MNIST.html" />
+    <link rel="prev" title="A Quick Note on Notation and Terminology" href="../notation_note.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/ML_logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Machine Learning</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../intro.html">
+   Intro
+  </a>
+ </li>
+</ul>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notation_note.html">
+   A Quick Note on Notation and Terminology
+  </a>
+ </li>
+ <li class="toctree-l1 current active collapsible-parent">
+  <a class="current reference internal" href="#">
+   Chapter 1: Classification and ML Basics
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="MNIST.html">
+     The MNIST dataset
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="validation.html">
+     Validation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="supervisedlearn.html">
+     Supervised vs. Unsupervised Learning
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch2/intro.html">
+   Chapter 2: Linear Classifiers
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/hyperplanes.html">
+     Behind the Decision Boundary
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/linearseparability.html">
+     Linear Separability of Data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/centroid.html">
+     The Centroid Method
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptron.html">
+     The Perceptron Algorithm
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/Ch1/intro.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/kmoy1/ML_Book.git"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/kmoy1/ML_Book.git/issues/new?title=Issue%20on%20page%20%2FCh1/intro.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                    title="Fullscreen mode"><i
+                        class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="classification">
+<h1>Classification<a class="headerlink" href="#classification" title="Permalink to this headline">¶</a></h1>
+<p>Let’s begin our ML journey with the problem of <strong>classification</strong>.</p>
+<p>As always, we begin with a practical usage for this problem. A <em>very</em> common usage of classification is employed with credit card companies, who want to predict if an applicant will default on their credit balances on not, based on some background checking. Let’s see this visually:</p>
+<a class="reference internal image-reference" href="../_images/defaultdataset.png"><img alt="Default Dataset" class="align-center" src="../_images/defaultdataset.png" style="width: 400px;" /></a>
+<p>In the above graph, each point corresponds to a credit card user. Notice each person (each point) was defined by their credit balance and income - the two most important features that determine someone’s credit risk in this case. Points with a brown <code class="docutils literal notranslate"><span class="pre">'+'</span></code> are people who defaulted on their credit, and points with a blue <code class="docutils literal notranslate"><span class="pre">'o'</span></code> are those who did not.</p>
+<p>That’s great and all, but what can we do with this? Ideally, we want to use these examples (and the graph it makes) to <strong>classify</strong> whether a future applicant is a credit risk or not. Specifically, as stated in this book’s intro, we’re looking for some pattern in the data that can help with this classification.</p>
+<p>First, to gain some intuition, let’s look at the distribution of the two features (balance and income) alone:</p>
+<a class="reference internal image-reference" href="../_images/incomeandbalance.png"><img alt="Income and Balance" class="align-center" src="../_images/incomeandbalance.png" style="width: 400px;" /></a>
+<p>Note that the difference in balances for those who do default and those who don’t are significantly different, while income looks fairly similar. This means that balance is probably a more influential factor in classifying someone as a risk or not. However, that does <em>not</em> mean that income isn’t useful- not at all. We can still use it as sort of a “second-level” predictor: if we can’t tell if someone’s a risk based on their credit balance, then we use their income.</p>
+<p>To put this more generally, collecting our dataset of credit card users for whom we know defaulted/not is <em>collecting our training data</em>. We call this training data because we use these points to “train” or “fit” a model that will then try to generalize and predict the class of new, unseen data. This model will be some numerical rule. In the dataset above, the rule that makes the most sense is a straight line: points to the right of this line are risks, and points to the left are not.</p>
+<p>So let’s say we’ve fitted our model on our training data, and we get our line (shown in red below). Now, say a new applicant comes in, shown as a black square. In ML, we call this new, unseen data point a <strong>test point</strong>: we want to test whether our classifier can classify it correctly or not.</p>
+<a class="reference internal image-reference" href="../_images/defaultnew.png"><img alt="New Pred." class="align-center" src="../_images/defaultnew.png" style="width: 400px;" /></a>
+<p>Do we classify this applicant as a risk? Probably not, since our rule says that any point to the left of the line is not a credit risk. By the way, this line has a special name, the <strong>decision boundary</strong>: it literally is the boundary where the decision for a point is made whether it is a risk or not. Such a boundary, as we’ll see later, does NOT have to be a line!</p>
+<p>So right now our model is just a linear decision boundary that classifies points on its right as risks and points on its left as not. But our model doesn’t have to be this way. Another model we might use is the <strong>nearest-neighbors</strong> model: given a point, find the training point that is closest to it and use that neighbor’s classification as its own. With this we make the big assumption that similar points (in terms of the features we’re using, income and balance) will be close together.</p>
+<p>Which one should we use? Let’s compare the behavior of the nearest-neighbor classifier (left) to that of a linear classifier (right).</p>
+<a class="reference internal image-reference" href="../_images/NNvsLinear.png"><img alt="New Pred." class="align-center" src="../_images/NNvsLinear.png" style="width: 600px;" /></a>
+<p>The obvious advantage of the NN-classifier is that it always predicts training data correctly: in other words, 100% <strong>training accuracy</strong>. Another way to think about this: if our test point was the same exact point as one of our training points, it would always be classified correctly. This is a good thing, right? If 100% is good for human learning in school, it’s gotta be also good for machine learning, right?</p>
+<p>NO. Remember the goal is not to have good training accuracy, but to have good <strong>test accuracy</strong>: we want to predict <em>unseen</em> data correctly. Note the decision boundary for the NN-classifier is all fucked up- and probably won’t do the greatest job at predicting new data because of it. There’s a special machine learning term for this: <strong>overfitting</strong>. Whenever you see these weird arbitrary decision boundaries, it’s usually a good sign you might be overfitting to your data.</p>
+<p>Now look at the linear classifier’s accuracy. The training accuracy is actually pretty bad: there’s a lot of blue points in the left region where yellow is being predicted. Same for the yellow points in the blue region. But the decision boundary is less complex, so it <em>might</em> generalize to unseen data better.</p>
+<p>Which one to use? No right answer - it depends the context and other factors. But now you know the basic idea behind classifiers and their decision boundaries.</p>
+<p>What if we adjust the NN algorithm so that instead of a single nearest neighbor, we pick the 15 nearest neighbors and classify our test point based on the majority class of those 15 neighbors? Well then we get this much less janky decision boundary:</p>
+<a class="reference internal image-reference" href="../_images/NN15.png"><img alt="New Pred." class="align-center" src="../_images/NN15.png" style="width: 400px;" /></a>
+<p>So even though we misclassify a lot more training points, like with the linear decision boundary, we can expect this model to <strong>generalize</strong> (predict unseen data) much better.</p>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./Ch1"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="../notation_note.html" title="previous page">A Quick Note on Notation and Terminology</a>
+    <a class='right-next' id="next-link" href="MNIST.html" title="next page">The MNIST dataset</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Kevin Moy<br/>
+        
+            &copy; Copyright 2020.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>

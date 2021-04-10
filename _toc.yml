@@ -1,11 +1,16 @@
-# Table of content
-# Learn more at https://jupyterbook.org/customize/toc.html
-#
 - file: intro
-- file: content
+- file: notation_note
+- file: Ch1/intro
+  title: "Chapter 1: Classification and ML Basics"
   sections:
-    - file: markdown
-    - file: notebooks
-- file: Ch1_Intro/intro
-  sections: 
-    - file: Ch1_Intro/p1
+    - file: Ch1/MNIST
+    - file: Ch1/validation
+    - file: Ch1/supervisedlearn
+- file: Ch2/intro
+  title: "Chapter 2: Linear Classifiers"
+  sections:
+    - file: Ch2/hyperplanes
+    - file: Ch2/linearseparability
+    - file: Ch2/centroid
+    - file: Ch2/perceptron
+    
