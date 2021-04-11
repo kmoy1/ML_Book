@@ -55,7 +55,7 @@
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="The MNIST dataset" href="MNIST.html" />
+    <link rel="next" title="Training and Testing" href="trainingandtesting.html" />
     <link rel="prev" title="A Quick Note on Notation and Terminology" href="../notation_note.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -104,6 +104,16 @@
    Chapter 1: Classification and ML Basics
   </a>
   <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="trainingandtesting.html">
+     Training and Testing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="comparingmodels.html">
+     Comparing Classification Models
+    </a>
+   </li>
    <li class="toctree-l2">
     <a class="reference internal" href="MNIST.html">
      The MNIST dataset
@@ -251,20 +261,8 @@
 <p>First, to gain some intuition, let’s look at the distribution of the two features (balance and income) alone:</p>
 <a class="reference internal image-reference" href="../_images/incomeandbalance.png"><img alt="Income and Balance" class="align-center" src="../_images/incomeandbalance.png" style="width: 400px;" /></a>
 <p>Note that the difference in balances for those who do default and those who don’t are significantly different, while income looks fairly similar. This means that balance is probably a more influential factor in classifying someone as a risk or not. However, that does <em>not</em> mean that income isn’t useful- not at all. We can still use it as sort of a “second-level” predictor: if we can’t tell if someone’s a risk based on their credit balance, then we use their income.</p>
-<p>To put this more generally, collecting our dataset of credit card users for whom we know defaulted/not is <em>collecting our training data</em>. We call this training data because we use these points to “train” or “fit” a model that will then try to generalize and predict the class of new, unseen data. This model will be some numerical rule. In the dataset above, the rule that makes the most sense is a straight line: points to the right of this line are risks, and points to the left are not.</p>
-<p>So let’s say we’ve fitted our model on our training data, and we get our line (shown in red below). Now, say a new applicant comes in, shown as a black square. In ML, we call this new, unseen data point a <strong>test point</strong>: we want to test whether our classifier can classify it correctly or not.</p>
-<a class="reference internal image-reference" href="../_images/defaultnew.png"><img alt="New Pred." class="align-center" src="../_images/defaultnew.png" style="width: 400px;" /></a>
-<p>Do we classify this applicant as a risk? Probably not, since our rule says that any point to the left of the line is not a credit risk. By the way, this line has a special name, the <strong>decision boundary</strong>: it literally is the boundary where the decision for a point is made whether it is a risk or not. Such a boundary, as we’ll see later, does NOT have to be a line!</p>
-<p>So right now our model is just a linear decision boundary that classifies points on its right as risks and points on its left as not. But our model doesn’t have to be this way. Another model we might use is the <strong>nearest-neighbors</strong> model: given a point, find the training point that is closest to it and use that neighbor’s classification as its own. With this we make the big assumption that similar points (in terms of the features we’re using, income and balance) will be close together.</p>
-<p>Which one should we use? Let’s compare the behavior of the nearest-neighbor classifier (left) to that of a linear classifier (right).</p>
-<a class="reference internal image-reference" href="../_images/NNvsLinear.png"><img alt="New Pred." class="align-center" src="../_images/NNvsLinear.png" style="width: 600px;" /></a>
-<p>The obvious advantage of the NN-classifier is that it always predicts training data correctly: in other words, 100% <strong>training accuracy</strong>. Another way to think about this: if our test point was the same exact point as one of our training points, it would always be classified correctly. This is a good thing, right? If 100% is good for human learning in school, it’s gotta be also good for machine learning, right?</p>
-<p>NO. Remember the goal is not to have good training accuracy, but to have good <strong>test accuracy</strong>: we want to predict <em>unseen</em> data correctly. Note the decision boundary for the NN-classifier is all fucked up- and probably won’t do the greatest job at predicting new data because of it. There’s a special machine learning term for this: <strong>overfitting</strong>. Whenever you see these weird arbitrary decision boundaries, it’s usually a good sign you might be overfitting to your data.</p>
-<p>Now look at the linear classifier’s accuracy. The training accuracy is actually pretty bad: there’s a lot of blue points in the left region where yellow is being predicted. Same for the yellow points in the blue region. But the decision boundary is less complex, so it <em>might</em> generalize to unseen data better.</p>
-<p>Which one to use? No right answer - it depends the context and other factors. But now you know the basic idea behind classifiers and their decision boundaries.</p>
-<p>What if we adjust the NN algorithm so that instead of a single nearest neighbor, we pick the 15 nearest neighbors and classify our test point based on the majority class of those 15 neighbors? Well then we get this much less janky decision boundary:</p>
-<a class="reference internal image-reference" href="../_images/NN15.png"><img alt="New Pred." class="align-center" src="../_images/NN15.png" style="width: 400px;" /></a>
-<p>So even though we misclassify a lot more training points, like with the linear decision boundary, we can expect this model to <strong>generalize</strong> (predict unseen data) much better.</p>
+<p>So a human can pretty easily use the data to predict whether a new applicant is a credit risk or not. For example, if you see someone with a 3000 dollar balance and 20K income, you’ll probably assign them as a pretty high credit risk. That’s fine. Anyone who you call to apply for a credit card will be pretty good at this.</p>
+<p>But how can a machine learn how to do it? Well, humans have to basically “teach” the machine with a lengthy but (hopefully) not-too-complicated process. Let’s check it out.</p>
 <div class="toctree-wrapper compound">
 </div>
 </div>
@@ -295,7 +293,7 @@
         <div class='prev-next-bottom'>
             
     <a class='left-prev' id="prev-link" href="../notation_note.html" title="previous page">A Quick Note on Notation and Terminology</a>
-    <a class='right-next' id="next-link" href="MNIST.html" title="next page">The MNIST dataset</a>
+    <a class='right-next' id="next-link" href="trainingandtesting.html" title="next page">Training and Testing</a>
 
         </div>
         

@@ -107,6 +107,16 @@
   </a>
   <ul class="current collapse-ul">
    <li class="toctree-l2">
+    <a class="reference internal" href="trainingandtesting.html">
+     Training and Testing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="comparingmodels.html">
+     Comparing Classification Models
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="MNIST.html">
      The MNIST dataset
     </a>
@@ -245,20 +255,20 @@
                 
   <div class="section" id="validation">
 <h1>Validation<a class="headerlink" href="#validation" title="Permalink to this headline">¶</a></h1>
-<p>Another important part of machine learning is <strong>validation</strong>. Validation is the best means of deciding the arbitrary choices in machine learning:</p>
+<p>We already know the two big steps in machine learning is training and testing. However, there is actually a third in-between step: <strong>validation</strong>. Validation is the best means of deciding the arbitrary choices in machine learning:</p>
 <ul class="simple">
 <li><p>Which algorithm to use (nearest-neighbors, SVM, etc.)</p></li>
 <li><p>Which decision boundary type to use (linear, quadratic)</p></li>
 <li><p>Hyperparameters (e.g. number of neighbors, maximum depth of tree, etc.): parameters you set that change how the learning algorithm works.</p></li>
 </ul>
 <p>So up to now, we’ve covered two parts for classification: fitting the model to training data, then testing the model on unseen data points. But here’s the thing- there’s a shit ton of classifiers to choose from. Even if we focused all our attention on a linear classifier, there’s still the question of whether to use regularization, what kind of boundary to use, etc. How do we know what to choose?</p>
-<p>The normal idea would then be to choose the best combination of algorithm/parameters that produces the best accuracy on test data, right? NO. This is because you’d be conceptually fitting your model to your test data now, which is an absolute no-no because the test-data is supposed to be <em>unseen</em>! So the general rule is to <strong>leave the test data untouched until our model is finalized</strong>: that means we’ve chosen the algorithm/boundary/parameters and fit it on all our training data already.</p>
+<p>The normal idea would then be to choose the best combination of algorithm/parameters that produces the best accuracy on test data, right? NO. This is because you’d be conceptually fitting your model to your test data now, which is an absolute no-no because the test-data is supposed to be <em>unseen</em>! So the general rule is to <strong>leave the test data untouched until our model is finalized</strong>: that means we’ve chosen the FINAL algorithm/boundary/parameters and fit it on all our training data already.</p>
 <p>We know that <em>training error</em> is the fraction of training points that are not classified correctly, and <em>test error</em> the fraction of correctly classified UNSEEN points. Generally, training and test error are much different from each other. One reason this is the case is <em>outliers</em>: points whose labels are atypical. For example, in our credit card case, someone with a high income and didn’t borrow frequently (low balance) defaulted anyway, which is not what you’d expect. In training, outliers can affect our decision boundary significantly, which subsequently affects test error.</p>
 <p>Another example is overfitting, as we discussed previously: we fit our model <em>too</em> close to some pattern in our training data and as a result don’t generalize to new data well. So our training error is very good, but our test error is not.</p>
 <p>In particular, hyperparameters themselves can help to <strong>regularize</strong> our model: in other words, combat overfitting. An example of a hyperparameter is the <span class="math notranslate nohighlight">\(k\)</span> in k-nearest neighbors. Varying <span class="math notranslate nohighlight">\(k\)</span> will lead to different train/test errors, and we can see what kinds:</p>
 <a class="reference internal image-reference" href="../_images/kNN.png"><img alt="Default Dataset" class="align-center" src="../_images/kNN.png" style="width: 400px;" /></a>
 <p>On the x axis we have <span class="math notranslate nohighlight">\(k\)</span> (number of nearest neighbors looked at) and on the y axis we have our error rate. We see both training and test error plotted. We really care more about test error, and see that our optimal hyperparameter is around <span class="math notranslate nohighlight">\(k=7\)</span>.</p>
-<p>Again, however, we can’t use this knowledge when training our model. So instead we have to split the initial training set into a smaller training set and a <strong>validation set</strong>. We train the classifier on the smaller training set, then use the validation set to get an initial idea of how good our classifier is. The good thing about this is that we can test multiple different models (with variously tuned parameters) using validation.</p>
+<p>Remember, though, that <em>we can’t use this knowledge when training our model</em>. So instead we have to split the initial training set into a smaller training set and a <strong>validation set</strong>. We train the classifier on the smaller training set, then use the validation set to get an initial idea of how good our classifier is. The good thing about this is that we can test multiple different models (with variously tuned parameters) using validation. We never, EVER touch the test set until this whole process is done.</p>
 <p>So in summary, we now have 3 sets that we derive from all our labeled data:</p>
 <ul class="simple">
 <li><p>Training Set: Set used to train model.</p></li>

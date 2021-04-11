@@ -8,5 +8,4 @@ In chapter 1, we got a overview of how linear classifiers worked with predicting
 :align: center
 ```
 
-We know that points on the right are predicted as credit risks ("in class") and left as non-risks ("not in class"). In this chapter, we'll take a deeper and more technical dive into understanding what this line exactly is.
-
+We know that points on the right are predicted as credit risks ("in class") and left as non-risks ("not in class"). In this chapter, we'll take a deeper and more technical dive into understanding what this line exactly is. Once we have this basic understanding, we'll be able to tackle more nuanced and complicated classification problems. 

@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>The Perceptron Algorithm &#8212; Machine Learning</title>
+    <title>Training and Testing &#8212; Machine Learning</title>
     
   <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
@@ -53,11 +53,10 @@
         const thebe_selector_output = ".output"
     </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="The Centroid Method" href="centroid.html" />
+    <link rel="next" title="Comparing Classification Models" href="comparingmodels.html" />
+    <link rel="prev" title="Classification" href="intro.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -100,33 +99,33 @@
    A Quick Note on Notation and Terminology
   </a>
  </li>
- <li class="toctree-l1 collapsible-parent">
-  <a class="reference internal" href="../Ch1/intro.html">
+ <li class="toctree-l1 current active collapsible-parent">
+  <a class="reference internal" href="intro.html">
    Chapter 1: Classification and ML Basics
   </a>
-  <ul class="collapse-ul">
-   <li class="toctree-l2">
-    <a class="reference internal" href="../Ch1/trainingandtesting.html">
+  <ul class="current collapse-ul">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
      Training and Testing
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../Ch1/comparingmodels.html">
+    <a class="reference internal" href="comparingmodels.html">
      Comparing Classification Models
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../Ch1/MNIST.html">
+    <a class="reference internal" href="MNIST.html">
      The MNIST dataset
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../Ch1/validation.html">
+    <a class="reference internal" href="validation.html">
      Validation
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../Ch1/supervisedlearn.html">
+    <a class="reference internal" href="supervisedlearn.html">
      Supervised vs. Unsupervised Learning
     </a>
    </li>
@@ -134,28 +133,28 @@
   <i class="fas fa-chevron-down">
   </i>
  </li>
- <li class="toctree-l1 current active collapsible-parent">
-  <a class="reference internal" href="intro.html">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch2/intro.html">
    Chapter 2: Linear Classifiers
   </a>
-  <ul class="current collapse-ul">
+  <ul class="collapse-ul">
    <li class="toctree-l2">
-    <a class="reference internal" href="hyperplanes.html">
+    <a class="reference internal" href="../Ch2/hyperplanes.html">
      Behind the Decision Boundary
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="linearseparability.html">
+    <a class="reference internal" href="../Ch2/linearseparability.html">
      Linear Separability of Data
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="centroid.html">
+    <a class="reference internal" href="../Ch2/centroid.html">
      The Centroid Method
     </a>
    </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptron.html">
      The Perceptron Algorithm
     </a>
    </li>
@@ -203,7 +202,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/Ch2/perceptron.md"><button type="button"
+        <a class="dropdown-buttons" href="../_sources/Ch1/trainingandtesting.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -223,7 +222,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/kmoy1/ML_Book.git/issues/new?title=Issue%20on%20page%20%2FCh2/perceptron.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/kmoy1/ML_Book.git/issues/new?title=Issue%20on%20page%20%2FCh1/trainingandtesting.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -244,21 +243,6 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show">
             
-        <div class="tocsection onthispage pt-5 pb-3">
-            <i class="fas fa-list"></i>
-            Contents
-        </div>
-        <nav id="bd-toc-nav">
-            <ul class="nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#risk-function">
-   Risk Function
-  </a>
- </li>
-</ul>
-
-        </nav>
-        
         </div>
     </div>
 </div>
@@ -267,53 +251,24 @@
         
               <div>
                 
-  <div class="section" id="the-perceptron-algorithm">
-<h1>The Perceptron Algorithm<a class="headerlink" href="#the-perceptron-algorithm" title="Permalink to this headline">¶</a></h1>
-<p>The perceptron algorithm is an obsolete but instructive algorithm. It is slow, but will guarantee finding a separating boundary for a linearly separable dataset. The bad part is, it is a little <em>too</em> reliant on the dataset being linearly separable: it doesn’t even terminate if it isn’t.</p>
-<p>The basic concept behind the perceptron algorithm is still used by many popular classifiers today, from logistic regression to neural networks. It is one of the first machine learning algorithms to utilize <strong>numerical optomization</strong>: specifically, <strong>gradient descent</strong>, one of the core algorithms in ML.</p>
-<p>Consider <span class="math notranslate nohighlight">\(n\)</span> sample points denoted as <span class="math notranslate nohighlight">\(X_1, X_2, ... , X_n\)</span> (each is a row in the design matrix <span class="math notranslate nohighlight">\(X\)</span>). We also have corresponding labels <span class="math notranslate nohighlight">\(y_1, y_2, ..., y_n\)</span>, where <span class="math notranslate nohighlight">\(y_i = 1\)</span> if <span class="math notranslate nohighlight">\(X_i\)</span> is in class C, and <span class="math notranslate nohighlight">\(y_i = -1\)</span> if <span class="math notranslate nohighlight">\(X_i\)</span> is not in class C.</p>
-<p>To start off, we’ll make a big simplifying assumption: we assume the decision boundary passes through the origin. In other words, we assume <span class="math notranslate nohighlight">\(\alpha = 0\)</span>. Yes, this is a big limitation on the boundary but we’ll fix it very quickly with a simple adjustment later.</p>
-<p>Now, our goal is to find the optimal normal vector <span class="math notranslate nohighlight">\(w\)</span>. Specifically, we want <span class="math notranslate nohighlight">\(w\)</span> such that every point <span class="math notranslate nohighlight">\(X_i\)</span> is classified correctly. In mathematical terms, we want the <strong>signed distance</strong> <span class="math notranslate nohighlight">\(X_i \cdot w \ge 0\)</span> if <span class="math notranslate nohighlight">\(y_i = 1\)</span>, and <span class="math notranslate nohighlight">\(X_i \cdot w \le 0\)</span> if <span class="math notranslate nohighlight">\(y_i = -1\)</span>. So signed distances for points in class C are positive, and negative for those not in class C, just as we expect.</p>
-<p>We can actually further simplify the previous two assumptions into this single <em>constraint</em>
-$<span class="math notranslate nohighlight">\(
-y_iX_i \cdot w \ge 0
-\)</span>$</p>
-<p>for all <span class="math notranslate nohighlight">\(i\)</span>.</p>
-<div class="section" id="risk-function">
-<h2>Risk Function<a class="headerlink" href="#risk-function" title="Permalink to this headline">¶</a></h2>
-<p>Now we define a <strong>risk function</strong> <span class="math notranslate nohighlight">\(R\)</span> which takes in a classifier <span class="math notranslate nohighlight">\(r*\)</span>. The idea is that the risk function accumulates positive risk for each constraint that is violated when the classifier classifies. So basically the risk function is a function that “evaluates” a classifier with a score: the lower the score, the better. Accordingly, we will use optomization to choose the optimal <span class="math notranslate nohighlight">\(w\)</span> that minimizes <span class="math notranslate nohighlight">\(R\)</span>.</p>
+  <div class="section" id="training-and-testing">
+<h1>Training and Testing<a class="headerlink" href="#training-and-testing" title="Permalink to this headline">¶</a></h1>
+<p>The process of machine learning can be divided into two big categories: <strong>training</strong> and <strong>testing</strong>. (Actually, there’s a third category, but we’ll cover this later).</p>
+<p>So what do we have to start? Well, remember we have the shitload of data points of credit card defaulters and non-defaulters we saw in this graph:</p>
+<a class="reference internal image-reference" href="../_images/defaultdataset.png"><img alt="Default Dataset" class="align-center" src="../_images/defaultdataset.png" style="width: 400px;" /></a>
+<p>We call this dataset of credit card users for whom we know defaulted/not as our <strong>training data</strong>. These points are used to “train” a model that will then try to generalize and predict the class on new, unseen data- in this case, new credit card applicants. This model will be some numerical rule. In the dataset above, the rule that makes the most sense is a straight line: points to the right of this line are risks, and points to the left are not.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The risk function is also called the <em>objective function</em> since we want to minimize it for our classifier.</p>
+<p>Treat training our classifier as a “black box” for now- don’t worry about how exactly the model is trained, just know that in training, you input training data and get something that can make predict the class of data as an output.</p>
 </div>
-<p>Part of the risk function involves individually scoring whether each data point is classified correctly or not. For this we use a <strong>loss function</strong> <span class="math notranslate nohighlight">\(L(z, y_i)\)</span> defined as (for the two-class case)</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}
-L(z, y_i) = 
-    \begin{cases} 
-      0 &amp; y_iz \ge 0 \\
-      -y_iz &amp; y_iz &lt; 0 \\  
-   \end{cases}
-\end{split}\]</div>
-<p>where, for data point <span class="math notranslate nohighlight">\(i\)</span>, <span class="math notranslate nohighlight">\(z\)</span> is our prediction, and <span class="math notranslate nohighlight">\(y_i\)</span> is our truth label. Notice that if <span class="math notranslate nohighlight">\(y_iz &lt; 0\)</span>, then we have an incorrect classification, because a correct classification would have <span class="math notranslate nohighlight">\(y_i\)</span> and <span class="math notranslate nohighlight">\(z\)</span> having the same sign. However, on a correct prediction, our loss is 0. So now <strong>risk is just the average of loss over all points.</strong> Formally:</p>
-<div class="math notranslate nohighlight">
-\[
-R(w) = \frac{1}{n}\sum_{i=1}^{n}L(X_i\cdot w_i, y_i)
-\]</div>
-<p>But since <span class="math notranslate nohighlight">\(L(X_i \cdot w_i, y_i) = 0\)</span> for a correct prediction, we’re really just taking the summing over all misclassified points, which allows us to explicitly write out the loss function:</p>
-<div class="math notranslate nohighlight">
-\[
-R(w) = \frac{1}{n}\sum_{i \in V}-y_iX_i \cdot w
-\]</div>
-<p>where <span class="math notranslate nohighlight">\(V\)</span> is the set of indices that were misclassified: i.e. <span class="math notranslate nohighlight">\(y_iX_i \cdot w &lt; 0\)</span>.</p>
-<p>So a perfect classifier <span class="math notranslate nohighlight">\(w\)</span> would have <span class="math notranslate nohighlight">\(R(w) = 0\)</span>. Of course, this is not always possible, so we want to try to find <span class="math notranslate nohighlight">\(w\)</span> such that <span class="math notranslate nohighlight">\(R(w)\)</span> is minimized. We can formally denote this problem as an optomization problem:</p>
-<div class="math notranslate nohighlight">
-\[
-\underset{w}{\arg\min} R(w)
-\]</div>
-<p>We can think of this optomization as finding the point <span class="math notranslate nohighlight">\(w\)</span> that minimizes <span class="math notranslate nohighlight">\(R(w)\)</span> in feature space. Note that in this case, the origin <span class="math notranslate nohighlight">\(w = 0\)</span> technically minimizes the risk function but is obviously useless. So we really want the optimal <em>nonzero</em> <span class="math notranslate nohighlight">\(w\)</span>.</p>
-<p>Unfortunately, because there’s so much variation in what the risk function could look like that depends on the initial dataset, there’s not really a closed-form solution here- we don’t have an explicit works-all-the-time formula for an optimal <span class="math notranslate nohighlight">\(w\)</span>. However, that does not mean we can’t find one. The means of finding it is one of the most important algorithms ever created for machine learning, called gradient descent. We’ll cover this in detail in the next chapter.</p>
+<p>So once we’ve fitted our model on our training data via some algorithm, we can visualize our model (shown in red below):</p>
+<a class="reference internal image-reference" href="../_images/defaultnew.png"><img alt="New Pred." class="align-center" src="../_images/defaultnew.png" style="width: 400px;" /></a>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This line has a special name, the <strong>decision boundary</strong>: it literally is the boundary where the decision for a point is made whether it is a risk or not. Such a boundary, as we’ll see later, does NOT have to be a line!</p>
 </div>
+<p>Now, say a new applicant comes in, shown as a black square above. Do we classify this applicant as a risk? Probably not, since our rule says that any point to the left of the line is not a credit risk.</p>
+<p>In ML, we call this new, unseen data point a <strong>test point</strong>: we want to <em>test</em> whether our classifier can classify it correctly or not. We’re usually going to have multiple test points to test our classifier on: this is called our <strong>testing data</strong>. The proportion of test points classified correctly is a very good indicator of the quality of our classifier model.</p>
 </div>
 
     <script type="text/x-thebe-config">
@@ -329,7 +284,7 @@ R(w) = \frac{1}{n}\sum_{i \in V}-y_iX_i \cdot w
         },
         kernelOptions: {
             kernelName: "python3",
-            path: "./Ch2"
+            path: "./Ch1"
         },
         predefinedOutput: true
     }
@@ -341,7 +296,8 @@ R(w) = \frac{1}{n}\sum_{i \in V}-y_iX_i \cdot w
         
         <div class='prev-next-bottom'>
             
-    <a class='left-prev' id="prev-link" href="centroid.html" title="previous page">The Centroid Method</a>
+    <a class='left-prev' id="prev-link" href="intro.html" title="previous page">Classification</a>
+    <a class='right-next' id="next-link" href="comparingmodels.html" title="next page">Comparing Classification Models</a>
 
         </div>
         

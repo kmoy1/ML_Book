@@ -3,6 +3,8 @@
 - file: Ch1/intro
   title: "Chapter 1: Classification and ML Basics"
   sections:
+    - file: Ch1/trainingandtesting
+    - file: Ch1/comparingmodels
     - file: Ch1/MNIST
     - file: Ch1/validation
     - file: Ch1/supervisedlearn

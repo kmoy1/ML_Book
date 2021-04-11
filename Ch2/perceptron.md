@@ -25,7 +25,7 @@ Now we define a __risk function__ $R$ which takes in a classifier $r*$. The idea
 The risk function is also called the _objective function_ since we want to minimize it for our classifier.  
 ```
 
-Part of the risk function involves individually scoring whether each data point is classified correctly or not. For this we use a __loss function__ $L(z, y_i) defined as (for the two-class case)
+Part of the risk function involves individually scoring whether each data point is classified correctly or not. For this we use a __loss function__ $L(z, y_i)$ defined as (for the two-class case)
 
 $$
 L(z, y_i) = 

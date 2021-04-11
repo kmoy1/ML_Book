@@ -58,7 +58,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Validation" href="validation.html" />
-    <link rel="prev" title="Classification" href="intro.html" />
+    <link rel="prev" title="Comparing Classification Models" href="comparingmodels.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -106,6 +106,16 @@
    Chapter 1: Classification and ML Basics
   </a>
   <ul class="current collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="trainingandtesting.html">
+     Training and Testing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="comparingmodels.html">
+     Comparing Classification Models
+    </a>
+   </li>
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
      The MNIST dataset
@@ -322,7 +332,7 @@
 </div>
 <p>Pretty cool, huh?</p>
 <p>We want to convert each matrix to a length-784 vector. Thus, each image is represented as a point in 784-dimensional space. This is pretty much the universal standard representation for ANY data point with some number of features: a point in (number of features)-dimensional space. Of course, more sophisticated representations exist, but this will be more than enough for now.</p>
-<p>Unfortunately, it’s pretty hard to imagine anything in more than 3 dimensions, much less 784. But it turns out a lot of the concepts that apply in the familiar 2D and 3D spaces carry over to <span class="math notranslate nohighlight">\(n\)</span> dimensions. Our decision boundary in 784-dimensional space is still linear, but rather than a line, it is a <strong>hyperplane</strong>. _<em>Given our <em>ambient space (the space for our points, basically) is <span class="math notranslate nohighlight">\(d\)</span> dimensions, a hyperplane in that space will always be <span class="math notranslate nohighlight">\(d-1\)</span> dimensions.</em></em> For example, 2D space will have a decision boundary in 1 dimension: a line. 1D space will have a DB in 0 dimensions: a single point. 3D space, 2D plane. In <span class="math notranslate nohighlight">\(n\)</span>-dimensional space, the concept still stays the same: the ambient space is being cut into two pieces, where one side has predict IN CLASS, other side predict NOT IN CLASS.</p>
+<p>Unfortunately, it’s pretty hard to imagine anything in more than 3 dimensions, much less 784. But it turns out a lot of the concepts that apply in the familiar 2D and 3D spaces carry over to <span class="math notranslate nohighlight">\(n\)</span> dimensions. Our decision boundary in 784-dimensional space is still linear, but rather than a line, it is a <strong>hyperplane</strong>. _<em>Given our <em>ambient space (the space for our points, basically) is <span class="math notranslate nohighlight">\(d\)</span> dimensions, a hyperplane in that space will always be <span class="math notranslate nohighlight">\(d-1\)</span> dimensions.</em></em> For example, 2D space will have a decision boundary in 1 dimension: a line. 1D space will have a DB in 0 dimensions: a single point. 3D space, 2D plane. In <span class="math notranslate nohighlight">\(n\)</span>-dimensional space, the concept still stays the same: the ambient space is being cut into two pieces by an <span class="math notranslate nohighlight">\(n-1\)</span>-dimensional hyperplane, where one side has predict IN CLASS, other side predict NOT IN CLASS.</p>
 </div>
 
     <script type="text/x-thebe-config">
@@ -350,7 +360,7 @@
         
         <div class='prev-next-bottom'>
             
-    <a class='left-prev' id="prev-link" href="intro.html" title="previous page">Classification</a>
+    <a class='left-prev' id="prev-link" href="comparingmodels.html" title="previous page">Comparing Classification Models</a>
     <a class='right-next' id="next-link" href="validation.html" title="next page">Validation</a>
 
         </div>
