@@ -57,6 +57,7 @@
     <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Perceptron Algorithm, Part 2" href="perceptronp2.html" />
     <link rel="prev" title="The Centroid Method" href="centroid.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -130,6 +131,11 @@
      Supervised vs. Unsupervised Learning
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/summary.html">
+     Summary
+    </a>
+   </li>
   </ul>
   <i class="fas fa-chevron-down">
   </i>
@@ -159,9 +165,39 @@
      The Perceptron Algorithm
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="perceptronp2.html">
+     Perceptron Algorithm, Part 2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="perceptronp3.html">
+     The Perceptron Algorithm, Part 3
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="maxmargin.html">
+     Maximum Margin Classfier
+    </a>
+   </li>
   </ul>
   <i class="fas fa-chevron-down">
   </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch3/intro.html">
+   Chapter 3: Support Vector Machines
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch4/intro.html">
+   Chapter 4: Optimization Problems
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch5/intro.html">
+   Chapter 5: Decision Theory
+  </a>
  </li>
 </ul>
 
@@ -312,7 +348,7 @@ R(w) = \frac{1}{n}\sum_{i \in V}-y_iX_i \cdot w
 \underset{w}{\arg\min} R(w)
 \]</div>
 <p>We can think of this optomization as finding the point <span class="math notranslate nohighlight">\(w\)</span> that minimizes <span class="math notranslate nohighlight">\(R(w)\)</span> in feature space. Note that in this case, the origin <span class="math notranslate nohighlight">\(w = 0\)</span> technically minimizes the risk function but is obviously useless. So we really want the optimal <em>nonzero</em> <span class="math notranslate nohighlight">\(w\)</span>.</p>
-<p>Unfortunately, because there’s so much variation in what the risk function could look like that depends on the initial dataset, there’s not really a closed-form solution here- we don’t have an explicit works-all-the-time formula for an optimal <span class="math notranslate nohighlight">\(w\)</span>. However, that does not mean we can’t find one. The means of finding it is one of the most important algorithms ever created for machine learning, called gradient descent. We’ll cover this in detail in the next chapter.</p>
+<p>Unfortunately, because there’s so much variation in what the risk function could look like that depends on the initial dataset, there’s not really a closed-form solution here- we don’t have an explicit works-all-the-time formula for an optimal <span class="math notranslate nohighlight">\(w\)</span>. However, that does not mean we can’t find one. The means of finding it is one of the most important algorithms ever created for machine learning, called gradient descent. We’ll cover this in detail in the next section.</p>
 </div>
 </div>
 
@@ -342,6 +378,7 @@ R(w) = \frac{1}{n}\sum_{i \in V}-y_iX_i \cdot w
         <div class='prev-next-bottom'>
             
     <a class='left-prev' id="prev-link" href="centroid.html" title="previous page">The Centroid Method</a>
+    <a class='right-next' id="next-link" href="perceptronp2.html" title="next page">Perceptron Algorithm, Part 2</a>
 
         </div>
         

@@ -1,0 +1,8 @@
+# Summary
+
+The core of machine learning comes through finding patterns in data- sometimes patterns we can't even see. Such pattern-finding can be delegated into two different groups: classification and regression. In machine learning, we essentially are following algorithms that will attempt to make "smart" predictions on unseen data by learning from examples, much similar to how humans do. 
+
+In a standard dataset, each data point consists of features and labels. Features are information about someone that's known beforehand, and labels are the thing we try to predict. For example, a single datapoint can represent a person, their features measured could be income and credit balance, and label as a binary number indicating whether that person is a credit risk or not. 
+
+Making a quality prediction model from a given dataset consists of three phases: training, validation, and testing. Training is used for the initial learning of weights that uniquely create our model/predictor. Testing is used to classify our finalized model. And in between, validation is used for tuning various hyperparameters of the model- "settings" that aren't learned by the data we have, but are instead set arbitrarily by humans. The very best machine learning models predict best on the data that hasn't been seen yet and, in the real world, is most likely unknown until a later date. Think stocks, sports betting, business decisions and projections, etc- the people who are the most successful are those who make the best decisions _before the fact_. It's a huge world out there and machine learning is a part of almost all of it.
+

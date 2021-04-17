@@ -16,7 +16,9 @@ Right?
 
 ## Overfitting and Underfitting
 
-NO. Remember the goal is not to have good training accuracy, but to have good __test accuracy__: we want to predict _unseen_ data correctly. Note the decision boundary for the NN-classifier is all fucked up- and probably won't do the greatest job at predicting new data because of it. There's a special machine learning term for this: __overfitting__. Whenever you see these weird arbitrary decision boundaries, it's usually a good sign you might be overfitting to your data. At the same time, if your classifier isn't complex enough (or uses shittily chosen features) to make nuanced predictions (think of a model that only uses height to predict someone's credit risk), we call this __underfitting__. 
+NO. In real life, nobody gives a shit if our program can correctly classify points we already know the answers to. The best models all have good __test accuracy__: they predict _new and unseen_ data's classes well before the fact.  
+
+Note the decision boundary for the NN-classifier is all fucked up- and probably won't do the greatest job at predicting new data because of it. There's a special machine learning term for this: __overfitting__. Whenever you see these weird scribbly decision boundaries, it's usually a good sign you might be overfitting to your data. At the same time, if your classifier isn't complex enough (or uses badly chosen features) to make nuanced predictions (think of a model that only uses height to predict someone's credit risk), we call this __underfitting__. 
 
 The goal, of course, is to find the perfect balance between overfitting and underfitting: our model must be complex enough to estimate the true relationship between data points, but it can't be TOO closely fit on our training data, or it won't generalize to testing data well at all. 
 

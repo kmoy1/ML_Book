@@ -1,0 +1,524 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Optomization &#8212; Machine Learning</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.e7340bb3dbd8dde6db86f25597f54a1b.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Decision Theory" href="../Ch5/intro.html" />
+    <link rel="prev" title="Support Vector Machines" href="../Ch3/intro.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/ML_logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Machine Learning</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../intro.html">
+   Intro
+  </a>
+ </li>
+</ul>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notation_note.html">
+   A Quick Note on Notation and Terminology
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch1/intro.html">
+   Chapter 1: Classification and ML Basics
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/trainingandtesting.html">
+     Training and Testing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/comparingmodels.html">
+     Comparing Classification Models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/MNIST.html">
+     The MNIST dataset
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/validation.html">
+     Validation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/supervisedlearn.html">
+     Supervised vs. Unsupervised Learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/summary.html">
+     Summary
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch2/intro.html">
+   Chapter 2: Linear Classifiers
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/hyperplanes.html">
+     Behind the Decision Boundary
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/linearseparability.html">
+     Linear Separability of Data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/centroid.html">
+     The Centroid Method
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptron.html">
+     The Perceptron Algorithm
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptronp2.html">
+     Perceptron Algorithm, Part 2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptronp3.html">
+     The Perceptron Algorithm, Part 3
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/maxmargin.html">
+     Maximum Margin Classfier
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch3/intro.html">
+   Chapter 3: Support Vector Machines
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Chapter 4: Optimization Problems
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch5/intro.html">
+   Chapter 5: Decision Theory
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/Ch4/intro.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/kmoy1/ML_Book.git"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/kmoy1/ML_Book.git/issues/new?title=Issue%20on%20page%20%2FCh4/intro.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                    title="Fullscreen mode"><i
+                        class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i>
+            Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#intro">
+   Intro
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#optomization-problems">
+   Optomization Problems
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#algorithms-to-optimize-smooth-functions">
+     Algorithms to Optimize Smooth Functions
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#algorithms-to-optimize-nonsmooth-functions">
+     Algorithms to Optimize Nonsmooth Functions
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#constrained-optimization">
+   Constrained Optimization
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#linear-programs">
+   Linear Programs
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#algorithms-for-linear-programming">
+     Algorithms for Linear Programming
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#quadratic-programming">
+   Quadratic Programming
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#algorithms-for-quadratic-program">
+     Algorithms for Quadratic Program
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+        </nav>
+        
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="optomization">
+<h1>Optomization<a class="headerlink" href="#optomization" title="Permalink to this headline">¶</a></h1>
+<!-- Machine Learning Abstractions and Optomization
+
+## Machine Learning Abstractions
+
+Let's use this chapter to reflect back on the "bigger picture" of machine learning, and take a more abstracted perspective. 
+
+Good computer programs are generally created modularly: they contain many modules and subroutines. The better abstraction barriers that you maintain, the easier you find it to understand and write the program. The same principle can apply in machine learning. There are four different levels of abstraction in machine learning, and its important to understand what layer you're in when writing machine learning code. Specifically, __the questions we ask and the goal we attempt to solve is critical to the level of ML we code at__. 
+
+Let's take a quick look. From highest to lowest layer, we have: 
+
+1. __Application/Data__: What kind of data do we have? Is it supervised learning or not? Is our goal classification or regression?
+In the unsupervised learning case, are we looking for similarity (clustering) or dimensionality reduction? 
+2. __Model__: What kinds of models are we fitting to our data? What kind of decision function do we have? If we don't utilize a decision function, what kind of algorithm are we using (e.g. nearest-neighbors or decision trees)? What _features_ do we have (features are absolutely part of your model!)? How _complex_ is your model? 
+3. __Optomization Problems__: What are we optomizing? Perceptrons optomize a risk function, while SVMs optomize a quadratic program. We are now giving a formal mathematical definition to our model. What are the variables? What are the constraints? What is the objective function? For example, we might have an unconstrained optomization of a smooth risk function, or we might be optomizing a convex program.  
+4. __Optomization Algorithm__: What are efficient and fast algorithms for solving optomization problems? Examples include gradient descent, SVD, simplex algorithm. For the most part, people have already invented this stuff- the real skill comes in figuring out _which algorithm works best_. 
+
+In this book, we primarily focus on the middle two levels: models themselves and the optomization problems they are associated with. Given an application and a dataset, an important skill is turning it into an optomization problem to solve. 
+
+The choice of model, of course, can have a huge effect on the success of your learning algorithm. Feature engineering and selection has a huge effect on whether we overfit/underfit. We also must choose a model that leads to an optomization problem that we know how to solve with an algorithm: some problems are just too hard to solve, as we'll see later. 
+
+Note the stacked layers means that each layer inherently affects the layers below it. For example, changing the model from linear decision functions to quadratic will obviously change the optomization problem and the algorithm that comes with solving it.  -->
+<div class="section" id="intro">
+<h2>Intro<a class="headerlink" href="#intro" title="Permalink to this headline">¶</a></h2>
+<p>Let’s say Apple makes two products (iPhone and iPad) using two machines (A and B), both of which can produce the iPhone or iPad. It takes machine A 50 minutes to make one iPhone, and 30 minutes to make one iPad. It takes machine B 24 minutes to make 1 iPhone and 33 minutes to make 1 iPad. Let’s say the company goal is to produce 45 iPhones and 5 iPads by the end of the week. Here’s the catch, though: available processing time on machine A is 40 hours total, and for B it is 35 hours total.</p>
+<p>So given that hunk of information, we try to answer this: how many iPhones and iPads should Apple produce by the end of the week to maximize the total number of units (iPhones and iPads) produced?</p>
+<p>More generally, if you have some controllable weights <span class="math notranslate nohighlight">\(w\)</span>, how can you “tune” the individual elements in <span class="math notranslate nohighlight">\(w\)</span> to optimize some quantity? Let’s say you’re a rave DJ: if each weight corresponded to a setting on a DJ board, but a few of the knobs and dials are broken or distorted, what tunings do you set to generate the most happiness out of the crowd?</p>
+<p>You might have seen this kind of problem in your high school algebra class. It is an optomization problem with linear constraints, and has <em>many</em> real-world applications. In this chapter, we focus on the details behind these kinds of optomization problems. There are a few core types of these problems, along with associated algorithms to solve them. It is by no means a simple subject, but let’s try to break it down here.</p>
+</div>
+<div class="section" id="optomization-problems">
+<h2>Optomization Problems<a class="headerlink" href="#optomization-problems" title="Permalink to this headline">¶</a></h2>
+<p>There are two basic kinds of optimization problems: constrained and unconstrained.</p>
+<p>Let’s start with <strong>unconstrained optomization</strong>. Generally, this problem involves finding a weight vector <span class="math notranslate nohighlight">\(w\)</span> that minimizes (or maximizes) some <em>continuous</em> objective function <span class="math notranslate nohighlight">\(f(w)\)</span>. We also hope that <span class="math notranslate nohighlight">\(f\)</span> is <em>smooth</em> as well: this means that <span class="math notranslate nohighlight">\(f\)</span> AND its gradient <span class="math notranslate nohighlight">\(\nabla f\)</span> is continuous.</p>
+<!-- TODO: Give examples of smooth + continuous functions. Example of a continuous but not smooth function. -->
+<!-- TODO: How do we prove a function is continuous? Smooth? -->
+<p>A <strong>global minimum</strong> of <span class="math notranslate nohighlight">\(f\)</span> is denoted as <span class="math notranslate nohighlight">\(\underset{w}{\arg\min} f(w)\)</span>: in other words, <span class="math notranslate nohighlight">\(f(w) \le f(v)\)</span> for all <span class="math notranslate nohighlight">\(v\)</span>. A <strong>local minimum</strong> of <span class="math notranslate nohighlight">\(f\)</span> is a vector <span class="math notranslate nohighlight">\(w\)</span> such that <span class="math notranslate nohighlight">\(f(w) \le f(v)\)</span> AROUND <span class="math notranslate nohighlight">\(w\)</span>: in a tiny ball centered around <span class="math notranslate nohighlight">\(w\)</span>.</p>
+<!-- TODO: Give examples of local and global minima. -->
+<p>Usually, finding a local minimum is easy, but finding the global minimum is generally pretty hard or even impossible. However, the exception for this comes when we have a <strong>convex function</strong>: a function such that for every <span class="math notranslate nohighlight">\(x, y \in \mathbb{R}^d\)</span>, the line segment connecting <span class="math notranslate nohighlight">\((x, f(x))\)</span> to <span class="math notranslate nohighlight">\((y, f(y))\)</span> <em>does not go below</em> any <span class="math notranslate nohighlight">\(f(z)\)</span> for any <span class="math notranslate nohighlight">\(z \in [x,y]\)</span>.</p>
+<!-- TODO: Example of a convex function. -->
+<p>The sum of a bunch of convex functions is still convex: therefore, since the risk function is just a sum of a bunch of convex loss functions, the perceptron risk function is convex. However, it is also non-smooth because of the linear constraints it must account for.</p>
+<p>In support vector machines, we are minimizing <span class="math notranslate nohighlight">\(||w||^2\)</span>: since this is a quadratic program, it is convex. However, it is not unconstrained, of course.</p>
+<p>The reason we like convex functions because on a closed convex domain it must have one of three possibilities:</p>
+<ul class="simple">
+<li><p>No minimum (goes to -<span class="math notranslate nohighlight">\(\infty\)</span>)</p></li>
+<li><p>One local minimum, which must be the global minimum</p></li>
+<li><p>Multiple <em>connected</em> local minima: all local minima are global minima.</p></li>
+</ul>
+<p>Remember that the “green region” we saw with the perceptron risk function indicates that it satisfies the third bullet point: multiple global minima (weight vectors) exist that all linearly separate the data and give global risk <span class="math notranslate nohighlight">\(R(w) = 0\)</span>.</p>
+<p>Unfortunately, many applications will result in nonconvex objective functions, and algorithms may just have to settle for local minima. For example, neural network risk functions usually have LOTS of local minima.</p>
+<div class="section" id="algorithms-to-optimize-smooth-functions">
+<h3>Algorithms to Optimize Smooth Functions<a class="headerlink" href="#algorithms-to-optimize-smooth-functions" title="Permalink to this headline">¶</a></h3>
+<p>If our objective function is smooth, then gradient descent is very nice in optomization. There is batch gradient descent, and stochastic gradient descent. However, gradient descent also exists with <em>line search</em>: we are dynamically looking for a minimum at each step, changing step sizes at each iteration.</p>
+<p>Another option for optomization is <strong>Newton’s method</strong>. It looks at the <strong>Hessian matrix</strong> of <span class="math notranslate nohighlight">\(f\)</span>, which contains the <em>second-order derivatives</em> of <span class="math notranslate nohighlight">\(f\)</span>. However, the issue is this require a <span class="math notranslate nohighlight">\(d \times d\)</span> matrix for <span class="math notranslate nohighlight">\(d\)</span> features. So if <span class="math notranslate nohighlight">\(d\)</span> is very large, this becomes space-inefficient and intractable very fast.</p>
+<p>There also exists a method called the nonlinear conjugate gradient method, which includes line-search methods as part of its algorithm. We won’t talk too much about this in this book, but it is kind of interesting as an algorithm for small neural networks and logistic regression.</p>
+</div>
+<div class="section" id="algorithms-to-optimize-nonsmooth-functions">
+<h3>Algorithms to Optimize Nonsmooth Functions<a class="headerlink" href="#algorithms-to-optimize-nonsmooth-functions" title="Permalink to this headline">¶</a></h3>
+<p>Gradient descent is also popular with this. Another algorithm that exists is called BFGS. Such algorithms find a local minimum by the familiar walking-downhill procedure: a general global-minimum finder just doesn’t exist yet.</p>
+<p>Line search is like gradient descent, except it implements the process of dynamically trying to find the minimum in the gradient search direction at each iteration. We find a local minimum in the search direction by utilizing a lower-dimensional curve. A few well-known line search methods are the secant method, the Newton-Raphson method, and direct line search.</p>
+</div>
+</div>
+<div class="section" id="constrained-optimization">
+<h2>Constrained Optimization<a class="headerlink" href="#constrained-optimization" title="Permalink to this headline">¶</a></h2>
+<p>Our goal in constrained optimization is to find <span class="math notranslate nohighlight">\(w\)</span> that minimizes/maximizes <span class="math notranslate nohighlight">\(f(w)\)</span>, <em>subject to</em> constraints <span class="math notranslate nohighlight">\(g(w) = 0\)</span> where <span class="math notranslate nohighlight">\(f, g\)</span> are usually both smooth. If <span class="math notranslate nohighlight">\(g\)</span> is a scalar function (scalar output), then we know <span class="math notranslate nohighlight">\(g(w) = 0\)</span> is an isosurface with isovalue 0. However, if <span class="math notranslate nohighlight">\(g\)</span> is vector-valued, then <span class="math notranslate nohighlight">\(g(w) = 0\)</span> is an <em>intersection with multiple isosurfaces</em>.</p>
+<p>The algorithm for solving such problems generally involves something called Lagrange multipliers: they transform a smooth constrained optimization problem and transform it into an unconstrained one. But this is generally beyond the scope of this book.</p>
+</div>
+<div class="section" id="linear-programs">
+<h2>Linear Programs<a class="headerlink" href="#linear-programs" title="Permalink to this headline">¶</a></h2>
+<p>A linear program is characterized by a linear objective function and a set of linear constraints. The key fact here is that these constraints might be <em>inequalities</em>. Now, our goal is to find a weight vector <span class="math notranslate nohighlight">\(w\)</span> that optimizes <span class="math notranslate nohighlight">\(f(w) = c \cdot w\)</span>, subject to a set of linear constraints, which can be concisely represented as <span class="math notranslate nohighlight">\(Aw \le b\)</span>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><span class="math notranslate nohighlight">\(Aw\)</span> and <span class="math notranslate nohighlight">\(b\)</span> are vectors: for a vector <span class="math notranslate nohighlight">\(v_1\)</span> to be  <span class="math notranslate nohighlight">\(\le v_2\)</span>, all elements in <span class="math notranslate nohighlight">\(v_1\)</span> must be <span class="math notranslate nohighlight">\(\le\)</span> their corresponding elements in <span class="math notranslate nohighlight">\(v_2\)</span>.</p>
+</div>
+<p><span class="math notranslate nohighlight">\(A\)</span> is a <span class="math notranslate nohighlight">\(\mathbb{R}^{n \times d}\)</span> matrix, <span class="math notranslate nohighlight">\(b \in \mathbb{R}^n\)</span>: this represents <span class="math notranslate nohighlight">\(n\)</span> linear constraints, one for each data point. We can just represent this as <span class="math notranslate nohighlight">\(A_iw \le b_i\)</span> for all <span class="math notranslate nohighlight">\(i \in [1, n]\)</span>, where <span class="math notranslate nohighlight">\(A_i\)</span> is <em>row</em> <span class="math notranslate nohighlight">\(i\)</span> of our matrix <span class="math notranslate nohighlight">\(A\)</span>, representing a data point.</p>
+<p>Let’s visualize a linear program and its constraints in 2 dimensions. Remember that a constraint basically shades a section of the (2D) space that our solution is allowed to be in. So if we have <span class="math notranslate nohighlight">\(n = 6\)</span> constraints, our <strong>feasible region</strong>, the “green region” we saw earlier in the perceptron method where our optimal solution is allowed to be in (since it satisfies all constraints), might look like:</p>
+<a class="reference internal image-reference" href="../_images/linearprog.png"><img alt="Linear Program" class="align-center" src="../_images/linearprog.png" style="width: 500px;" /></a>
+<p>The feasible region is a specific version of the <strong>convex polytope</strong> that is produced by the set of all <span class="math notranslate nohighlight">\(w\)</span> that satisfy all constraints. A polytope is a polygon in <span class="math notranslate nohighlight">\(n\)</span> dimensions, usually created by hyperplane constraints. The feasible region does not have to be bounded. However, <strong>the feasible region of a linear program is always convex</strong>. A point set <span class="math notranslate nohighlight">\(P\)</span> is convex if for any 2 points <span class="math notranslate nohighlight">\(p, q \in P\)</span> the line segment that connects <span class="math notranslate nohighlight">\((p, q)\)</span> will be entirely made of points in <span class="math notranslate nohighlight">\(P\)</span> (line lies entirely <em>in</em> <span class="math notranslate nohighlight">\(P\)</span>).</p>
+<p>The optimum of a linear program is the point in the feasible region that is <em>furthest in the direction <span class="math notranslate nohighlight">\(c\)</span></em>. Since <span class="math notranslate nohighlight">\(c\)</span> is a direction, we want the point in our region that goes as far in that direction as possible. Another way to think about it: the hyperplane that is orthogonal to <span class="math notranslate nohighlight">\(c\)</span>, when shifted up or down, will intersect the feasible region at exactly one point: this is the optimum.</p>
+<p>The optimum will achieve equality for some constraints, but not most. These constraints that achieve equality are called <strong>active constraints</strong> of the optimum. Basically, <strong>all constraint hyperplanes that pass through the optimum are active.</strong> In SVMs, the sample points that induce the 2 active constraints are the support vectors.</p>
+<p>Note there can also be multiple or even infinite optimum solutions, depending on <span class="math notranslate nohighlight">\(c\)</span>’s direction.</p>
+<p>Note that any feasible point <span class="math notranslate nohighlight">\((w, \alpha)\)</span> gives a linear classifier for linearly separable data. We don’t really prefer one point over another if both of them are optimal: all equally good.</p>
+<p>Generally, weight vector points inside the feasible region are better than those on the boundary in terms of linear classifiers, since such resulting hyperplanes don’t touch sample points.</p>
+<p>A very important thing to note is that <strong>the data are linearly separable iff the feasible region is not the empty set.</strong> Note that hard-margin SVM feasible regions are a lot easier to visualize than soft-margin SVMs, the latter of which allow for a feasible region with non-linearly-separable data.</p>
+<div class="section" id="algorithms-for-linear-programming">
+<h3>Algorithms for Linear Programming<a class="headerlink" href="#algorithms-for-linear-programming" title="Permalink to this headline">¶</a></h3>
+<p>There exist some algorithms for linear programming that might be interesting to check out:</p>
+<ul class="simple">
+<li><p>Simplex algorithm: just walk from vertex to vertex in the feasible region, in the direction of optimiziation for <span class="math notranslate nohighlight">\(f\)</span>, until it can’t anymore.</p></li>
+<li><p>Interior Point methods</p></li>
+</ul>
+<p>Note that although linear program solving algorithms can find a linear classifier, they cannot find a maximum margin classifier. We
+need something more powerful.</p>
+</div>
+</div>
+<div class="section" id="quadratic-programming">
+<h2>Quadratic Programming<a class="headerlink" href="#quadratic-programming" title="Permalink to this headline">¶</a></h2>
+<p>In quadratic programming, our objective function is now <em>quadratic</em>, and usually is assumed as convex. We also have the same set of linear inequalities we saw in linear programming. Now, our goal is to find weight vector <span class="math notranslate nohighlight">\(w\)</span> that <em>minimizes</em> <span class="math notranslate nohighlight">\(f(w) = w^TQw + c^Tw\)</span>, still subject to the same linear constraints <span class="math notranslate nohighlight">\(Aw \le b\)</span>. Note <span class="math notranslate nohighlight">\(Q\)</span> is a symmetric positive definite matrix: this means that <span class="math notranslate nohighlight">\(w^TQw \ge 0\)</span> for all <span class="math notranslate nohighlight">\(w \neq 0\)</span>.</p>
+<p>The great thing about quadratic programming is that they <strong>only have one local minimum</strong>: therefore, this must be the global minimum. So there’s only one solution as long as <span class="math notranslate nohighlight">\(Q\)</span> is positive definite (and the feasible region is not empty).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Things get really bad if <span class="math notranslate nohighlight">\(Q\)</span> is indefinite- so we’ll assume throughout the book that <span class="math notranslate nohighlight">\(Q\)</span> is positive definite or at least positive semi-definite.</p>
+</div>
+<p>Of course, one example of quadratic programming is in the maximum margin classifier, where our objective function is minimizing <span class="math notranslate nohighlight">\(||w||^2\)</span>$.</p>
+<p>So let’s say we have a plot of a quadratic objective function (where <span class="math notranslate nohighlight">\(Q\)</span> is positive definite). Say we have some feasible region in this plot. The goal, as always, is to find the point in the feasible region that minimizes the objective function. Visually, we want the point in the feasible region that is <em>closest to the origin</em>.</p>
+<p>A hard-margin SVM will always have (at least) two active constraints: one for class C and one for class D (not in C). Then, we have two support vectors.</p>
+<div class="section" id="algorithms-for-quadratic-program">
+<h3>Algorithms for Quadratic Program<a class="headerlink" href="#algorithms-for-quadratic-program" title="Permalink to this headline">¶</a></h3>
+<p>Many algorithms also exist for solving quadratic programs:</p>
+<ul class="simple">
+<li><p>Simplex-like algorithms</p></li>
+<li><p>Sequential minimal optimization (SMO)</p></li>
+<li><p>Coordinate descent</p></li>
+</ul>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./Ch4"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="../Ch3/intro.html" title="previous page">Support Vector Machines</a>
+    <a class='right-next' id="next-link" href="../Ch5/intro.html" title="next page">Decision Theory</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Kevin Moy<br/>
+        
+            &copy; Copyright 2020.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>

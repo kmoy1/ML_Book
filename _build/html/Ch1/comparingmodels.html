@@ -129,6 +129,11 @@
      Supervised vs. Unsupervised Learning
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="summary.html">
+     Summary
+    </a>
+   </li>
   </ul>
   <i class="fas fa-chevron-down">
   </i>
@@ -158,9 +163,39 @@
      The Perceptron Algorithm
     </a>
    </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptronp2.html">
+     Perceptron Algorithm, Part 2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptronp3.html">
+     The Perceptron Algorithm, Part 3
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/maxmargin.html">
+     Maximum Margin Classfier
+    </a>
+   </li>
   </ul>
   <i class="fas fa-chevron-down">
   </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch3/intro.html">
+   Chapter 3: Support Vector Machines
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch4/intro.html">
+   Chapter 4: Optimization Problems
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch5/intro.html">
+   Chapter 5: Decision Theory
+  </a>
  </li>
 </ul>
 
@@ -275,7 +310,8 @@
 <p>Right?</p>
 <div class="section" id="overfitting-and-underfitting">
 <h2>Overfitting and Underfitting<a class="headerlink" href="#overfitting-and-underfitting" title="Permalink to this headline">¶</a></h2>
-<p>NO. Remember the goal is not to have good training accuracy, but to have good <strong>test accuracy</strong>: we want to predict <em>unseen</em> data correctly. Note the decision boundary for the NN-classifier is all fucked up- and probably won’t do the greatest job at predicting new data because of it. There’s a special machine learning term for this: <strong>overfitting</strong>. Whenever you see these weird arbitrary decision boundaries, it’s usually a good sign you might be overfitting to your data. At the same time, if your classifier isn’t complex enough (or uses shittily chosen features) to make nuanced predictions (think of a model that only uses height to predict someone’s credit risk), we call this <strong>underfitting</strong>.</p>
+<p>NO. In real life, nobody gives a shit if our program can correctly classify points we already know the answers to. The best models all have good <strong>test accuracy</strong>: they predict <em>new and unseen</em> data’s classes well before the fact.</p>
+<p>Note the decision boundary for the NN-classifier is all fucked up- and probably won’t do the greatest job at predicting new data because of it. There’s a special machine learning term for this: <strong>overfitting</strong>. Whenever you see these weird scribbly decision boundaries, it’s usually a good sign you might be overfitting to your data. At the same time, if your classifier isn’t complex enough (or uses badly chosen features) to make nuanced predictions (think of a model that only uses height to predict someone’s credit risk), we call this <strong>underfitting</strong>.</p>
 <p>The goal, of course, is to find the perfect balance between overfitting and underfitting: our model must be complex enough to estimate the true relationship between data points, but it can’t be TOO closely fit on our training data, or it won’t generalize to testing data well at all.</p>
 <p>Look at the linear classifier’s accuracy (on the right). The training accuracy is actually pretty bad: there’s a lot of blue points in the left region where yellow is being predicted. Same for the yellow points in the blue region. But the decision boundary is less complex, so it <em>might</em> generalize to unseen data better.</p>
 <p>Which one to use? No right answer - it depends the context and other factors. We have to just analyze the cases where each classifier works best and try to match it with the prediction problem we have at hand. But now we know what makes a <em>good</em> classifier- and that’s gonna be very helpful towards choosing one.</p>
