@@ -1,0 +1,509 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Neural Networks &#8212; Machine Learning</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.e7340bb3dbd8dde6db86f25597f54a1b.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Neurobiology and Variations on Neural Networks" href="../Ch15/intro.html" />
+    <link rel="prev" title="Kernels" href="../Ch13/intro.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/ML_logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Machine Learning</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../intro.html">
+   Intro
+  </a>
+ </li>
+</ul>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notation_note.html">
+   A Quick Note on Notation and Terminology
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch1/intro.html">
+   Chapter 1: Classification and ML Basics
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/trainingandtesting.html">
+     Training and Testing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/comparingmodels.html">
+     Comparing Classification Models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/MNIST.html">
+     The MNIST dataset
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/validation.html">
+     Validation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/supervisedlearn.html">
+     Supervised vs. Unsupervised Learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/summary.html">
+     Summary
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch2/intro.html">
+   Chapter 2: Linear Classifiers
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/hyperplanes.html">
+     Behind the Decision Boundary
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/linearseparability.html">
+     Linear Separability of Data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/centroid.html">
+     The Centroid Method
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptron.html">
+     The Perceptron Algorithm
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptronp2.html">
+     Perceptron Algorithm, Part 2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptronp3.html">
+     The Perceptron Algorithm, Part 3
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/maxmargin.html">
+     Maximum Margin Classfier
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch3/intro.html">
+   Chapter 3: Support Vector Machines
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch4/intro.html">
+   Chapter 4: Optimization Problems
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch5/intro.html">
+   Chapter 5: Decision Theory
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch6/intro.html">
+   Chapter 6: Gaussian Discriminant Analysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch7/intro.html">
+   Chapter 7: Eigenvectors and Quadratic Forms
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch8/intro.html">
+   Chapter 8: Anisotropic Gaussians
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch9/intro.html">
+   Chapter 9: Regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch10/intro.html">
+   Chapter 10: Statistical Justifications for Regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch11/intro.html">
+   Chapter 11: Regularization
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch12/intro.html">
+   Chapter 12: Decision Trees
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch12/intro2.html">
+     Lecture 15: Decision Trees Cont.
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch13/intro.html">
+   Chapter 13: Kernels
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Chapter 14: Neural Networks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch15/intro.html">
+   Chapter 15: Neurobiology and Variations on Neural Networks
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/Ch14/intro.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/kmoy1/ML_Book.git"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/kmoy1/ML_Book.git/issues/new?title=Issue%20on%20page%20%2FCh14/intro.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                    title="Fullscreen mode"><i
+                        class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i>
+            Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#intro">
+   Intro
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#neural-networks-with-1-hidden-layer">
+   Neural Networks with 1 Hidden Layer
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#training-neural-networks">
+   Training Neural Networks
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#computing-gradients-for-arithmetic-expressions">
+   Computing Gradients for Arithmetic Expressions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#backpropagation">
+   Backpropagation
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="neural-networks">
+<h1>Neural Networks<a class="headerlink" href="#neural-networks" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="intro">
+<h2>Intro<a class="headerlink" href="#intro" title="Permalink to this headline">¶</a></h2>
+<p>The shining star of learning algorithms are neural networks. Neural networks can do both classification and regression.</p>
+<p>Neural networks are a culmination of the topics we’ve discussed in this book so far:</p>
+<ul class="simple">
+<li><p>Perceptrons</p></li>
+<li><p>Logistic Regression</p></li>
+<li><p>Ensemble Learning</p></li>
+<li><p>Stochastic Gradient Descent</p></li>
+<li><p>Lifting sample points to a higher-dimensional feature space</p></li>
+</ul>
+<p>Neural nets have an added super cool benefit of being able to <strong>learn features on their own</strong>.</p>
+<p>Let’s go back a few chapters: all the way back to perceptrons. Remember that perceptrons were basically machines that came up with a linear decision boundary. Of course, there are inherent limitations to what a perceptron can do, particularly XOR:</p>
+<img src="C:\Users\Kevin\AppData\Roaming\Typora\typora-user-images\image-20210418152811444.png" alt="image-20210418152811444" style="zoom:33%;" />
+<p>Here, we simply convert the XOR truth table to four points in 2-dimensional (binary) feature space. Blue points correspond to 1, while white points correspond to 0? Note that no matter how hard you try, you cannot find a linear separator that separates blue from white.</p>
+<p>The fact that the perceptron showed such limitations on even “simple” problems like these drastically slowed research in the neural network field, for about a decade. Tough.</p>
+<p>But there exist many simple solutions for this. One is  adding a quadratic feature <span class="math notranslate nohighlight">\(x_1x_2\)</span>- effectively lifting our points to 3-dimensional feature space. <em>Now</em>, XOR is linearly separable.</p>
+<p>But what about another way? Say we want to calculate <span class="math notranslate nohighlight">\(X\)</span> XOR <span class="math notranslate nohighlight">\(Y\)</span>. We know that perceptrons output a linear combination of its inputs. What if we <em><em>chained</em></em> multiple perceptrons together like this, for inputs <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>. Can <span class="math notranslate nohighlight">\(Z\)</span> be the XOR of <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>?</p>
+<img src="C:\Users\Kevin\AppData\Roaming\Typora\typora-user-images\image-20210418153907912.png" alt="image-20210418153907912" style="zoom:50%;" />
+<p>No. In all, all we have from chaining linear combos in this manner is just another linear combination. So equivalently, we just have another perceptron- will only work for linearly separable points.</p>
+<p>We need to implement in between the initial perceptron outputs. Let us call the linear combo boxes <em>neurons</em>, although they may sometimes be referred to as <em>units</em>. If a neuron’s output is run through some nonlinear function <em>before</em> it goes to the next neuron as an input, then we may be able to simulate logic gates, and from there we might be able to build XOR.</p>
+<p>There are many choices for this nonlinearity function. One that is often used is the logistic function. Remember the logistic function has range <span class="math notranslate nohighlight">\([0,1]\)</span>,  which is like an inherent normalization that ensures other neurons cannot be overemphasized. The function is also smooth: it has well-defined gradients and Hessians we can use for optimization.</p>
+<p>Here’s a two-level perceptron with a logistic activation function that implements XOR:</p>
+<img src="C:\Users\Kevin\AppData\Roaming\Typora\typora-user-images\image-20210418155127858.png" alt="image-20210418155127858" style="zoom: 50%;" />
+<p>Can an algorithm learn a function like this?</p>
+</div>
+<div class="section" id="neural-networks-with-1-hidden-layer">
+<h2>Neural Networks with 1 Hidden Layer<a class="headerlink" href="#neural-networks-with-1-hidden-layer" title="Permalink to this headline">¶</a></h2>
+<p>Remember with our bias term, our inputs layer has <span class="math notranslate nohighlight">\(d+1\)</span> units. Then, we have a <strong>hidden layer</strong> of perceptrons- again, accounting for the bias term, we have <span class="math notranslate nohighlight">\(m+1\)</span> units. Finally, our output layer will have <span class="math notranslate nohighlight">\(k\)</span> units- the number that <span class="math notranslate nohighlight">\(k\)</span> represents is application-dependent.</p>
+<p>Each layer’s weights can be represented by a matrix with each row representing a node in the <em>next</em> layer, and each column representing a node in the <em>current</em> layer. Therefore, for our first layer, we will have a <span class="math notranslate nohighlight">\(m \times (d + 1)\)</span> sized matrix <span class="math notranslate nohighlight">\(V\)</span>, with each element representing a connection weight between nodes in the input layer and hidden layer. Similarly, the weight matrix connecting the hidden layer to the output layer has size <span class="math notranslate nohighlight">\(k \times (m+1)\)</span>. We will denote this matrix <span class="math notranslate nohighlight">\(W\)</span>.</p>
+<p>Assume our activation function is the logistic function, but many other activation functions can be used here.</p>
+<p>We can denote our output vector as a function of the input:</p>
+<div class="math notranslate nohighlight">
+\[z = f(x) = s(Wh) = s(Ws_1(Vx))\]</div>
+<p>where <span class="math notranslate nohighlight">\(h = s_1(Vx)\)</span>, and <span class="math notranslate nohighlight">\(s_1(x)\)</span> is the application of the activation function to the output layer WITH bias, and <span class="math notranslate nohighlight">\(s(x)\)</span> is the application of the activation function to output vector <span class="math notranslate nohighlight">\(x\)</span>.</p>
+<p>Neural networks often have more than one output. This allows us to build multiple classifiers that share hidden units. One of the interesting advantages of neural nets is that if you train multiple classifiers simultaneously, sometimes some of them come out better because they can take advantage of particularly useful hidden units that first emerged to support one of the other classifiers.</p>
+<p>We can add more hidden layers, and for image recognition tasks it’s common to have 8 to 200 hidden layers. There are many variations you can experiment with—for instance, you can have connections that go forward more than one layer.</p>
+</div>
+<div class="section" id="training-neural-networks">
+<h2>Training Neural Networks<a class="headerlink" href="#training-neural-networks" title="Permalink to this headline">¶</a></h2>
+<p>We usually utilize stochastic or batch gradient descent to train neural networks. We need to pick a loss function <span class="math notranslate nohighlight">\(L(z, y)\)</span>: usually, this is the squared norm: <span class="math notranslate nohighlight">\(L(z,y) = ||z-y||^2\)</span>, and cost function <span class="math notranslate nohighlight">\(J(h) = \frac{1}{n}\sum_{i=1}^{n}L(h(X_i), Y_i)\)</span>. Note that a single output for a data point is not a scalar but a vector. Therefore, outputs <span class="math notranslate nohighlight">\(Y_i\)</span> is a <em>row</em> of output matrix <span class="math notranslate nohighlight">\(Y\)</span>. Sometimes there is just one output unit, but many neural net applications have more.</p>
+<p>The goal is to find the optimal weights of the neural network that minimize <span class="math notranslate nohighlight">\(J\)</span>: specifically, the optimal weight matrices <span class="math notranslate nohighlight">\(V, W\)</span> (there are more in NNs with more than one hidden layer, of course).</p>
+<p>For neural networks, generally there are many local minima. The cost function for neural networks are generally not even close to convex. For that reason, it’s possible to end up at a bad minimum. In a later note, we’ll discuss some approaches for getting better minima out of neural nets.</p>
+<p>So what’s the process of training?</p>
+<p>Let’s start with a naïve approach. Suppose we start by setting all the weights to zero (<span class="math notranslate nohighlight">\(W, V = 0\)</span>), then apply gradient descent on the weights. Will this work?</p>
+<p>Neural networks have a symmetry: there’s really no difference between one hidden unit and any other hidden unit. So if we start at a symmetric set of weights, the gradient descent algorithm won’t ever break this symmetry (unless optimal weights are symmetric, which is incredibly unlikely).</p>
+<p>So to avoid this problem, <strong>to train neural networks we start with random weights.</strong></p>
+<p>Now we can apply gradient descent. Let <span class="math notranslate nohighlight">\(w\)</span> be a vector of all weights in <span class="math notranslate nohighlight">\(V\)</span> and <span class="math notranslate nohighlight">\(W\)</span>. In batch gradient descent:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">w</span> <span class="o">=</span> <span class="n">randomWeights</span><span class="p">()</span>
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+	<span class="n">w</span> <span class="o">=</span> <span class="n">w</span> <span class="o">-</span> <span class="n">epsilon</span> <span class="o">*</span> <span class="n">gradient</span><span class="p">(</span><span class="n">J</span><span class="p">(</span><span class="n">w</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Note that in code, you should probably operate directly on <span class="math notranslate nohighlight">\(V,W\)</span> instead of concatenating everything for the sake of speed.</p>
+<p>Additionally, it’s important to make sure our initial random weights aren’t too big: if a unit’s output gets too close to zero or one, it can get “stuck,” meaning that a modest change in the input values causes barely any change in the output value. Stuck units tend to stay stuck because in that operating range, the gradient <span class="math notranslate nohighlight">\(s_0(·)\)</span> of the logistic function is close to zero.</p>
+<p>How do we compute <span class="math notranslate nohighlight">\(\nabla_w J(w)\)</span>? Naively, we calculate one derivative per weight, so for a network with multiple hidden layers, it takes time linear in the number of edges in the neural network to compute a derivative for one weight. For example, take the neural network below, with edges labeled:</p>
+<p>Multiply that by the number of weights. So we get runtime <span class="math notranslate nohighlight">\(O(\text{# edges}^2)\)</span>, and backpropagation takes <span class="math notranslate nohighlight">\(O(\text{# edges})\)</span>.  With complicated neural networks, this will get bad <em>very</em> quickly.</p>
+</div>
+<div class="section" id="computing-gradients-for-arithmetic-expressions">
+<h2>Computing Gradients for Arithmetic Expressions<a class="headerlink" href="#computing-gradients-for-arithmetic-expressions" title="Permalink to this headline">¶</a></h2>
+<p>The gradient of a neural network is a vector of all the partial gradients with respect to each input:</p>
+</div>
+<div class="section" id="backpropagation">
+<h2>Backpropagation<a class="headerlink" href="#backpropagation" title="Permalink to this headline">¶</a></h2>
+<p>Backpropagation is the second step involved in training the weights of neural networks, via calculating the gradient of the <em>error function</em> with respect to the neural network’s weights. It utilizes dynamic programming to calculate ALL these gradients (partial derivatives) in runtime linear to the number of weights.</p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./Ch14"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="../Ch13/intro.html" title="previous page">Kernels</a>
+    <a class='right-next' id="next-link" href="../Ch15/intro.html" title="next page">Neurobiology and Variations on Neural Networks</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Kevin Moy<br/>
+        
+            &copy; Copyright 2020.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>

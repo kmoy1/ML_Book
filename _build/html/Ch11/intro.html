@@ -1,0 +1,473 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Regularization &#8212; Machine Learning</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.e7340bb3dbd8dde6db86f25597f54a1b.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Decision Trees" href="../Ch12/intro.html" />
+    <link rel="prev" title="Statistical Justifications For Regression" href="../Ch10/intro.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/ML_logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Machine Learning</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../intro.html">
+   Intro
+  </a>
+ </li>
+</ul>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notation_note.html">
+   A Quick Note on Notation and Terminology
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch1/intro.html">
+   Chapter 1: Classification and ML Basics
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/trainingandtesting.html">
+     Training and Testing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/comparingmodels.html">
+     Comparing Classification Models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/MNIST.html">
+     The MNIST dataset
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/validation.html">
+     Validation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/supervisedlearn.html">
+     Supervised vs. Unsupervised Learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/summary.html">
+     Summary
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch2/intro.html">
+   Chapter 2: Linear Classifiers
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/hyperplanes.html">
+     Behind the Decision Boundary
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/linearseparability.html">
+     Linear Separability of Data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/centroid.html">
+     The Centroid Method
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptron.html">
+     The Perceptron Algorithm
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptronp2.html">
+     Perceptron Algorithm, Part 2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptronp3.html">
+     The Perceptron Algorithm, Part 3
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/maxmargin.html">
+     Maximum Margin Classfier
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch3/intro.html">
+   Chapter 3: Support Vector Machines
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch4/intro.html">
+   Chapter 4: Optimization Problems
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch5/intro.html">
+   Chapter 5: Decision Theory
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch6/intro.html">
+   Chapter 6: Gaussian Discriminant Analysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch7/intro.html">
+   Chapter 7: Eigenvectors and Quadratic Forms
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch8/intro.html">
+   Chapter 8: Anisotropic Gaussians
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch9/intro.html">
+   Chapter 9: Regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch10/intro.html">
+   Chapter 10: Statistical Justifications for Regression
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Chapter 11: Regularization
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch12/intro.html">
+   Chapter 12: Decision Trees
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch12/intro2.html">
+     Lecture 15: Decision Trees Cont.
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch13/intro.html">
+   Chapter 13: Kernels
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch14/intro.html">
+   Chapter 14: Neural Networks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch15/intro.html">
+   Chapter 15: Neurobiology and Variations on Neural Networks
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/Ch11/intro.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/kmoy1/ML_Book.git"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/kmoy1/ML_Book.git/issues/new?title=Issue%20on%20page%20%2FCh11/intro.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                    title="Fullscreen mode"><i
+                        class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i>
+            Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bayesian-justification-for-ridge-regression">
+   Bayesian Justification for Ridge Regression
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="regularization">
+<h1>Regularization<a class="headerlink" href="#regularization" title="Permalink to this headline">¶</a></h1>
+<p>Today we’ll talk about various methods called <strong>shrinkage</strong>, ways to regularize weights learned to be smaller than they should be.</p>
+<p>The first method is <strong>ridge regression</strong>: it uses L2 regularization (sometimes called Tikhonov regularization). It’s a lot like OLS, but we use the <span class="math notranslate nohighlight">\(l2\)</span> penalized mean loss. So we find <span class="math notranslate nohighlight">\(w\)</span> that minimizes</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}||X \cdot w - y||^2 + \lambda||w'||^2$$. \\The regularization term (aka penalty term) takes $w'$: it is the same as $w$ except the bias term is 0 (we don't penalize the bias term). This regularization term &quot;encourages&quot; the weights in $w$ to be small, as we penalize larger ones. By shrinkage of $w$, we ensure our normal vectors are not too long. \\Two common reasons why we want shrinkage. First of all, **ridge regression guarantees a positive definite matrix of normal equations** (whereas only positive semidefinite was guaranteed before). For example, if points did not fully span our feature span, i.e. they were on a hyperplane of feature space, then least-squares linear regression DOES NOT have a unique solution, since our matrix is PSD (might have a few 0-eigenvalues). **This ensures there's always a unique solution**. \\Take a look at the diagram below:\\&lt;img src=&quot;C:\Users\Kevin\AppData\Roaming\Typora\typora-user-images\image-20210315134352411.png&quot; alt=&quot;image-20210315134352411&quot; style=&quot;zoom:33%;&quot; /&gt;\\On the left, the quadratic form from a least squares regression problem. `beta1, beta2` are the feature space. The z axis is the cost function we want to optimize. Note there's more than one solution, indicated by the flat line at the bottom of the paraboloid. Such a regression problem is said to be **ill-posed**. \\Now on the right, adding the regularization term turns our ill-posed problem into a **well-posed** problem- there's one unique solution now. \\So the second motivation: we reduce overfitting by reducing variance. Imagine regression gives us a curve $h(x) = 500x_1 - 500x_2$. However, the points are well-separated. But the labels are constrained as $y_i \in [0,1]$. So the points aren't close, but the labels are. The weights being that large doesn't really make sense- a very small change in $x$ can give a very large change in $y$! When a curve $h$ oscillates a lot, it's a sign of overfitting and high variance. \\Recall our objective function $J(w) = ||Xw -y||^2$ has weights $\beta_1, \beta_2$. At the center of the contours of $J(w)$, we have our optimal solution WITHOUT regularization.\\&lt;img src=&quot;C:\Users\Kevin\AppData\Roaming\Typora\typora-user-images\image-20210315135520811.png&quot; alt=&quot;image-20210315135520811&quot; style=&quot;zoom:33%;&quot; /&gt;\\However, once we do add regularization term $\lambda||w'||^2$, the isocontours of this term are perfect spheres (blue circle above). What we want to do is minimize a weighted combination of regularization and squared error. **The optimal solution is where an isocontour of 1 barely touches an isocontour of the other**. Note the point where the red touches the sphere: that is ONE solution for a particular choice of $\lambda$. But for different $\lambda$, it'll be different. For all possible solutions given all possible lambda, we get a *curve* of all optimal solutions. One endpoint is when $\lambda$ = 0: this is the center point of the red ellipses.\\We can still solve $\nabla J(w) = 0$  through calculus. Specifically, we get \\$$(X^TX + \lambda I')w = X^Ty\end{aligned}\end{align} \]</div>
+<p>where <span class="math notranslate nohighlight">\(I'\)</span> is identity matrix with the bottom right term set to 0 (since we don’t penalize the bias term).</p>
+<p>Once we solve for <span class="math notranslate nohighlight">\(w\)</span>, we just return the hypothesis as <span class="math notranslate nohighlight">\(h(z) = w^Tz\)</span>.</p>
+<p>With increasing lambda, we of course apply more regularization, forcing <span class="math notranslate nohighlight">\(||w'||\)</span> to get smaller and smaller. Assuming a model of the data where we assume the data came from a linear relationship with Gaussian noise (<span class="math notranslate nohighlight">\(y = Xv + e\)</span>), the variance of ridge regression is equal to</p>
+<div class="math notranslate nohighlight">
+\[\text{Var}(z^T(X^TX+\lambda I')^{-1}X^Te)\]</div>
+<p>which is the standard variance over the distribution of all possible <span class="math notranslate nohighlight">\(X,y\)</span>. The matrix <span class="math notranslate nohighlight">\(\lambda I'\)</span> gets larger as lambda does, so as <span class="math notranslate nohighlight">\(\lambda \to \infty\)</span> variance goes to 0, BUT bias will increase.</p>
+<img src="C:\Users\Kevin\AppData\Roaming\Typora\typora-user-images\image-20210315140946841.png" alt="image-20210315140946841" style="zoom:33%;" /> 
+<p>As lambda gets larger, variance drops to 0, but bias (squared) is increasing. In fact, the hypothesis ITSELF is actually pushed to 0 (since its weights are), so once it gets super small it’s obviously not a good approximation of <span class="math notranslate nohighlight">\(g\)</span>. The point X where we minimize test error is considered optimal and the lambda we want.</p>
+<p>Note the regularization term <span class="math notranslate nohighlight">\(\lambda ||w'||^2\)</span> penalizes all weights equally- this isn’t generally true in practice. For that reason, it makes sense to <em>normalize</em> all features s.t. they all have the same variance, and are thus on the same “scale”.</p>
+<p>Alternatively, we can use an <em>asymmetric penalty</em> by replacing <span class="math notranslate nohighlight">\(I'\)</span> with some other diagonal matrix. For example, cubic features should not have the same penalty as linear features.</p>
+<div class="section" id="bayesian-justification-for-ridge-regression">
+<h2>Bayesian Justification for Ridge Regression<a class="headerlink" href="#bayesian-justification-for-ridge-regression" title="Permalink to this headline">¶</a></h2>
+<p>We can justify using an L2 regularization term in ridge regression.</p>
+<p>First, we assign a prior probability on <span class="math notranslate nohighlight">\(w'\)</span>: we don’t assume all weights are equally likely. If a weight is big, be skeptical, if small, trust more. We can express this by stating that our weights <span class="math notranslate nohighlight">\(w' \sim N(0, \sigma^2)\)</span>. So very large <span class="math notranslate nohighlight">\(w'\)</span> will have very low PDF values (probabilities) in the normal distribution.</p>
+<p>Now, we <strong>apply MLE to the posterior probability</strong>. Remember Bayes theorem gives posterior</p>
+<div class="math notranslate nohighlight">
+\[f(w|X, y) = \frac{f(y|X, w) * f(w')}{f(y|X)}\]</div>
+<p>where <span class="math notranslate nohighlight">\(f(w')\)</span> is our prior, normally distributed.</p>
+<p>We can also think of the class-conditional probability/density as the likelihood function of <span class="math notranslate nohighlight">\(w\)</span> given <span class="math notranslate nohighlight">\(X, y\)</span>, so we get</p>
+<div class="math notranslate nohighlight">
+\[f(w|X,y) = \frac{L(w) * f(w')}{f(y|X)}\]</div>
+<p>Now maximizing the log posterior gives</p>
+<div class="math notranslate nohighlight">
+\[ln(L(w)) + ln(f(w')) - C = -C_1||Xw-y||^2-C_2||w'||^2-C_3\]</div>
+<p>which finally leads to MINIMIZING</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}||Xw-y||^2 + \lambda||w'||^2$$.\\So the process is:\\1. Assuming weights follow a distribution- some more likely than others.
+2. Write expression for posterior probability
+3. Apply MLE to posterior to get ridge regression function. \\We find the value of $\lambda$ by validation. \\## Feature Subset Selection\\Now what if the goal was to get rid of features that weren't very predictive? When there's a shitload of features, there comes a point where most just increase variance without reducing bias. \\So the idea is we identify the poorly predictive features and effectively get rid of them by setting corresponding weights to 0. This means less overfitting and smaller test errors. Another motivation is *inference*: we apply some human-understandable rules as features. The simpler your model, the easier to interpret it meaningfully.\\Pretty much all classification and regression benefits from this idea. But this could be a difficult problem. Different features can encode the same information in different ways. So it can be hard to figure out which subset is the best subset. \\The first algorithm for best subset selection is to just try all $2^d-1$ nonempty feature subsets, and train a classifier for EACH. We choose the best one by validation. Of course, this is incredibly inefficient and slow if $d$  is large. \\So here's where heuristics come into play.\\## Heuristic 1: Forward Stepwise Selection\\Forward stepwise selection adds one feature at a time to the model. We start with the null model (0 features). Then, add the best feature  left at each iteration. To select the best feature, we just train $d$ models and compare with validation. We stop when validation errors start to increase instead of decrease (from overfitting).\\So now we're training $O(d^2)$ models instead of $O(2^d)$. Better.\\But not perfect: for example, there may be cases where we have a 2-feature model if neither of the features yield the best 1-feature model (they have to be good individually).\\## Heuristic 2: Backward Stepwise Selection\\This is now pretty straightforward (straightbackward). Now, we start with all $d$ features and remove one at a time until validation error starts to decrease. \\This also trains $O(d^2)$. \\Which is the better choice? Depends on how many features you think will be useful. If you only think a few features would be good, go forward, and vice versa. For example, for spam classification FSS is probably better. \\## Lasso Regularization\\Now we move on to L1 regularization- L1 penalized mean loss instead of L2.  \\Lasso, incidentally, is an acronym: for &quot;least absolute shrinkage + selection operator&quot;. \\The advantage of L1 regularization over L2 is it **naturally sets some weights to zero.** This can be really useful in some cases, at it sort of emulates subset selection. However, it's harder to optimize (minimize) our objective function:\\$$||Xw-y||^2 + \lambda||w'||_1\end{aligned}\end{align} \]</div>
+<p>where <span class="math notranslate nohighlight">\(||w'|| = \sum_{i=1}^{d}|w_i|\)</span> : the sum over the <span class="math notranslate nohighlight">\(d\)</span> components of the normal vector. Again, we don’t penalize the bias term.</p>
+<p>Recall the isosurfaces of <span class="math notranslate nohighlight">\(||w'||^2\)</span> in ridge regression are hyperspheres. However, the isosurfaces of <span class="math notranslate nohighlight">\(||w'||_1\)</span> are <strong>cross-polytopes</strong>. The unit cross-polytope is the convex hull of all unit coordinate vectors, including positive and negative versions of those vectors.</p>
+<p>For example, the convex hull of a 2D vector (where axes are the +/- of each coordinate vector) is this diamond shape:</p>
+<img src="C:\Users\Kevin\AppData\Roaming\Typora\typora-user-images\image-20210315144632065.png" alt="image-20210315144632065" style="zoom:50%;" />
+<p>This diamond shape is the isocontour (isosurface) where <span class="math notranslate nohighlight">\(||w'||_1 = 1\)</span>.</p>
+<p>In 3D, you can imagine the isosurface looks like this:</p>
+<img src="C:\Users\Kevin\AppData\Roaming\Typora\typora-user-images\image-20210315144755070.png" alt="image-20210315144755070" style="zoom:50%;" />
+<p>Note for <span class="math notranslate nohighlight">\(d\)</span> dimensions, we’ll have <span class="math notranslate nohighlight">\(2d\)</span> coordinate vectors, and taking the convex hull of them gives the polytope in <span class="math notranslate nohighlight">\(d\)</span>-dimensional space.</p>
+<p>What does this do in regularization? Remember in ridge regression, we find the point where the ellipses of regression and sphere of regularization just barely touch. This was an optimum for SOME value of <span class="math notranslate nohighlight">\(\lambda\)</span>. It’s the same thing with L1, but now instead of a sphere, the isosurfaces are now convex hulls.</p>
+<p>One of the solutions in LASSO will have one of its weights set to 0. <strong>The bigger <span class="math notranslate nohighlight">\(\lambda\)</span> is, the higher tendency to set weights to 0</strong>.</p>
+<p>When a regularization ellipse touches a TIP of the convex hull, then ALL weights get set to 0 EXCEPT for 1.</p>
+<p>Let’s look at a graph that shows how weights behave for a higher dimensional space.</p>
+<img src="C:\Users\Kevin\AppData\Roaming\Typora\typora-user-images\image-20210315145511201.png" alt="image-20210315145511201" style="zoom: 50%;" />
+<p>This chart shows that as <span class="math notranslate nohighlight">\(\lambda\)</span> increases, we see the evolution of different weight variables. The chart indicates that four weight curves, and thus four weights, are truly notable while 6 are not.</p>
+<p>Two main algorithms for solving LASSO are called least-angle regression (LARS) and forward stagewise.</p>
+<p>Again, like ridge, we probably want to normalize features for LASSO.</p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./Ch11"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="../Ch10/intro.html" title="previous page">Statistical Justifications For Regression</a>
+    <a class='right-next' id="next-link" href="../Ch12/intro.html" title="next page">Decision Trees</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Kevin Moy<br/>
+        
+            &copy; Copyright 2020.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>

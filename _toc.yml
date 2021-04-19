@@ -25,6 +25,29 @@
   title: "Chapter 4: Optimization Problems"
 - file: Ch5/intro
   title: "Chapter 5: Decision Theory"
+- file: Ch6/intro
+  title: "Chapter 6: Gaussian Discriminant Analysis"
+- file: Ch7/intro
+  title: "Chapter 7: Eigenvectors and Quadratic Forms"
+- file: Ch8/intro
+  title: "Chapter 8: Anisotropic Gaussians"
+- file: Ch9/intro
+  title: "Chapter 9: Regression"
+- file: Ch10/intro
+  title: "Chapter 10: Statistical Justifications for Regression"
+- file: Ch11/intro
+  title: "Chapter 11: Regularization"
+- file: Ch12/intro
+  title: "Chapter 12: Decision Trees"
+  sections:
+    - file: Ch12/intro2
+- file: Ch13/intro
+  title: "Chapter 13: Kernels"
+- file: Ch14/intro
+  title: "Chapter 14: Neural Networks"
+- file: Ch15/intro
+  title: "Chapter 15: Neurobiology and Variations on Neural Networks"
+
 
 
     

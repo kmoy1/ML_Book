@@ -1,0 +1,469 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kernels &#8212; Machine Learning</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.e7340bb3dbd8dde6db86f25597f54a1b.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Neural Networks" href="../Ch14/intro.html" />
+    <link rel="prev" title="Lecture 15: Decision Trees Cont." href="../Ch12/intro2.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/ML_logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Machine Learning</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../intro.html">
+   Intro
+  </a>
+ </li>
+</ul>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notation_note.html">
+   A Quick Note on Notation and Terminology
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch1/intro.html">
+   Chapter 1: Classification and ML Basics
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/trainingandtesting.html">
+     Training and Testing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/comparingmodels.html">
+     Comparing Classification Models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/MNIST.html">
+     The MNIST dataset
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/validation.html">
+     Validation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/supervisedlearn.html">
+     Supervised vs. Unsupervised Learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/summary.html">
+     Summary
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch2/intro.html">
+   Chapter 2: Linear Classifiers
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/hyperplanes.html">
+     Behind the Decision Boundary
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/linearseparability.html">
+     Linear Separability of Data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/centroid.html">
+     The Centroid Method
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptron.html">
+     The Perceptron Algorithm
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptronp2.html">
+     Perceptron Algorithm, Part 2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptronp3.html">
+     The Perceptron Algorithm, Part 3
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/maxmargin.html">
+     Maximum Margin Classfier
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch3/intro.html">
+   Chapter 3: Support Vector Machines
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch4/intro.html">
+   Chapter 4: Optimization Problems
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch5/intro.html">
+   Chapter 5: Decision Theory
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch6/intro.html">
+   Chapter 6: Gaussian Discriminant Analysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch7/intro.html">
+   Chapter 7: Eigenvectors and Quadratic Forms
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch8/intro.html">
+   Chapter 8: Anisotropic Gaussians
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch9/intro.html">
+   Chapter 9: Regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch10/intro.html">
+   Chapter 10: Statistical Justifications for Regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch11/intro.html">
+   Chapter 11: Regularization
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch12/intro.html">
+   Chapter 12: Decision Trees
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch12/intro2.html">
+     Lecture 15: Decision Trees Cont.
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Chapter 13: Kernels
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch14/intro.html">
+   Chapter 14: Neural Networks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch15/intro.html">
+   Chapter 15: Neurobiology and Variations on Neural Networks
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/Ch13/intro.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/kmoy1/ML_Book.git"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/kmoy1/ML_Book.git/issues/new?title=Issue%20on%20page%20%2FCh13/intro.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                    title="Fullscreen mode"><i
+                        class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i>
+            Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-magic-kernelization">
+   The Magic: Kernelization
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="kernels">
+<h1>Kernels<a class="headerlink" href="#kernels" title="Permalink to this headline">¶</a></h1>
+<p>WARNING: The topic that is to come is <em>very</em> difficult.</p>
+<p>This note focuses on <strong>kernels</strong>, also known as the <strong>kernel trick</strong> or <strong>kernelization</strong>. It’s pretty magical- let’s see why.</p>
+<p>To motivate kernels, let’s recall polynomial features. Say we have a dataset with <span class="math notranslate nohighlight">\(d\)</span> features and we want to fit a degree-<span class="math notranslate nohighlight">\(p\)</span> polynomial to get a more complicated decision boundary. Of course, overfitting is always an issue here. However, another issue comes where we rapidly blow up the number of features we are using. Specifically, we blow the number of features up to <span class="math notranslate nohighlight">\(O(d^p)\)</span> features when we have a degree-<span class="math notranslate nohighlight">\(p\)</span> polynomial with <span class="math notranslate nohighlight">\(d\)</span> features! For example, say we have <span class="math notranslate nohighlight">\(d = 100\)</span> features and we want a degree <span class="math notranslate nohighlight">\(p = 4\)</span> decision function- each lifted feature vector needs to account for <em>all combinations</em> of features, and thus will have about <em>four million</em> features. Not good.</p>
+<p>So in this note we’ll show we can still fit these polynomials very fast - we don’t need to compute all <span class="math notranslate nohighlight">\(d\)</span> features to use them. There’s a very clever mathematical trick that allows us to not compute our <span class="math notranslate nohighlight">\(d^p\)</span> features, but still get our polynomial anyway!</p>
+<p>Kernelization is based on two observations about many learning algorithms. The first observation: often, when you compute the optimal solution for an optimization problem, you often discover that the <strong>solution can be written as a linear combination of the sample points</strong>. Why this happens is kind of abstract and certainly out of scope, but it does hold true for a lot of algorithms: SVMs, ridge regression, perceptrons, logistic regression,  etc. The second observation: with the right organization of computation, <strong>these algorithms can use inner products of lifted feature vectors only.</strong> For a sample point <span class="math notranslate nohighlight">\(x\)</span>, our lifted feature vector is <span class="math notranslate nohighlight">\(\Phi(x)\)</span>. A lot of these algorithms just need to have an inner product of a couple of <span class="math notranslate nohighlight">\(\Phi(x)\)</span> vectors as their central computation. With the right conditions, we actually <strong>don’t need to know <span class="math notranslate nohighlight">\(\Phi(x)\)</span></strong> <strong>to find their inner product</strong>!</p>
+<p>Let’s take a mathematical look into observation 1. Let’s suppose optimal weight vector <span class="math notranslate nohighlight">\(w\)</span> (could be many) takes the form:</p>
+<p><span class="math notranslate nohighlight">\(w = X^Ta = \sum_{i=1}^{n}a_iX_i\)</span></p>
+<p>where <span class="math notranslate nohighlight">\(X\)</span> is our design matrix, and <span class="math notranslate nohighlight">\(a\)</span> is our coefficient vector that tells us what linear combination of sample points give us our optimal solution. If this is true for some <span class="math notranslate nohighlight">\(a \in R^n\)</span>. Once we know this is possible, we can derive a new form of our algorithm, that’s based on finding the optimal <span class="math notranslate nohighlight">\(a\)</span> instead of finding the optimal <span class="math notranslate nohighlight">\(w\)</span>. We do this by simply substituting <span class="math notranslate nohighlight">\(w = X^Ta\)</span> into our algorithm and solving for <span class="math notranslate nohighlight">\(a\)</span> instead of <span class="math notranslate nohighlight">\(w\)</span>. The entries of <span class="math notranslate nohighlight">\(a\)</span> are called <strong>dual weights</strong>, or sometimes called dual parameters. We thus are optimizing <span class="math notranslate nohighlight">\(n\)</span> dual weights instead of <span class="math notranslate nohighlight">\(d+1\)</span> (or <span class="math notranslate nohighlight">\(d^p\)</span>) primal weights <span class="math notranslate nohighlight">\(w\)</span>.</p>
+<p>Let’s use ridge regression as an example- this will lead to a <strong>kernel ridge regression</strong> algorithm. Before we dualize ridge regression, there’s one small detail we need to take care of first. Before, in ridge regression we do not have to penalize the bias term- however, in this case we do, because we’re assuming that weights are a linear combination of the sample points- this is only true IF we penalize the bias term. One way to minimize damage from this is by first centering <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(y\)</span> (so their means are zero)- for each sample point (row) <span class="math notranslate nohighlight">\(X_i\)</span>, subtract the mean <span class="math notranslate nohighlight">\(\mu_X\)</span>. Similarly, subtract each <span class="math notranslate nohighlight">\(y_i\)</span> by <span class="math notranslate nohighlight">\(\mu_y\)</span>. <em>Don’t subtract from the bias column, though.</em></p>
+<p>So now that things are centered, it’s less harmful to penalize our bias term. This means for ridge regression, instead of <span class="math notranslate nohighlight">\(I'\)</span> where the last diagonal element of <span class="math notranslate nohighlight">\(I'\)</span> was 0, we can just use the identity matrix <span class="math notranslate nohighlight">\(I\)</span> in our normal equations. Recall our normal equations for the standard primal form of ridge regression:</p>
+<p><span class="math notranslate nohighlight">\((X^TX + \lambda I)w = X^Ty\)</span></p>
+<p>The reasoning centering helps: if we have data from a random distribution, then the expected linear regression will pass through the origin. So centering <span class="math notranslate nohighlight">\(X,y\)</span> will have the decision boundary likely to pass through the origin or close to it.</p>
+<p>Let’s now look at the normal equations for the dual form of ridge regression, which we can obtain from above via substitution. Suppose we have a vector <span class="math notranslate nohighlight">\(a\)</span> which is a solution to:</p>
+<p><span class="math notranslate nohighlight">\((XX^T+\lambda I)a = y\)</span></p>
+<p>Then, <span class="math notranslate nohighlight">\(X^Ty = X^TXX^Ta + \lambda X^Ta = (X^TX+\lambda I)X^T a\)</span>.</p>
+<p>Note that the first term <span class="math notranslate nohighlight">\((X^TX+\lambda I)\)</span> matches the first term in the primal form. Thus, <span class="math notranslate nohighlight">\(X^Ta\)</span> <em>must be a solution for</em> <span class="math notranslate nohighlight">\(w\)</span> in the primal normal equations. Thus, we conclude <span class="math notranslate nohighlight">\(w = X^Ta\)</span> is a solution to the primal normal equations. Moreover, we see that <span class="math notranslate nohighlight">\(w\)</span> is indeed a linear combination of sample points from <span class="math notranslate nohighlight">\(X\)</span>! This is key to making kernels and duality work.</p>
+<p>So we call <span class="math notranslate nohighlight">\(a\)</span> the <strong>dual solution</strong>. It solves the dual form of ridge regression and we want to find <span class="math notranslate nohighlight">\(a\)</span> that minimizes</p>
+<p><span class="math notranslate nohighlight">\(||XX^Ta-y||^2+\lambda||X^Ta||^2\)</span></p>
+<p>We got this objective function by simply plugging in <span class="math notranslate nohighlight">\(w = X^Ta\)</span> into the original cost function for ridge regression. We can easily verify <span class="math notranslate nohighlight">\(a\)</span> by taking the gradient of this function and solving for <span class="math notranslate nohighlight">\(a\)</span>.</p>
+<p>For the training part of dual ridge regression, we first solve the normal equations for dual weights <span class="math notranslate nohighlight">\(a\)</span>. Since we know this system of linear equations <span class="math notranslate nohighlight">\((XX^T+\lambda I)\)</span> is symmetric and positive definite, it’s easy to solve and has a unique solution. For testing, our regression function on test point <span class="math notranslate nohighlight">\(z\)</span> is <span class="math notranslate nohighlight">\(h(z) = w^Tz = a^TXz\)</span>. Note that <span class="math notranslate nohighlight">\(a^TXz\)</span> is also a linear combination, or weighted sum, of inner products:</p>
+<p><span class="math notranslate nohighlight">\(a^TXz = \sum_{i=1}^{n}a_iX_i^Tz\)</span></p>
+<p>This is key: remember I mentioned earlier that we calculate inner products of lifted feature vectors- the <span class="math notranslate nohighlight">\(X_i^Tz\)</span> is our inner product here that will be <strong>very</strong> important for what we want to do later.</p>
+<p>Now that we have a good understanding of dual ridge regression, let’s define a little terminology.</p>
+<p>First, let us define the <strong>kernel function</strong> <span class="math notranslate nohighlight">\(k(x,z)\)</span>, where <span class="math notranslate nohighlight">\(x\)</span> is. For now, let the kernel function simply be the dot product of its input vectors: <span class="math notranslate nohighlight">\(k(x,z) = x^Tz\)</span>. Later, we’ll incorporate the lifting map <span class="math notranslate nohighlight">\(\Phi\)</span> on the two vectors before taking their inner product, but we’re not there yet.</p>
+<p>Now, define <strong>kernel matrix</strong> <span class="math notranslate nohighlight">\(XX^T\)</span> be an <span class="math notranslate nohighlight">\(n \times n\)</span> matrix. Note that <span class="math notranslate nohighlight">\(X\)</span> will have the bias dimension here. <span class="math notranslate nohighlight">\(K\)</span> is defined such that <span class="math notranslate nohighlight">\(K_{ij} = k(X_i, X_j)\)</span>. <span class="math notranslate nohighlight">\(K\)</span> is always positive semidefinite, but not necessarily positive definite. It is quite common for <span class="math notranslate nohighlight">\(K\)</span> to be singular, and this is quite common if <span class="math notranslate nohighlight">\(n &gt; d+1\)</span>- and singularity can even happen even when this is not the case.</p>
+<p>If this happens, don’t expect a solution to your dual ridge regression problem if <span class="math notranslate nohighlight">\(\lambda = 0\)</span> (no regularization). This means we probably want <em>some</em> regularization- and this is good anyway to reduce overfitting.</p>
+<p>Kernelization and kernel algorithms is most interesting when <span class="math notranslate nohighlight">\(d\)</span> is very large, since our lifting map adds a lot of new features anyway. So the  <span class="math notranslate nohighlight">\(n &gt; d+1\)</span> isn’t something <em>too</em> worrisome.</p>
+<p>Now let’s write out the dual ridge regression algorithm in a manner that uses the kernel matrix and function, so we can apply it to kernelization. First, we compute the kernel matrix <span class="math notranslate nohighlight">\(K\)</span>: simply calculate <span class="math notranslate nohighlight">\(K_{ij} = k(X_i, X_j)\)</span>. Once we have this kernel matrix, we apply it to our dual normal equations to get</p>
+<p><span class="math notranslate nohighlight">\((K + \lambda I)a = y\)</span></p>
+<p>which gives us a linear system of equations to solve for dual weights <span class="math notranslate nohighlight">\(a\)</span>. Again, this is the training portion of the dual algorithm: for testing, we calculate <span class="math notranslate nohighlight">\(h(z)\)</span> for each test point <span class="math notranslate nohighlight">\(z\)</span>, where <span class="math notranslate nohighlight">\(h(z) = \sum_{i=1}^{n}a_ik(X_i, z)\)</span>. We’re going to work some magic to make our kernel function <span class="math notranslate nohighlight">\(k\)</span> <em>supremely fast</em>.</p>
+<p>But before we do that, let’s calculate the runtime of our dual algorithm. First, in calculating <span class="math notranslate nohighlight">\(K\)</span>, we calculate <span class="math notranslate nohighlight">\(n^2\)</span> entries as <span class="math notranslate nohighlight">\(k(X_i, X_j)\)</span>. Each calculation of <span class="math notranslate nohighlight">\(k(X_i, X_j)\)</span> is the dot product which has <span class="math notranslate nohighlight">\(O(d)\)</span> runtime, so computing <span class="math notranslate nohighlight">\(K\)</span> is <span class="math notranslate nohighlight">\(O(n^2d)\)</span>. Then, solving our <span class="math notranslate nohighlight">\(n \times n\)</span> linear system of equations generally takes <span class="math notranslate nohighlight">\(O(n^3)\)</span> time. Finally, for each test point, we compute <span class="math notranslate nohighlight">\(h(z)\)</span>, which takes <span class="math notranslate nohighlight">\(O(nd)\)</span> time. So overall, since we’re considering <span class="math notranslate nohighlight">\(d &gt;&gt; n\)</span>, our dual algorithm takes <span class="math notranslate nohighlight">\(O(n^2d + n^3)\)</span> time.</p>
+<p>Note our dual algorithm <em>does not use sample points <span class="math notranslate nohighlight">\(X_i\)</span> directly</em>. It is only used as an input to our kernel function <span class="math notranslate nohighlight">\(k\)</span>. So this means if we can configure our kernel function <span class="math notranslate nohighlight">\(k\)</span> to avoid using <span class="math notranslate nohighlight">\(X_i\)</span>’s value directly, this will be great for speed.</p>
+<p>Now let’s compare the dual algorithm with the primal for ridge regression. In the dual, we solve an <span class="math notranslate nohighlight">\(n \times n\)</span> linear system, and in the primal, we solve a <span class="math notranslate nohighlight">\(d \times d\)</span> system. We don’t transpose in the primal, so <span class="math notranslate nohighlight">\(n\)</span> and <span class="math notranslate nohighlight">\(d\)</span> simply swap places- meaning we have a <span class="math notranslate nohighlight">\(O(d^3 + d^2n)\)</span> runtime.</p>
+<p>This means that the choice between dual or runtime depends on comparing <span class="math notranslate nohighlight">\(d\)</span> and <span class="math notranslate nohighlight">\(n\)</span>. For raw runtime, we prefer dual when <span class="math notranslate nohighlight">\(d &gt; n\)</span>, and primal when <span class="math notranslate nohighlight">\(d \leq n\)</span>. Practically, though, we know that we’ll usually have way more sample points than features: <span class="math notranslate nohighlight">\(n &gt;&gt; d\)</span>. However, remember we’re using polynomial features and parabolic lifting, so we’re actually gonna have way more features than we think. This is why the dual might be useful here! <strong>Moreover, adding polynomial terms as new features will blow up <span class="math notranslate nohighlight">\(d\)</span> in the primal algorithm, but will stay constant in the dual.</strong></p>
+<p>Finally, remember that <strong>dual and primal produce the same exact predictions</strong>. They are just different ways of doing the same computation.</p>
+<div class="section" id="the-magic-kernelization">
+<h2>The Magic: Kernelization<a class="headerlink" href="#the-magic-kernelization" title="Permalink to this headline">¶</a></h2>
+<p>Now finally, the magic part. We can compute a polynomial kernel with <em>many</em> monomial terms <em>without actually computing the individual terms itself</em>.</p>
+<p>The polynomial kernel of degree <span class="math notranslate nohighlight">\(p\)</span> is given as <span class="math notranslate nohighlight">\(k(x,z) = (x^Tz + 1)^p\)</span>. Note that <span class="math notranslate nohighlight">\(x^Tz + 1\)</span> is a <em>scalar</em>, so taking it to a power is <span class="math notranslate nohighlight">\(O(1)\)</span> time.</p>
+<p>A theorem: <span class="math notranslate nohighlight">\((x^Tz + 1)^p = \Phi(x)^T\Phi(z)\)</span> where <span class="math notranslate nohighlight">\(\Phi(x)\)</span> contains every monomial in <span class="math notranslate nohighlight">\(x\)</span> of degree <span class="math notranslate nohighlight">\(p\)</span> (degree 0 to p). For example, let’s say we have <span class="math notranslate nohighlight">\(d=2\)</span> features, and want a degree <span class="math notranslate nohighlight">\(p=2\)</span> polynomial. Let’s assume <span class="math notranslate nohighlight">\(x, z \in R^2\)</span>. Then,</p>
+<p><span class="math notranslate nohighlight">\(k(x,z) = (x^Tz + 1)^2 = x_1^2z_1^2 + x_2^2z_2^2 + 2x_1z_1x_2z_2 + 2x_1z_1 + 2x_2z_2 + 1\)</span>.</p>
+<p>We can factor this into an inner product of two vectors, one with <span class="math notranslate nohighlight">\(x\)</span> terms and one with <span class="math notranslate nohighlight">\(z\)</span> terms:</p>
+<p><span class="math notranslate nohighlight">\(= \begin{bmatrix}x_1^2 &amp; x_2^2 &amp; \sqrt{2}x_1x_2 &amp; \sqrt{2}x_1 &amp; \sqrt{2}x_2 1\end{bmatrix} * \begin{bmatrix}z_1^2 &amp; z_2^2 &amp; \sqrt{2}z_1z_2 &amp; \sqrt{2}z_1 &amp; \sqrt{2}z_2 1\end{bmatrix}^T\)</span></p>
+<p>Now define <span class="math notranslate nohighlight">\(\Phi(x)\)</span> and <span class="math notranslate nohighlight">\(\Phi(z)\)</span> as these two respective vectors. Which means we can <em>finally</em> compute <span class="math notranslate nohighlight">\(k(x,z) = \Phi(x)^T\Phi(z)\)</span> like we dreamed of, and calculate it as a single expression <span class="math notranslate nohighlight">\((x^Tz + 1)^p\)</span> instead of actually computing <span class="math notranslate nohighlight">\(\Phi(x)\)</span> or <span class="math notranslate nohighlight">\(\Phi(z)\)</span> themselves! It’ll take <span class="math notranslate nohighlight">\(O(d)\)</span> runtime instead of <span class="math notranslate nohighlight">\(O(d^p)\)</span> time (by calculating <span class="math notranslate nohighlight">\(d^p\)</span> terms in <span class="math notranslate nohighlight">\(\Phi(x)\)</span>).</p>
+<p>Now, applying kernelization to ridge regression, the important thing to understand: we take our dual and replace <span class="math notranslate nohighlight">\(X_i\)</span> with <span class="math notranslate nohighlight">\(\Phi(X_i)\)</span>. Now, our kernel function is <span class="math notranslate nohighlight">\(k(x,z) = \Phi(x)^T\Phi(z)\)</span>.</p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./Ch13"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="../Ch12/intro2.html" title="previous page">Lecture 15: Decision Trees Cont.</a>
+    <a class='right-next' id="next-link" href="../Ch14/intro.html" title="next page">Neural Networks</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Kevin Moy<br/>
+        
+            &copy; Copyright 2020.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>

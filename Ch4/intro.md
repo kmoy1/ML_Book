@@ -1,26 +1,5 @@
 Optomization
 ========================================
-<!-- Machine Learning Abstractions and Optomization
-
-## Machine Learning Abstractions
-
-Let's use this chapter to reflect back on the "bigger picture" of machine learning, and take a more abstracted perspective. 
-
-Good computer programs are generally created modularly: they contain many modules and subroutines. The better abstraction barriers that you maintain, the easier you find it to understand and write the program. The same principle can apply in machine learning. There are four different levels of abstraction in machine learning, and its important to understand what layer you're in when writing machine learning code. Specifically, __the questions we ask and the goal we attempt to solve is critical to the level of ML we code at__. 
-
-Let's take a quick look. From highest to lowest layer, we have: 
-
-1. __Application/Data__: What kind of data do we have? Is it supervised learning or not? Is our goal classification or regression?
-In the unsupervised learning case, are we looking for similarity (clustering) or dimensionality reduction? 
-2. __Model__: What kinds of models are we fitting to our data? What kind of decision function do we have? If we don't utilize a decision function, what kind of algorithm are we using (e.g. nearest-neighbors or decision trees)? What _features_ do we have (features are absolutely part of your model!)? How _complex_ is your model? 
-3. __Optomization Problems__: What are we optomizing? Perceptrons optomize a risk function, while SVMs optomize a quadratic program. We are now giving a formal mathematical definition to our model. What are the variables? What are the constraints? What is the objective function? For example, we might have an unconstrained optomization of a smooth risk function, or we might be optomizing a convex program.  
-4. __Optomization Algorithm__: What are efficient and fast algorithms for solving optomization problems? Examples include gradient descent, SVD, simplex algorithm. For the most part, people have already invented this stuff- the real skill comes in figuring out _which algorithm works best_. 
-
-In this book, we primarily focus on the middle two levels: models themselves and the optomization problems they are associated with. Given an application and a dataset, an important skill is turning it into an optomization problem to solve. 
-
-The choice of model, of course, can have a huge effect on the success of your learning algorithm. Feature engineering and selection has a huge effect on whether we overfit/underfit. We also must choose a model that leads to an optomization problem that we know how to solve with an algorithm: some problems are just too hard to solve, as we'll see later. 
-
-Note the stacked layers means that each layer inherently affects the layers below it. For example, changing the model from linear decision functions to quadratic will obviously change the optomization problem and the algorithm that comes with solving it.  -->
 
 ## Intro
 

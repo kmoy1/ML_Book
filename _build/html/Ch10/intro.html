@@ -1,0 +1,497 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Statistical Justifications For Regression &#8212; Machine Learning</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.e7340bb3dbd8dde6db86f25597f54a1b.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Regularization" href="../Ch11/intro.html" />
+    <link rel="prev" title="Regression" href="../Ch9/intro.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/ML_logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Machine Learning</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../intro.html">
+   Intro
+  </a>
+ </li>
+</ul>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notation_note.html">
+   A Quick Note on Notation and Terminology
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch1/intro.html">
+   Chapter 1: Classification and ML Basics
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/trainingandtesting.html">
+     Training and Testing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/comparingmodels.html">
+     Comparing Classification Models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/MNIST.html">
+     The MNIST dataset
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/validation.html">
+     Validation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/supervisedlearn.html">
+     Supervised vs. Unsupervised Learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/summary.html">
+     Summary
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch2/intro.html">
+   Chapter 2: Linear Classifiers
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/hyperplanes.html">
+     Behind the Decision Boundary
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/linearseparability.html">
+     Linear Separability of Data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/centroid.html">
+     The Centroid Method
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptron.html">
+     The Perceptron Algorithm
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptronp2.html">
+     Perceptron Algorithm, Part 2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptronp3.html">
+     The Perceptron Algorithm, Part 3
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/maxmargin.html">
+     Maximum Margin Classfier
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch3/intro.html">
+   Chapter 3: Support Vector Machines
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch4/intro.html">
+   Chapter 4: Optimization Problems
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch5/intro.html">
+   Chapter 5: Decision Theory
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch6/intro.html">
+   Chapter 6: Gaussian Discriminant Analysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch7/intro.html">
+   Chapter 7: Eigenvectors and Quadratic Forms
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch8/intro.html">
+   Chapter 8: Anisotropic Gaussians
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch9/intro.html">
+   Chapter 9: Regression
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Chapter 10: Statistical Justifications for Regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch11/intro.html">
+   Chapter 11: Regularization
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch12/intro.html">
+   Chapter 12: Decision Trees
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch12/intro2.html">
+     Lecture 15: Decision Trees Cont.
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch13/intro.html">
+   Chapter 13: Kernels
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch14/intro.html">
+   Chapter 14: Neural Networks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch15/intro.html">
+   Chapter 15: Neurobiology and Variations on Neural Networks
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/Ch10/intro.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/kmoy1/ML_Book.git"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/kmoy1/ML_Book.git/issues/new?title=Issue%20on%20page%20%2FCh10/intro.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                    title="Fullscreen mode"><i
+                        class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i>
+            Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#empirical-risk">
+   Empirical Risk
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#logistic-loss-from-mle">
+   Logistic Loss from MLE
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bias-variance-decomposition">
+   Bias-Variance Decomposition
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#consequences-of-bias-variance-decomposition">
+   Consequences of Bias-Variance Decomposition
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="statistical-justifications-for-regression">
+<h1>Statistical Justifications For Regression<a class="headerlink" href="#statistical-justifications-for-regression" title="Permalink to this headline">¶</a></h1>
+<p>Last 2 lectures explained ways to fit curves to points. Early on, I divided ML into 4 levels: application, mathematical modeling, optimization, optimization algorithm. Last 2 lectures talked about optimization.</p>
+<p>I want to start by having a model <em>produces</em> the real world data that we want to analyze. Assume sample points all come from some unknown probability distribution: <span class="math notranslate nohighlight">\(X_i \sim D\)</span>. Each sample point has a (numerical) label, each with noise. Specifically, y values are a sum of an unknown function that we want to APPROXIMATE, and errors induced by real-world measurement: <span class="math notranslate nohighlight">\(y_i = g(X_i) + \epsilon_i\)</span> for some unknown “grounds-truth” function <span class="math notranslate nohighlight">\(g\)</span> and errors <span class="math notranslate nohighlight">\(\epsilon_i\)</span>. We are going to assume <span class="math notranslate nohighlight">\(\epsilon \sim D'\)</span>, where we make a few big assumption: <span class="math notranslate nohighlight">\(D'\)</span> <strong>has mean 0</strong>, and that the errors are INDEPENDENT from <span class="math notranslate nohighlight">\(X\)</span> themselves. Our model also leaves out <strong>systematic error</strong>: your measurement device always adds 0.1 to every measurement.</p>
+<p>Now that we have a model for where our data comes from, we want to do regression on that data. The goal is to find a <strong>hypothesis function</strong> <span class="math notranslate nohighlight">\(h\)</span> that is an accurate estimate of the unknown ground truth <span class="math notranslate nohighlight">\(g\)</span>. Formally, we want to choose <span class="math notranslate nohighlight">\(h(x)\)</span> as the expected value over all possible labels that we might get for our random data point. Formally, <span class="math notranslate nohighlight">\(h(x) = E_Y[Y|X=x] = g(x) + E[\epsilon] = g(x)\)</span>. If the expectation <span class="math notranslate nohighlight">\(E_Y[Y|X=x]\)</span> exists at all, then it partly justifies our model of reality. We can retroactively define ground truth <span class="math notranslate nohighlight">\(g\)</span> to <em>be</em> this expected value.</p>
+<p>Another way to think about this is graphically. Given feature space on the x axis and <span class="math notranslate nohighlight">\(g(x)\)</span> on the y axis, let <span class="math notranslate nohighlight">\(x_1\)</span> be a point where we take a measurement. If we had no noise, then <span class="math notranslate nohighlight">\(g(x_1)\)</span> would be our measurement, but our actual measurement is <span class="math notranslate nohighlight">\(y_1\)</span>, with error coming from a Gaussian distribution.</p>
+<img src="C:\Users\Kevin\AppData\Roaming\Typora\typora-user-images\image-20210315115140571.png" alt="image-20210315115140571" style="zoom:33%;" />
+<p>With many samples, we could estimate the mean of this error Gaussian. We can also define <span class="math notranslate nohighlight">\(g(x_1) = E_Y[y_1]\)</span>.</p>
+<p>Now that we have this model of reality, we’re going to first apply it to justify least squares regression. First, why does least squares look at a sum of squared errors instead of just the sum of absolute errors? If you have this normally-distributed noise, by applying <em>maximum likelihood estimation</em>, we actually <em>prove</em> least squares is the right way to do (linear) regression. Let’s prove this below.</p>
+<p>Suppose <span class="math notranslate nohighlight">\(\epsilon_i \sim N(0, \sigma^2)\)</span>. This means the label <span class="math notranslate nohighlight">\(y_i\)</span> also comes from a normal distribution: <span class="math notranslate nohighlight">\(y_i \sim N(g(x_i), \sigma^2)\)</span>. Now let’s apply MLE to guess what parameter <span class="math notranslate nohighlight">\(g\)</span> is most likely to fit.</p>
+<p>Recall: MLE was used before to guess parameters of a distribution, GIVEN observed data. Now we’ll just it to guess parameters of a <em>function</em> <span class="math notranslate nohighlight">\(g(x)\)</span>.</p>
+<p>Remember that the log of the normal PDF <span class="math notranslate nohighlight">\(ln(f(y_i))\)</span> is:</p>
+<div class="math notranslate nohighlight">
+\[ln(f(y_i)) = -\frac{(y_i-\mu)^2}{2\sigma^2} - \text{constant}\]</div>
+<p>The only part that’s relevant here is the quadratic first term. <span class="math notranslate nohighlight">\(\mu\)</span> is the mean of distribution, i.e. <span class="math notranslate nohighlight">\(g(x_i)\)</span> in this case. Now, the log-likelihood of getting the particular sample points and labels is denoted as <span class="math notranslate nohighlight">\(l(g; X,y)\)</span>. Notice that <span class="math notranslate nohighlight">\(g\)</span> is a function, but is treated as a parameter in this case. We know <span class="math notranslate nohighlight">\(X,y\)</span> are given.</p>
+<p>Of course, we know the log-likelihood is the log of the products of PDFs for each sample point. This turns into a sum:</p>
+<div class="math notranslate nohighlight">
+\[l(g; X, y) = \sum_{i=1}^{n}ln(f(y_i)) = \frac{-1}{2\sigma^2}\sum_{i}(y_i - g(x_i))^2 - C\]</div>
+<p>where <span class="math notranslate nohighlight">\(C\)</span> is a constant which we don’t really care about. Once again, we want <span class="math notranslate nohighlight">\(g\)</span> such that <span class="math notranslate nohighlight">\(l(g; X, y)\)</span> is maximized. It turns out, actually, that maximizing this expression is equivalent to <em>minimizing</em> <span class="math notranslate nohighlight">\(\sum_{i}(y_i - g(x_i))^2\)</span>: the sum of squared errors. This is least squares!</p>
+<p>The big takeaway: if we do MLE on parameter-function <span class="math notranslate nohighlight">\(g\)</span>, it is equivalent to estimating <span class="math notranslate nohighlight">\(g\)</span> by least-squares regression. So if the noise is normally distributed, MLE justifies using the least-squares cost function. Specifically, least squares is there <em>because</em> we assume noise is Gaussian distributed.</p>
+<p>Remember that least squares does have a problem though: it’s very sensitive to outliers. If noise really is normally distributed, outliers aren’t a big deal because they’re not that common, and making <span class="math notranslate nohighlight">\(n\)</span> large enough compensates. In the real world though, noise isn’t usually normally distributed (e.g. heavy-tailed distribution).</p>
+<div class="section" id="empirical-risk">
+<h2>Empirical Risk<a class="headerlink" href="#empirical-risk" title="Permalink to this headline">¶</a></h2>
+<p>Remember: <strong>risk is expected loss</strong>. In regression, we want the risk of our hypothesis function. The risk here is the expected value of the loss <span class="math notranslate nohighlight">\(R(h) = E[L(h(x), y)]\)</span> over all <span class="math notranslate nohighlight">\(x \in R^d, y \in R\)</span>.</p>
+<p>Now if we have a discriminative model, e.g. logistic regression, then we don’t actually know <span class="math notranslate nohighlight">\(X\)</span>’s distribution <span class="math notranslate nohighlight">\(D\)</span>. So how can we minimize risk? Note that if we had a <em>generative</em> model (GDA), we could estimate joint probability distribution for <span class="math notranslate nohighlight">\(X,y\)</span> and explicitly derive the risk. However, most of the time this distribution doesn’t exist/ we don’t know.</p>
+<p>So what we do instead: pretend sample points <em>are</em> the distribution- the <strong>empirical distribution</strong>. This is the uniform distribution over the sample points. Note that this is a <strong>discrete uniform distribution</strong>, over sample points that exist. Each sample point has equal prior <span class="math notranslate nohighlight">\(\frac{1}{n}\)</span>. Then, the expected loss for that distribution is called <strong>empirical risk</strong> <span class="math notranslate nohighlight">\(\hat{R}(h) = \frac{1}{n}\sum_{i=1}^{n}L(h(x_i), y_i)\)</span>. Often this is the best we can do, and good news: often with enough sample points, the empirical risk converges to the true risk.</p>
+<p>So finding the <span class="math notranslate nohighlight">\(h\)</span> that <em>minimizes</em> the empirical risk <span class="math notranslate nohighlight">\(\hat{R}(h)\)</span> is empirical risk minimization. This is a core part of machine learning. This is why we usually minimize a sum of loss functions.</p>
+</div>
+<div class="section" id="logistic-loss-from-mle">
+<h2>Logistic Loss from MLE<a class="headerlink" href="#logistic-loss-from-mle" title="Permalink to this headline">¶</a></h2>
+<p>We know the (log) logistic loss function is</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}\sum_{i}-y_i\log(s_i) - (1-y_i)log(1-s_i)$$. \\Where does this come from? \\Well, first, let's answer the following question: what cost function should we choose for probabilities? Specifically, what loss comes from predicting probabilities? \\Let's set $y_i$ = actual probability that $X_i$ is in class $C$. Suppose we do logistic regression, and it gives us prediction $h(x_i)$ after learning $h$. We want to compare $h(x_i)$ and $y_i$ and have a measure of closeness. \\Imagine we run the experiment $\beta$ times, giving us $\beta$ duplicate copies of $X_i$. Then, as $\beta \to \infty$, $y_i\beta$ points *are* in class C, and $(1-y_i)\beta$ sample points are NOT in class C. Note this is a Bernoulli model- but the same result could be reached with Binomial. Now, we'll use MLE to choose weights to maximize probability of getting this sequence. \\We want to find $h$ that maximizes $L(h; X, y) = \prod_{i=1}^{n}h(X_i)^{y_i\beta}(1-h(X_i))^{(1-y_i)\beta}$.  This is representative of the probability of the $y_i\beta$ points in class C and those that aren't. The log-likelihood is $l(h) = \beta\sum_{i}(y_iln(h(x_i)) + (1-y_i)ln(1-h(x_i)))$. Note this is equal to:\\$$l(h) = -\beta\sum_{i}\text{logistic loss fn } L(h(X_i), y_i)\end{aligned}\end{align} \]</div>
+<p>Again, this is equivalent to <em>minimizing</em> the logistic loss function <span class="math notranslate nohighlight">\(\sum_{i}L(h(X_i), y_i)\)</span>.</p>
+<p>So MLE explains where the logistic loss function comes from, and why we want to minimize the sum of all logistic losses.</p>
+</div>
+<div class="section" id="bias-variance-decomposition">
+<h2>Bias-Variance Decomposition<a class="headerlink" href="#bias-variance-decomposition" title="Permalink to this headline">¶</a></h2>
+<p>There are two sources of error in a hypothesis when doing regression, and in any classification algorithm. These are called the bias and variance.</p>
+<p>The <strong>bias</strong> is the error related to the inability to fit our hypothesis <span class="math notranslate nohighlight">\(h(x)\)</span> to the ground truth <span class="math notranslate nohighlight">\(g(x)\)</span> perfectly. For example, if <span class="math notranslate nohighlight">\(g\)</span> is quadratic, and we try to use a linear <span class="math notranslate nohighlight">\(h\)</span>, it won’t be a good approximation, and bias is high.</p>
+<p>The <strong>variance</strong> is error related to fitting to random noise in the data. For example, suppose <span class="math notranslate nohighlight">\(g\)</span> is linear and we fit it with a linear <span class="math notranslate nohighlight">\(h\)</span>. Yet <span class="math notranslate nohighlight">\(h \neq g\)</span>, because of noise in the data. Remember <span class="math notranslate nohighlight">\(X_i \sim D, \epsilon_i \sim D'\)</span>, and <span class="math notranslate nohighlight">\(y_i = g(X_i) + \epsilon_i\)</span>. We try to fit <span class="math notranslate nohighlight">\(h\)</span> to <span class="math notranslate nohighlight">\(X,y\)</span>. Because both <span class="math notranslate nohighlight">\(X,y\)</span> are random, <span class="math notranslate nohighlight">\(h\)</span> will be random as well. Now <span class="math notranslate nohighlight">\(h\)</span> is a random variable: its weights are random since its inputs are random.</p>
+<p>Consider an arbitrary <em>test point</em> <span class="math notranslate nohighlight">\(z\)</span> in feature space (<span class="math notranslate nohighlight">\(z \in R^d\)</span>)- not necessarily a sample point. Let’s say we made a measurement at point <span class="math notranslate nohighlight">\(z\)</span>, which gives it a label. So we set <span class="math notranslate nohighlight">\(\gamma = g(z) + \epsilon\)</span>. We really want to consider ALL <span class="math notranslate nohighlight">\(z\)</span> in our feature space. On the other hand, our label <span class="math notranslate nohighlight">\(\gamma\)</span> is random because it has random added noise. Now, <span class="math notranslate nohighlight">\(E[\gamma] = g(z)\)</span>, and <span class="math notranslate nohighlight">\(Var(\gamma) = Var(\epsilon)\)</span>.</p>
+<p>Now let’s look at the risk function for this model. Assume loss is squared error. This risk gets <em>decomposed</em> into bias and variance. The risk is the expected loss: <span class="math notranslate nohighlight">\(R(h) = E[L(h(z), \gamma)]\)</span>. The expectation is over some probability distribution- over ALL possible training sets <span class="math notranslate nohighlight">\(X,y\)</span>… AND over all possible values of test label <span class="math notranslate nohighlight">\(\gamma\)</span>. Remember <span class="math notranslate nohighlight">\(h\)</span> comes from a <em>probability distribution of hypotheses.</em> So the weights we get are distributed based on <span class="math notranslate nohighlight">\(X,y\)</span>.</p>
+<p>Substituting <span class="math notranslate nohighlight">\(L(h(z), y) = (h(z) - y)^2\)</span> and simplifying, we get:</p>
+<div class="math notranslate nohighlight">
+\[R(h) = E[h(z)^2] + E[\gamma^2] - 2E[\gamma h(z)]\]</div>
+<p>Note that <span class="math notranslate nohighlight">\(\gamma, h(z)\)</span> are independent: <span class="math notranslate nohighlight">\(h(z)\)</span> only depends on training data <span class="math notranslate nohighlight">\(X\)</span>, while <span class="math notranslate nohighlight">\(\gamma\)</span> only depends on test point <span class="math notranslate nohighlight">\(z\)</span>’s label.</p>
+<p>Finally, we get this beautiful equation, called the <strong>bias-variance decomposition of risk</strong>:</p>
+<div class="math notranslate nohighlight">
+\[R(h) = (E[h(z)]-g(z))^2 + Var(h(z)) + Var(\epsilon)\]</div>
+<p>The first term <span class="math notranslate nohighlight">\((E[h(z)]-g(z))^2\)</span> is the squared bias of the regression method. The second term <span class="math notranslate nohighlight">\(Var(h(z))\)</span> is the variance of the regression method. Finally, the third term <span class="math notranslate nohighlight">\(Var(\epsilon)\)</span> is the irreducible error.</p>
+</div>
+<div class="section" id="consequences-of-bias-variance-decomposition">
+<h2>Consequences of Bias-Variance Decomposition<a class="headerlink" href="#consequences-of-bias-variance-decomposition" title="Permalink to this headline">¶</a></h2>
+<p>Now, we can formally state underfitting and overfitting. <strong>Underfitting</strong> occurs when there’s just too much bias. <strong>Overfitting</strong> occurs when there’s too much variance.</p>
+<p>Training error reflects bias, but NOT variance. Test error reflects both, but it’s where variance rears its head.</p>
+<p>What happens to bias and variance as you get a bigger and bigger sample? As <span class="math notranslate nohighlight">\(n \to \infty\)</span>, variance goes to 0 in many distributions. Often this is true for bias as well, <em>if</em> your class of hypotheses is rich enough. In other words, if <span class="math notranslate nohighlight">\(h\)</span> can fit <span class="math notranslate nohighlight">\(g\)</span> exactly, bias goes to 0 as well. However, it is common that <span class="math notranslate nohighlight">\(h\)</span> just cannot fit <span class="math notranslate nohighlight">\(g\)</span> well enough- so the bias will be large (at most points).</p>
+<p>Adding a <em>good</em> feature reduces bias. A good feature has <em>predictive power</em> that adds to the features we already have. However, adding a bad feature (say, a random number) is bad but it’s rare that bias increases. Adding a feature, good or not, always increases variance. So we want to add features that <strong>reduce bias more than increases variance</strong>.</p>
+<p>Note irreducible error is inherent to measurements in the test set- error that more data cannot help. Note noise in the test set only affects irreducible error- it cannot affect bias/variance of our method. Conversely, noise in the training set only affects bias/variance and not irreducible error.</p>
+<p>Now, bias and variance aren’t something we can precisely measure. However, we can use <em>synthetic data</em> with specific known probability distributions, then we can compute bias and variance exactly. This gives us a way to test learning algorithms.</p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./Ch10"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="../Ch9/intro.html" title="previous page">Regression</a>
+    <a class='right-next' id="next-link" href="../Ch11/intro.html" title="next page">Regularization</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Kevin Moy<br/>
+        
+            &copy; Copyright 2020.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>

@@ -1,0 +1,455 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Anisotropic Gaussians &#8212; Machine Learning</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.e7340bb3dbd8dde6db86f25597f54a1b.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Regression" href="../Ch9/intro.html" />
+    <link rel="prev" title="Eigenvectors and Quadratic Forms" href="../Ch7/intro.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/ML_logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Machine Learning</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../intro.html">
+   Intro
+  </a>
+ </li>
+</ul>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notation_note.html">
+   A Quick Note on Notation and Terminology
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch1/intro.html">
+   Chapter 1: Classification and ML Basics
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/trainingandtesting.html">
+     Training and Testing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/comparingmodels.html">
+     Comparing Classification Models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/MNIST.html">
+     The MNIST dataset
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/validation.html">
+     Validation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/supervisedlearn.html">
+     Supervised vs. Unsupervised Learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/summary.html">
+     Summary
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch2/intro.html">
+   Chapter 2: Linear Classifiers
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/hyperplanes.html">
+     Behind the Decision Boundary
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/linearseparability.html">
+     Linear Separability of Data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/centroid.html">
+     The Centroid Method
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptron.html">
+     The Perceptron Algorithm
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptronp2.html">
+     Perceptron Algorithm, Part 2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptronp3.html">
+     The Perceptron Algorithm, Part 3
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/maxmargin.html">
+     Maximum Margin Classfier
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch3/intro.html">
+   Chapter 3: Support Vector Machines
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch4/intro.html">
+   Chapter 4: Optimization Problems
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch5/intro.html">
+   Chapter 5: Decision Theory
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch6/intro.html">
+   Chapter 6: Gaussian Discriminant Analysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch7/intro.html">
+   Chapter 7: Eigenvectors and Quadratic Forms
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Chapter 8: Anisotropic Gaussians
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch9/intro.html">
+   Chapter 9: Regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch10/intro.html">
+   Chapter 10: Statistical Justifications for Regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch11/intro.html">
+   Chapter 11: Regularization
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch12/intro.html">
+   Chapter 12: Decision Trees
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch12/intro2.html">
+     Lecture 15: Decision Trees Cont.
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch13/intro.html">
+   Chapter 13: Kernels
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch14/intro.html">
+   Chapter 14: Neural Networks
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch15/intro.html">
+   Chapter 15: Neurobiology and Variations on Neural Networks
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/Ch8/intro.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/kmoy1/ML_Book.git"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/kmoy1/ML_Book.git/issues/new?title=Issue%20on%20page%20%2FCh8/intro.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                    title="Fullscreen mode"><i
+                        class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i>
+            Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#qda">
+   QDA
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="anisotropic-gaussians">
+<h1>Anisotropic Gaussians<a class="headerlink" href="#anisotropic-gaussians" title="Permalink to this headline">¶</a></h1>
+<p>Today, we’ll take a look at <strong>anisotropic Gaussians</strong>: normal distributions where its isocontours are <em>not</em> perfect spheres (ellipsoidal). Another way to put this: the standard deviation is longer in certain directions. In this lecture, we’ll look at the consequences of this for LDA and QDA. Different directions, different variances.</p>
+<p>Recall the multivariate normal PDF is:</p>
+<div class="math notranslate nohighlight">
+\[f(x) = n(q(x))\]</div>
+<p>where <span class="math notranslate nohighlight">\(q(x) = (x-\mu)^T\Sigma^{-1}(x-\mu)\)</span> is the quadratic part of <span class="math notranslate nohighlight">\(f\)</span> mapping a d-dimensional vector to a scalar value, and <span class="math notranslate nohighlight">\(n(q)\)</span> is the outer part that is an <em>exponential map</em> that maps a scalar to another scalar, in this way:</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}n(q) = \frac{1}{\sqrt{(2\pi)^d |\Sigma|}}e^{-q/2}$$.\\Remember that $\Sigma$ is the covariance matrix of the normal distribution, and $|\Sigma|$ is the *determinant* of the covariance matrix. \\$\Sigma, \Sigma^{1/2}, \Sigma^{-1}$ all play a role in intuition about the multivariate normal distribution. The *eigendecomposition* of each one of these tell us about more of these.\\Let's start with the eigendecomposition of $\Sigma = V\Lambda V^T$, where $V$ is a square matrix with eigenvector columns, and $\Lambda$ is a diagonal matrix of $\Sigma$'s eigenvalues. In one dimension, $\sigma^2$ represents variance. In multiple dimensions, like this case, the **eigenvalues of the covariance matrix are the variances along the eigenvectors.** So we can label an eigenvalue $\Lambda_{ii} = \sigma_i^2$. \\If we want to think in terms of the width(s) of the multivariate Gaussian itself, we look at $\Sigma^{1/2}$, where the eigenvalues are the square roots of the variances, and the eigenvectors stay the same. The special thing about $\Sigma^{1/2}$ is that it **maps spherical isocontours to ellipsoidal isocontours** (of the normal PDF). $\Sigma^{1/2}$ plays the role of $A$, discussed last lecture. The **eigenvalues of $\Sigma^{1/2}$ are the widths/standard deviations of the ellipsoids:** $\sqrt{\Lambda_{ii}} = \sigma_i$. \\Let's look at the linear transformation being done here visually. We start with a quadratic function (basically $z^Tz = ||z||^2$) on the left, which has spherical isocontours. But the linear transformation $\Sigma^{1/2}$ gets the isocontours of $q(x) = (x-\mu)^T\Sigma^{-1}(x-\mu)$, which is the **quadratic form** of $\Sigma^{-1}$. \\**Isocontours of **$q(x)$ will also be isocontours of the Gaussian PDF. \\Lastly, $\Sigma^{-1}$ has eigenvalues $\frac{1}{\Lambda_{ii}}$. $\Sigma^{-1}$ is called the **precision matrix**. It is the quadratic form of the precision matrix that give the isocontours that make the normal distribution PDF. \\The second step in this process: once we understand the geometry of the quadratic form of the precision matrix, we run it through $n$, which is a **smooth and convex function**. After this, we get the shape of the Gaussian PDF! The isocontours are the same, but the **isovalues have changed**. In particular, $x$ that minimized $q(x)$ now maximizes the Gaussian PDF. For a weight vector, as we get infinitely far from the mean, $q(x)$ goes to infinity, but the Gaussian PDF goes to 0. \\## MLE for Anisotropic Gaussian Distribution\\Remember the premise of MLE: we are trying to estimate the parameters that maximize the likelihood that we see the observed data from our distribution. Given sample points $X_1, ..., X_n$, and class labels $y_1, ... , y_n$, we want to fit Gaussians **to each class** this time. We express our sample points as column vectors to fit the PDF definition. \\For QDA, we estimate the covariance matrix for class C as: \\$$\hat{\Sigma}_C = \frac{1}{n_C} \sum_{i:y_i=c}(X_i-\hat{\mu}_c)(X_i-\hat{\mu}_c)^T\end{aligned}\end{align} \]</div>
+<p>This is called the <strong>conditional covariance</strong> for points in class C. For each sample point in C, we sum an <strong>outer product matrix</strong>: specifically, subtract the sample mean and take the outer product of that vector with itself. We sum this over all the points in class <span class="math notranslate nohighlight">\(C\)</span>, then divide by the number of points in class <span class="math notranslate nohighlight">\(C\)</span>.</p>
+<p>For QDA, we calculate <span class="math notranslate nohighlight">\(\hat{\Sigma}_C\)</span> for each class C, as well as priors and means as usual. Once we have these parameters, we have the Gaussian PDF that is best fit to our sample points <span class="math notranslate nohighlight">\(X_i\)</span>. Then, once we have the distributions, doing QDA/LDA is straightforward.</p>
+<p>Note that <span class="math notranslate nohighlight">\(\hat{\Sigma}_C\)</span> is a <strong>sample covariance matrix</strong>: it is always positive semidefinite, but not necessarily positive definite (can have some eigenvalues of 0, which give it 0-length directions). <strong>If it’s not positive definite, it doesn’t actually define a true normal distribution.</strong> This will result in linear isocontours instead of ellipsoidal!</p>
+<p>What about LDA? We know that <span class="math notranslate nohighlight">\(\Sigma\)</span> is constant for all classes. The sample covariance matrix in LDA, then, is:</p>
+<div class="math notranslate nohighlight">
+\[\hat{\Sigma} = \frac{1}{n}\sum_c \sum_{i:y_i=c}(X_i-\hat{\mu}_c)(X_i-\hat{\mu}_c)^T\]</div>
+<p>So what we’re basically doing is taking a weighted average of the covariance matrices for each class, weighted by the number of points in that class. This is called the <strong>pooled within-class covariance matrix</strong>. The “pooled” comes from the fact that we’re summing over all classes. <strong>The usage of within-class means <span class="math notranslate nohighlight">\(\mu_C\)</span> tend to make covariance smaller.</strong> Once we figure out this matrix, we just use it for each class.</p>
+<div class="section" id="qda">
+<h2>QDA<a class="headerlink" href="#qda" title="Permalink to this headline">¶</a></h2>
+<p>So now that we’ve used MLE to get our best-fit Gaussians, now comes prediction.</p>
+<p>The big idea, of course, is to choose class <span class="math notranslate nohighlight">\(C\)</span> that maximizes the posterior, or maximizes <span class="math notranslate nohighlight">\(f(X=x|Y=C)\pi_C\)</span> : the product of the class-conditional density and prior. In QDA, this is equivalent to maximizing the <strong>quadratic discriminant function</strong> <span class="math notranslate nohighlight">\(Q_C(x)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[Q_C(x) = \ln((\sqrt{2\pi})^df_c(x)\pi_c)\]</div>
+<div class="math notranslate nohighlight">
+\[= -\frac{1}{2}(x-\hat{\mu_c})^T\Sigma^{-1}(x-\hat{\mu_c})-\frac{1}{2}\ln|\Sigma_C|+\ln\pi_C\]</div>
+<p>So we just compute for each class and pick the one with the highest discriminant function.</p>
+<p>In the two class case, it’s even simpler: our decision function is <span class="math notranslate nohighlight">\(Q_C(x) - Q_D(x)\)</span> which is quadratic. However, this may be <strong>indefinite because we are subtracting 2 PSD matrices</strong>. The Bayes decision boundary will always be a solution to a multivariate quadratic. We can find the posterior probability <span class="math notranslate nohighlight">\(P(Y|X) = s(Q_C(x) - Q_D(x))\)</span>.</p>
+<p>Let’s take a look at this graphically. Below is a graph of the two PDFs that we fit to our classes, <span class="math notranslate nohighlight">\(f_C(x)\)</span> and <span class="math notranslate nohighlight">\(f_D(x)\)</span> (x,y axes are features, z axis is PDF value).</p>
+<img src="C:\Users\Kevin\AppData\Roaming\Typora\typora-user-images\image-20210317175227382.png" alt="image-20210317175227382" style="zoom: 50%;" />
+<p>This actually has a <strong>hyperbolic decision boundary</strong>- it is possible since quadrics in 2D are conic sections. This means that the set of points in predicting a class isn’t connected- it’s in 2 disjoint regions!</p>
+<p>Now, if we plot the decision function <span class="math notranslate nohighlight">\(Q_C(x) - Q_D(x)\)</span>, we see it is indeed a hyperplane:</p>
+<img src="C:\Users\Kevin\AppData\Roaming\Typora\typora-user-images\image-20210317175412116.png" alt="image-20210317175412116" style="zoom:33%;" />  
+<p>The decision boundary is much clearer here: we don’t need the Gaussian PDFs to find it here. Also, since it’s quadratic, the boundary can be computed MUCH more quickly.</p>
+<p>If we want the posterior probability, i.e. the probability our prediction is correct, we just pass our decision function through the sigmoid function as <span class="math notranslate nohighlight">\(s(Q_C(x) - Q_D(x))\)</span>.</p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./Ch8"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="../Ch7/intro.html" title="previous page">Eigenvectors and Quadratic Forms</a>
+    <a class='right-next' id="next-link" href="../Ch9/intro.html" title="next page">Regression</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Kevin Moy<br/>
+        
+            &copy; Copyright 2020.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>
