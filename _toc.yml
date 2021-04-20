@@ -45,8 +45,12 @@
   title: "Chapter 13: Kernels"
 - file: Ch14/intro
   title: "Chapter 14: Neural Networks"
+  sections:
+    - file: Ch14/NNexample.ipynb
 - file: Ch15/intro
   title: "Chapter 15: Neurobiology and Variations on Neural Networks"
+  sections:
+    - file: Ch15/MCQ-test.ipynb
 
 
 
