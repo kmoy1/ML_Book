@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Support Vector Machines &#8212; Machine Learning</title>
+    <title>Test Assessment. &#8212; Machine Learning</title>
     
   <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
@@ -46,8 +46,6 @@
     <script src="../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -57,8 +55,7 @@
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Optomization" href="../Ch4/intro.html" />
-    <link rel="prev" title="Maximum Margin Classfier" href="../Ch2/maxmargin.html" />
+    <link rel="prev" title="Neurobiology and Variations on Neural Networks" href="intro.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -184,8 +181,8 @@
   <i class="fas fa-chevron-down">
   </i>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch3/intro.html">
    Chapter 3: Support Vector Machines
   </a>
  </li>
@@ -254,12 +251,12 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../Ch15/intro.html">
+  <a class="reference internal" href="intro.html">
    Chapter 15: Neurobiology and Variations on Neural Networks
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../Ch15/js-test.html">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    DEV ONLY: Test Interactive
   </a>
  </li>
@@ -303,7 +300,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/Ch3/intro.md"><button type="button"
+        <a class="dropdown-buttons" href="../_sources/Ch15/js-test.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -323,7 +320,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/kmoy1/ML_Book.git/issues/new?title=Issue%20on%20page%20%2FCh3/intro.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/kmoy1/ML_Book.git/issues/new?title=Issue%20on%20page%20%2FCh15/js-test.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -352,9 +349,82 @@
         
               <div>
                 
-  <div class="section" id="support-vector-machines">
-<h1>Support Vector Machines<a class="headerlink" href="#support-vector-machines" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="test-assessment">
+<h1>Test Assessment.<a class="headerlink" href="#test-assessment" title="Permalink to this headline">¶</a></h1>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<div id="MCQ-question">
+    <div id="q-block">
+        <div id="q-text">
+            Which clustering algorithms permit you to decide the number of clusters after the clustering is done?
+        </div>
+        <div id="q-subtext">
+            <p></p>
+        </div>
+        <hr>
+    </div>
+    <div id='MCQ-block-1' style='padding: 10px;'>
+        <label for='choice-1' style=' padding: 5px;'>
+        <input type='radio' name='option' id='choice-1' style='transform: scale(1.6); margin-right: 10px; vertical-align: middle; margin-top: -2px;' />
+        k-means clustering
+        </label>
+        <span id='result-1'></span>
+    </div>
+    <div id='MCQ-block-2' style='padding: 10px;'>
+        <label for='choice-2' style=' padding: 5px;'>
+        <input type='radio' name='option' id='choice-2' style='transform: scale(1.6); margin-right: 10px; vertical-align: middle; margin-top: -2px;' />
+        a k-d tree used for divisive clustering
+        </label>
+        <span id='result-2'></span>
+    </div>
+    <div id='MCQ-block-3' style='padding: 10px;'>
+        <label for='choice-3' style=' padding: 5px;'>
+        <input type='radio' name='option' id='choice-3' style='transform: scale(1.6); margin-right: 10px; vertical-align: middle; margin-top: -2px;' />
+        agglomerative clustering with single linkage
+    </label>
+    <span id='result-3'></span>
+    </div>
+    <div id='MCQ-block-4' style='padding: 10px;'>
+        <label for='choice-4' style=' padding: 5px;'>
+        <input type='radio' name='option' id='choice-4' style='transform: scale(1.6); margin-right: 10px; vertical-align: middle; margin-top: -2px;' />
+        spectral graph clustering with 3 eigenvectors
+        </label>
+        <span id='result-4'></span>
+    </div>
+    <button type='button' onclick='checkAnswer()'>Submit</button>
 </div>
+<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+<script>
+    console.log("Started Script.");
+    function importQuestions(){
+        console.log(questions);
+    }
+    function checkAnswer() {
+        if (document.getElementById('choice-1').checked) {
+        document.getElementById('MCQ-block-1').style.border = '3px solid red'
+        document.getElementById('result-1').style.color = 'red'
+        document.getElementById('result-1').innerHTML = 'Incorrect!'
+        }
+        if (document.getElementById('choice-2').checked) {
+        document.getElementById('MCQ-block-2').style.border = '3px solid limegreen'
+        document.getElementById('result-2').style.color = 'limegreen'
+        document.getElementById('result-2').innerHTML = 'Correct!'
+        }
+        if (document.getElementById('choice-3').checked) {
+        document.getElementById('MCQ-block-3').style.border = '3px solid limegreen'
+        document.getElementById('result-3').style.color = 'limegreen'
+        document.getElementById('result-3').innerHTML = 'Correct!'
+        }
+        if (document.getElementById('choice-4').checked) {
+        document.getElementById('MCQ-block-4').style.border = '3px solid red'
+        document.getElementById('result-4').style.color = 'red'
+        document.getElementById('result-4').innerHTML = 'Incorrect!'
+        }
+    }
+</script>
+<script id="MathJax-script" async
+src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js">
+</script>
+</div></div>
 
     <script type="text/x-thebe-config">
     {
@@ -369,7 +439,7 @@
         },
         kernelOptions: {
             kernelName: "python3",
-            path: "./Ch3"
+            path: "./Ch15"
         },
         predefinedOutput: true
     }
@@ -381,8 +451,7 @@
         
         <div class='prev-next-bottom'>
             
-    <a class='left-prev' id="prev-link" href="../Ch2/maxmargin.html" title="previous page">Maximum Margin Classfier</a>
-    <a class='right-next' id="next-link" href="../Ch4/intro.html" title="next page">Optomization</a>
+    <a class='left-prev' id="prev-link" href="intro.html" title="previous page">Neurobiology and Variations on Neural Networks</a>
 
         </div>
         
