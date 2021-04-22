@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Summary &#8212; Machine Learning</title>
+    <title>Neural Network Backpropagation: An Example &#8212; Machine Learning</title>
     
   <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
@@ -46,8 +46,6 @@
     <script src="../_static/copybutton.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
     <script >
         const thebe_selector = ".thebe"
@@ -58,8 +56,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Linear Classifiers" href="../Ch2/intro.html" />
-    <link rel="prev" title="Supervised vs. Unsupervised Learning" href="supervisedlearn.html" />
+    <link rel="next" title="Neurobiology and Variations on Neural Networks" href="../Ch15/intro.html" />
+    <link rel="prev" title="Neural Networks" href="intro.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -102,38 +100,38 @@
    A Quick Note on Notation and Terminology
   </a>
  </li>
- <li class="toctree-l1 current active collapsible-parent">
-  <a class="reference internal" href="intro.html">
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch1/intro.html">
    Chapter 1: Classification and ML Basics
   </a>
-  <ul class="current collapse-ul">
+  <ul class="collapse-ul">
    <li class="toctree-l2">
-    <a class="reference internal" href="trainingandtesting.html">
+    <a class="reference internal" href="../Ch1/trainingandtesting.html">
      Training and Testing
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="comparingmodels.html">
+    <a class="reference internal" href="../Ch1/comparingmodels.html">
      Comparing Classification Models
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="MNIST.html">
+    <a class="reference internal" href="../Ch1/MNIST.html">
      The MNIST dataset
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="validation.html">
+    <a class="reference internal" href="../Ch1/validation.html">
      Validation
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="supervisedlearn.html">
+    <a class="reference internal" href="../Ch1/supervisedlearn.html">
      Supervised vs. Unsupervised Learning
     </a>
    </li>
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/summary.html">
      Summary
     </a>
    </li>
@@ -249,13 +247,13 @@
    Chapter 13: Kernels
   </a>
  </li>
- <li class="toctree-l1 collapsible-parent">
-  <a class="reference internal" href="../Ch14/intro.html">
+ <li class="toctree-l1 current active collapsible-parent">
+  <a class="reference internal" href="intro.html">
    Chapter 14: Neural Networks
   </a>
-  <ul class="collapse-ul">
-   <li class="toctree-l2">
-    <a class="reference internal" href="../Ch14/NNexample.html">
+  <ul class="current collapse-ul">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
      Neural Network Backpropagation: An Example
     </a>
    </li>
@@ -276,11 +274,6 @@
   </ul>
   <i class="fas fa-chevron-down">
   </i>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../Ch15/js-test.html">
-   DEV ONLY: Test Interactive
-  </a>
  </li>
 </ul>
 
@@ -322,9 +315,9 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/Ch1/summary.md"><button type="button"
+        <a class="dropdown-buttons" href="../_sources/Ch14/NNexample.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.md</button></a>
+                data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
             onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
@@ -342,7 +335,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/kmoy1/ML_Book.git/issues/new?title=Issue%20on%20page%20%2FCh1/summary.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/kmoy1/ML_Book.git/issues/new?title=Issue%20on%20page%20%2FCh14/NNexample.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -358,6 +351,23 @@
 
             <!-- Launch buttons -->
 
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/kmoy1/ML_Book.git/master?urlpath=tree/docs/Ch14/NNexample.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
         </div>
 
         <!-- Table of contents -->
@@ -371,11 +381,9 @@
         
               <div>
                 
-  <div class="section" id="summary">
-<h1>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h1>
-<p>The core of machine learning comes through finding patterns in data- sometimes patterns we can’t even see. Such pattern-finding can be delegated into two different groups: classification and regression. In machine learning, we essentially are following algorithms that will attempt to make “smart” predictions on unseen data by learning from examples, much similar to how humans do.</p>
-<p>In a standard dataset, each data point consists of features and labels. Features are information about someone that’s known beforehand, and labels are the thing we try to predict. For example, a single datapoint can represent a person, their features measured could be income and credit balance, and label as a binary number indicating whether that person is a credit risk or not.</p>
-<p>Making a quality prediction model from a given dataset consists of three phases: training, validation, and testing. Training is used for the initial learning of weights that uniquely create our model/predictor. Testing is used to classify our finalized model. And in between, validation is used for tuning various hyperparameters of the model- “settings” that aren’t learned by the data we have, but are instead set arbitrarily by humans. The very best machine learning models predict best on the data that hasn’t been seen yet and, in the real world, is most likely unknown until a later date. Think stocks, sports betting, business decisions and projections, etc- the people who are the most successful are those who make the best decisions <em>before the fact</em>. It’s a huge world out there and machine learning is a part of almost all of it.</p>
+  <div class="section" id="neural-network-backpropagation-an-example">
+<h1>Neural Network Backpropagation: An Example<a class="headerlink" href="#neural-network-backpropagation-an-example" title="Permalink to this headline">¶</a></h1>
+<p>Let’s walk through an example of how backpropagation works visually.</p>
 </div>
 
     <script type="text/x-thebe-config">
@@ -391,7 +399,7 @@
         },
         kernelOptions: {
             kernelName: "python3",
-            path: "./Ch1"
+            path: "./Ch14"
         },
         predefinedOutput: true
     }
@@ -403,8 +411,8 @@
         
         <div class='prev-next-bottom'>
             
-    <a class='left-prev' id="prev-link" href="supervisedlearn.html" title="previous page">Supervised vs. Unsupervised Learning</a>
-    <a class='right-next' id="next-link" href="../Ch2/intro.html" title="next page">Linear Classifiers</a>
+    <a class='left-prev' id="prev-link" href="intro.html" title="previous page">Neural Networks</a>
+    <a class='right-next' id="next-link" href="../Ch15/intro.html" title="next page">Neurobiology and Variations on Neural Networks</a>
 
         </div>
         

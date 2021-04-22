@@ -27,9 +27,15 @@ def create_multipleChoice_widget(description, options, correct_answer):
     def check_selection(b):
         a = int(alternativ.value)
         if a==correct_answer_index:
+<<<<<<< HEAD
             s = "Correct." 
         else:
             s = "Incorrect"
+=======
+            s = '\x1b[6;30;42m' + "Correct." + '\x1b[0m' +"\n" #green color
+        else:
+            s = '\x1b[5;30;41m' + "Incorrect. " + '\x1b[0m' +"\n" #red color
+>>>>>>> test-MCQ
         with feedback_out:
             clear_output()
             print(s)
@@ -43,18 +49,28 @@ def create_multipleChoice_widget(description, options, correct_answer):
     
 
 Q1 = create_multipleChoice_widget('What is my name?', ['Kevin','Devin','Seven'], 'Kevin')
+<<<<<<< HEAD
 Q1
+=======
+>>>>>>> test-MCQ
 
 import plotly.io as pio
 import plotly.express as px
 import plotly.offline as py
+<<<<<<< HEAD
+=======
+import pandas
+>>>>>>> test-MCQ
 
 df = px.data.iris()
 fig = px.scatter(df, x="sepal_width", y="sepal_length", color="species", size="sepal_length")
 fig
 
+<<<<<<< HEAD
 
 
 from IPython.core.display import display, HTML
 display(HTML('<h1>Hello, world!</h1>'))
 
+=======
+>>>>>>> test-MCQ

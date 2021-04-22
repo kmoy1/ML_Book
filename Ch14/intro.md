@@ -3,7 +3,7 @@ Neural Networks
 
 ## Intro
 
-The shining star of learning algorithms are neural networks. Neural networks can do both classification and regression. 
+The shining star of learning algorithms are neural networks, and it's likely that you've heard of them in some form before this chapter. Neural networks are extremely powerful in that they can do both classification and regression, and even learn their own features. 
 
 Neural networks are a culmination of the topics we've discussed in this book so far: 
 
@@ -13,11 +13,11 @@ Neural networks are a culmination of the topics we've discussed in this book so 
 - Stochastic Gradient Descent
 - Lifting sample points to a higher-dimensional feature space
 
-Neural nets have an added super cool benefit of being able to **learn features on their own**. 
-
 Let's go back a few chapters: all the way back to perceptrons. Remember that perceptrons were basically machines that came up with a linear decision boundary. Of course, there are inherent limitations to what a perceptron can do, particularly XOR:
 
-<img src="C:\Users\Kevin\AppData\Roaming\Typora\typora-user-images\image-20210418152811444.png" alt="image-20210418152811444" style="zoom:33%;" />
+```{image} pictures/XOR.png
+:width: 400px
+```
 
 Here, we simply convert the XOR truth table to four points in 2-dimensional (binary) feature space. Blue points correspond to 1, while white points correspond to 0? Note that no matter how hard you try, you cannot find a linear separator that separates blue from white. 
 
@@ -93,9 +93,114 @@ Multiply that by the number of weights. So we get runtime $O(\text{# edges}^2)$,
 
 ## Computing Gradients for Arithmetic Expressions
 
-The gradient of a neural network is a vector of all the partial gradients with respect to each input: 
+Before we delve into the wonderful process of backpropagation, let us first view calculating the gradient for arithmetic expressions. 
 
-## Backpropagation
+First, say we have the simple network below: 
 
-Backpropagation is the second step involved in training the weights of neural networks, via calculating the gradient of the *error function* with respect to the neural network's weights. It utilizes dynamic programming to calculate ALL these gradients (partial derivatives) in runtime linear to the number of weights. 
+```{image} pictures/simpleNN1.png
+```
 
+Notice we take in 3 scalar inputs $(a,b,c)$, perform a series of operations on them, and produce a scalar output $f$. 
+
+In order to do gradient descent, we must compute the gradient of $f$ with respect to our inputs $a,b,c$: $\nabla f = \begin{bmatrix} \frac{\partial f}{\partial a} \\ \frac{\partial f}{\partial b} \\ \frac{\partial f}{\partial c} \end{bmatrix}$. 
+
+In order to find such partial derivatives, we must do things one layer at a time and apply the chain rule. Let's start at $\frac{\partial f}{\partial a}$, and use $d$ as an intermediary: 
+
+$$
+\frac{\partial f}{\partial a} = \frac{\partial f}{\partial d} \cdot \frac{\partial d}{\partial a}
+$$
+
+We can immediately calculate one of these terms: we know that $\frac{\partial d}{\partial a} = \frac{\partial}{\partial a}(a+b) = 1$. Additionally, we'll note that $\frac{\partial d}{\partial b} = 1$ as we'll use this later. So what's left now is to calculate a partial derivative that is _one layer closer_: $\frac{\partial f}{\partial a} = \frac{\partial f}{\partial d} * 1$. We can't really calculate this at the moment, so we _save_ it as a subtask for now, and we'll do some other calculations to hopefully be able to calculate it later. Note this is very characteristic of dynamic programming: in fact, that is exactly what this process is!
+
+So now, we move on to $\frac{\partial f}{\partial b} = \frac{\partial f}{\partial d} \cdot \frac{\partial d}{\partial b} = \frac{\partial f}{\partial d}$. Still no good. On to the next one.  
+
+Finally, we calculate $\frac{\partial f}{\partial c}$. Viewing downstream, we see that the $e$ node, so we'll use $e$ as an intermediary this time: 
+
+$$
+\frac{\partial f}{\partial c} = \frac{\partial f}{\partial e} \cdot \frac{\partial e}{\partial c}.
+$$
+
+Again, we can compute $\frac{\partial e}{\partial c} = \frac{\partial}{\partial c}cd = d$. We'll also note that $\frac{\partial}{\partial d}cd = c$.
+
+So in all, we have established our base equations, starting from the input:
+
+$$ 
+\frac{\partial f}{\partial a} = \frac{\partial f}{\partial d} \\
+\frac{\partial f}{\partial b} = \frac{\partial f}{\partial d} \\ 
+\frac{\partial f}{\partial c} = d \cdot \frac{\partial f}{\partial e}
+$$
+
+So now all we're left with is calculating $\frac{\partial f}{\partial d}$ and $\frac{\partial f}{\partial e}$. The way to do this is just to __move downstream__: instead of our "starting nodes" being a,b,c, we just treat our starting nodes as d,e and derive some more equations from there!
+
+So we repeat the same exact process: find the intermediary node and use the chain rule. Doing this gives us equations
+
+$$ 
+\frac{\partial f}{\partial d} = \frac{\partial f}{\partial e}\frac{\partial e}{\partial d} = c \cdot \frac{\partial f}{\partial e} \\
+\frac{\partial f}{\partial e} = \frac{\partial f}{\partial f}\frac{\partial f}{\partial e} = 2e
+$$
+
+Hurray! We finally have a partial derivative for one of the weights. We can now utilize the __backpropagation__ process and substitute everything from output layer to input layer, which give us our final gradients:
+
+$$ 
+\frac{\partial f}{\partial e} = 2e \\
+\frac{\partial f}{\partial d} = 2ce \\
+\frac{\partial f}{\partial a} = 2ce \\
+\frac{\partial f}{\partial b} = 2ce \\ 
+\frac{\partial f}{\partial c} = 2de
+$$
+
+So we have successfully used dynamic programming to solve the gradients at each layer. So now we have our gradient $\nabla f$ with respect to our input weights!
+
+That was quite a mouthful, so let's recap. Each value that we calculate $z$ gives a partial derivative of the form $\frac{\partial f}{\partial z} = \frac{\partial f}{\partial n} \cdot \frac{\partial n}{\partial z}$, where $f$ is the output of the network and $n$ is a _node one layer downstream of $z$_: in other words, $z$ is an input to $n$. We have a forward pass and a backwards pass. In the forwards pass, where we go left to right, we calculate $\frac{\partial n}{\partial z}$: the intermediary partial derivatives are calculated. In the backwards pass, where we go in the reverse direction from right to left, we compute $\frac{\partial f}{\partial n}$. Information from the right end of the network is literally propagated backwards to the left (back-propagation). 
+
+```{note}
+In practice, __backpropagation__ usually refers to the entire process: both the forward and backwards pass. Don't get confused.
+```
+
+## Extending to Single-Output-Multiple Input
+
+Let's extend this process to when a node's output acts as multiple inputs in the next layer. Let's take a look at an example network that does this:
+
+```{image} pictures/simpleNN2.png
+```
+
+Note that each input $w_1, w_2, w_3$ now serves as inputs to MULTIPLE downstream nodes. Let's assume $h_1 = X_{11}w_1 + X_{22}w_2 + w_3$, and $h_2 = X_{21}w_1 + X_{22	}w_2 + w_3$. The outputs $z = (z_1, z_2)$ are input into a loss function $L(z,y) = ||z-y||^2$. 
+
+How can we do backpropagation here? Well, the goal stays the same: we want to calculate the gradient of $L$ as $\nabla L = \begin{bmatrix} \frac{\partial L}{\partial w_1} \\ \frac{\partial L}{\partial w_2} \\ \frac{\partial L}{\partial w_3} \end{bmatrix}$. However, note that each of the input weights influences the loss between hidden nodes $z_1$ AND $z_2$. So now we have a sort of multivariate system of differential equations. 
+
+We know that 
+
+$$
+\frac{\partial L}{\partial w_1} = \frac{\partial L}{\partial z_1} \cdot \frac{\partial z_1}{\partial w_1} + \frac{\partial L}{\partial z_2} \cdot \frac{\partial z_2}{\partial w_1} = X_{11}\frac{\partial L}{\partial z_1} + X_{21}\frac{\partial L}{\partial z_2}
+$$
+
+I'll leave it to you to follow the logic and write out the corresponding expressions for $\frac{\partial L}{\partial w_2}$ and $\frac{\partial L}{\partial w_3}$. Note that $w_3$ is our bias term, so we know that $\frac{\partial z_1}{\partial w_3} = \frac{\partial z_1}{\partial w_3} = 1$. 
+
+Following the downstream forward pass process, we then find $\frac{\partial L}{\partial z_1} = 2(z_1 - y_1)$, and $\frac{\partial L}{\partial z_2} = 2(z_2 - y_2)$. Now during the backwards pass, we do the same backpropagation: except now these values go to _three_ places instead of just one like before. 
+
+Remember that $\frac{\partial}{\partial \tau}L(z_1(\tau), z_2(\tau)) = \nabla_z L \cdot \frac{\partial}{\partial \tau} z$. We need this equation for backpropagation. 
+
+So the fact that we are utilizing dynamic programming in these passes allows us to reduce runtime from $O(\text{# edges}^2)$ to $O(\text{# edges})$: a _huge_ improvement.
+
+## The Backpropagation Algorithm
+
+Let's formalize this algorithm as it's used in neural networks. The backpropagation algorithm is a DP algorithm to compute the gradients for neural network gradient descent, in runtime linear to the number of weights (edges). We represent $V_i^T$ as row $i$ of a weight matrix $V$. 
+
+Remember that the output value of the $i$-th node in the hidden layer is denoted as $h_i = s(V_i \cdot x)$, where $s$ is a logistic activation function. This means that the gradient for a hidden layer node $\nabla_{V_i}h_i = s'(V_i \cdot x)x$ by the chain rule. We can further simplify this down to $\nabla_{V_i}h_i = h_i(1-h_i)x$. 
+
+We also need gradients for the output layer node with respect to our weights. Let's assume we use a logistic activation function for outputs too (but this doesn't have to be the case). Let $z_j = s(W_j \cdot h)$ be the output of the $j$-th output node. This means $\nabla_{W_j}z_j = s'(W_j \cdot h)h = z_j(1-z_j)h$.
+
+Finally, we also need to calculate the gradient of the output layer with respect to the hidden layer weights- completing the connection. We calculate $\nabla_h z_j = z_j(1-z_j)W_j$. 
+
+<!-- TODO: Run through neural network example, at 1:20:24 in lecture -->
+
+Let us now reformulate our neural network, where our inputs are the weight matrices $W,V$ instead of individual weights: 
+
+```{image} pictures/weightsNN.png
+```
+
+Now for our forward pass: we are calculating the gradients with respect to $W,V$: we want $\nabla_{V} L$ and $\nabla_{W} L$. Specifically, we can calculate $\nabla_{W_j}L = \frac{\partial L}{\partial z_j} z_j(1-z_j)h$ as well as $\nabla_{V_i}L = \frac{\partial L}{\partial h_i} h_i(1-h_i)x$.
+
+Now in the backwards pass, we move backwards to plug in $\nabla_z L = 2(z-y)$, and $\nabla_h L = \sum_{j}z_j(1-z_j)\nabla_z L W_j$, which we plug in as $\nabla_h L = \sum_{j}z_j(1-z_j) \cdot 2(z-y) W_j$. 
+
+So we've found the gradient of the neural network using backpropagation for a general neural network! 

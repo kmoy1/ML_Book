@@ -17,6 +17,7 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
+<<<<<<< HEAD
 Q1 = create_multipleChoice_widget('What is my name?', ['Kevin','Devin','Seven'], 'Kevin')
 disppl
 ------------------
@@ -29,4 +30,33 @@ disppl
 [0m
 [0;31mNameError[0m: name 'disppl' is not defined
 NameError: name 'disppl' is not defined
+=======
+import plotly.io as pio
+import plotly.express as px
+import plotly.offline as py
+
+df = px.data.iris()
+fig = px.scatter(df, x="sepal_width", y="sepal_length", color="species", size="sepal_length")
+fig
+------------------
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mImportError[0m                               Traceback (most recent call last)
+[0;32m<ipython-input-4-42caf4220f91>[0m in [0;36m<module>[0;34m[0m
+[1;32m      1[0m [0;32mimport[0m [0mplotly[0m[0;34m.[0m[0mio[0m [0;32mas[0m [0mpio[0m[0;34m[0m[0;34m[0m[0m
+[0;32m----> 2[0;31m [0;32mimport[0m [0mplotly[0m[0;34m.[0m[0mexpress[0m [0;32mas[0m [0mpx[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m      3[0m [0;32mimport[0m [0mplotly[0m[0;34m.[0m[0moffline[0m [0;32mas[0m [0mpy[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      4[0m [0;34m[0m[0m
+[1;32m      5[0m [0mdf[0m [0;34m=[0m [0mpx[0m[0;34m.[0m[0mdata[0m[0;34m.[0m[0miris[0m[0;34m([0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m~/.local/lib/python3.8/site-packages/plotly/express/__init__.py[0m in [0;36m<module>[0;34m[0m
+[1;32m      8[0m [0mpd[0m [0;34m=[0m [0moptional_imports[0m[0;34m.[0m[0mget_module[0m[0;34m([0m[0;34m"pandas"[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      9[0m [0;32mif[0m [0mpd[0m [0;32mis[0m [0;32mNone[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[0;32m---> 10[0;31m     raise ImportError(
+[0m[1;32m     11[0m         """\
+[1;32m     12[0m Plotly express requires pandas to be installed."""
+
+[0;31mImportError[0m: Plotly express requires pandas to be installed.
+ImportError: Plotly express requires pandas to be installed.
+>>>>>>> test-MCQ
 
