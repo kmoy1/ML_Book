@@ -47,9 +47,10 @@
 
 <script>
     console.log("Started Script.");
-    function importQuestions(){
-        console.log(questions);
-    }
+    $.getJSON("https://my-json-server.typicode.com/kmoy1/ML_book/db", function(data){
+        questions = data[0];
+
+    });
     function checkAnswer() {
         if (document.getElementById('choice-1').checked) {
         document.getElementById('MCQ-block-1').style.border = '3px solid red'
