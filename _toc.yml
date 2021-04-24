@@ -49,13 +49,8 @@
     - file: Ch14/NNexample.ipynb
 - file: Ch15/intro
   title: "Chapter 15: Neurobiology and Variations on Neural Networks"
-<<<<<<< HEAD
 - file: Ch15/js-test
   title: "DEV ONLY: Test Interactive"
-=======
-  sections:
-    - file: Ch15/MCQ-test.ipynb
->>>>>>> test-MCQ
 
 
 
