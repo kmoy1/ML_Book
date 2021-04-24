@@ -1,7 +1,7 @@
 {
     "questions": [
         {
-            "name": "Question 1",
+            "name": "Question1",
             "type": "MCQ",
             "qtext": "1+1 = ?",
             "choices": ["1", "2", "3", "4"], 
@@ -9,7 +9,7 @@
             "correctlabel": "B"
         },
         {
-            "name": "Question 2",
+            "name": "Question2",
             "type": "MCQ",
             "qtext": "2+2 = ?",
             "choices": ["1", "2", "3", "4"], 
