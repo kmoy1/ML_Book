@@ -2,75 +2,95 @@
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-<div id="MCQ-question">
-    <div id="q-block">
-        <div id="q-text">
-            Which clustering algorithms permit you to decide the number of clusters after the clustering is done?
-        </div>
-        <div id="q-subtext">
-            <p></p>
-        </div>
-        <hr>
-    </div>
-    <div id='MCQ-block-1' style='padding: 10px;'>
-        <label for='choice-1' style=' padding: 5px;'>
-        <input type='radio' name='option' id='choice-1' style='transform: scale(1.6); margin-right: 10px; vertical-align: middle; margin-top: -2px;' />
-        k-means clustering
-        </label>
-        <span id='result-1'></span>
-    </div>
-    <div id='MCQ-block-2' style='padding: 10px;'>
-        <label for='choice-2' style=' padding: 5px;'>
-        <input type='radio' name='option' id='choice-2' style='transform: scale(1.6); margin-right: 10px; vertical-align: middle; margin-top: -2px;' />
-        a k-d tree used for divisive clustering
-        </label>
-        <span id='result-2'></span>
-    </div>
-    <div id='MCQ-block-3' style='padding: 10px;'>
-        <label for='choice-3' style=' padding: 5px;'>
-        <input type='radio' name='option' id='choice-3' style='transform: scale(1.6); margin-right: 10px; vertical-align: middle; margin-top: -2px;' />
-        agglomerative clustering with single linkage
-    </label>
-    <span id='result-3'></span>
-    </div>
-    <div id='MCQ-block-4' style='padding: 10px;'>
-        <label for='choice-4' style=' padding: 5px;'>
-        <input type='radio' name='option' id='choice-4' style='transform: scale(1.6); margin-right: 10px; vertical-align: middle; margin-top: -2px;' />
-        spectral graph clustering with 3 eigenvectors
-        </label>
-        <span id='result-4'></span>
-    </div>
-    <button type='button' onclick='checkAnswer()'>Submit</button>
+<style>
+input {
+    transform: scale(1.6); 
+    margin-right: 10px; 
+    vertical-align: middle; 
+    margin-top: -2px;
+}
+.MCQ-choice {
+    padding: 10px;
+}
+label {
+    padding: 5px;
+}
+</style>
+
+<div id="Question1" class="MCQ">
 </div>
 
 <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
 
 <script>
-    console.log("Started Script.");
+    var q_bank;
     $.getJSON("https://my-json-server.typicode.com/kmoy1/ML_book/db", function(data){
-        questions = data[0];
-
+        questions = data["questions"];
+        q_bank = data["questions"]
+        // Populate question text + choices. 
+        questions.forEach(question =>{
+            if ($(`div#${question.name}`)){
+                $(`div#${question.name}`).html(`<div class="q-text">
+                                                    </div>
+                                                    <div class="q-subtext">
+                                                    </div>
+                                                    <hr>
+                                                    <div class="MCQ-choice">
+                                                        <label>
+                                                        <input type='radio' name='option'/>
+                                                        </label>
+                                                        <span></span>
+                                                    </div>
+                                                    <div class="MCQ-choice">
+                                                        <label>
+                                                        <input type='radio' name='option'/>
+                                                        </label>
+                                                        <span></span>
+                                                    </div>
+                                                    <div class="MCQ-choice">
+                                                        <label>
+                                                        <input type='radio' name='option'/>
+                                                        </label>
+                                                        <span></span>
+                                                    </div>
+                                                    <div class="MCQ-choice">
+                                                        <label>
+                                                        <input type='radio' name='option'/>
+                                                        </label>
+                                                        <span></span>
+                                                    </div>
+                                                    <button type='button'>Submit</button>`
+                );
+                $(`div#${question.name} .q-text`).html(`${question.qtext}`);
+                $(`div#${question.name} .MCQ-choice label`).each(function(i) {
+                    this.innerHTML += `${question.choices[i]}`;
+                });
+                $(`div#${question.name} button`).bind('click', function(){
+                    checkAnswer2(question.name);
+                })
+            }
+        });
     });
-    function checkAnswer() {
-        if (document.getElementById('choice-1').checked) {
-        document.getElementById('MCQ-block-1').style.border = '3px solid red'
-        document.getElementById('result-1').style.color = 'red'
-        document.getElementById('result-1').innerHTML = 'Incorrect!'
+    function checkAnswer2(questionId){
+        target_q_ind = q_bank.findIndex(x => x.name === questionId)
+        correct_answer = q_bank[target_q_ind].correctlabel;
+        correct_answer_ind = q_bank[target_q_ind].answerlabels.indexOf(correct_answer);
+        user_selected_ind = 0
+        $(`div#Question1 .MCQ-choice input`).each(i => {
+            if ($(`div#${questionId} .MCQ-choice input`)[i].checked){
+                user_selected_ind = i;
+            }
+        });
+
+        if (user_selected_ind == correct_answer_ind) {
+            $(`div#${questionId} .MCQ-choice`)[user_selected_ind].style.border = '3px solid limegreen'
+            $(`div#${questionId} .MCQ-choice span`)[user_selected_ind].style.color = 'limegreen'
+            $(`div#${questionId} .MCQ-choice span`)[user_selected_ind].innerHTML += "Correct!";
         }
-        if (document.getElementById('choice-2').checked) {
-        document.getElementById('MCQ-block-2').style.border = '3px solid limegreen'
-        document.getElementById('result-2').style.color = 'limegreen'
-        document.getElementById('result-2').innerHTML = 'Correct!'
-        }
-        if (document.getElementById('choice-3').checked) {
-        document.getElementById('MCQ-block-3').style.border = '3px solid limegreen'
-        document.getElementById('result-3').style.color = 'limegreen'
-        document.getElementById('result-3').innerHTML = 'Correct!'
-        }
-        if (document.getElementById('choice-4').checked) {
-        document.getElementById('MCQ-block-4').style.border = '3px solid red'
-        document.getElementById('result-4').style.color = 'red'
-        document.getElementById('result-4').innerHTML = 'Incorrect!'
+        else{
+            $(`div#${questionId} .MCQ-choice`)[user_selected_ind].style.border = '3px solid red'
+            $(`div#${questionId} .MCQ-choice span`)[user_selected_ind].style.color = 'red'
+            $(`div#${questionId} .MCQ-choice span`)[user_selected_ind].innerHTML += "Incorrect.";
         }
     }
 </script>
