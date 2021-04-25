@@ -1,30 +1,3 @@
-# Test Assessment. 
-
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-<style>
-input {
-    transform: scale(1.6); 
-    margin-right: 10px; 
-    vertical-align: middle; 
-    margin-top: -2px;
-}
-.MCQ-choice {
-    padding: 10px;
-}
-label {
-    padding: 5px;
-}
-</style>
-
-<div id="Question1" class="MCQ">
-</div>
-<div id="Question2" class="MCQ">
-</div>
-
-<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
-
-<script>
     var q_bank;
     $.getJSON("https://my-json-server.typicode.com/kmoy1/ML_book/db", function(data){
         questions = data["questions"];
@@ -95,9 +68,3 @@ label {
             $(`div#${questionId} .MCQ-choice span`)[user_selected_ind].innerHTML += "Incorrect.";
         }
     }
-</script>
-
-<script id="MathJax-script" async
-src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js">
-</script>
-</div>

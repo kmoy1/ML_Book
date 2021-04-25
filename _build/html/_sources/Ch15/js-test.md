@@ -19,6 +19,8 @@ label {
 
 <div id="Question1" class="MCQ">
 </div>
+<div id="Question2" class="MCQ">
+</div>
 
 <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
 

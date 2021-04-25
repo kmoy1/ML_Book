@@ -6,15 +6,19 @@
             "qtext": "1+1 = ?",
             "choices": ["1", "2", "3", "4"], 
             "answerlabels": ["A", "B", "C", "D"],
-            "correctlabel": "B"
+            "correctlabel": "B",
+            "correctanswer": "2",
+            "explanation": "1 + 1 = 2"
         },
         {
             "name": "Question2",
             "type": "MCQ",
-            "qtext": "2+2 = ?",
-            "choices": ["1", "2", "3", "4"], 
-            "answerlabels": ["A", "B", "C", "D"],
-            "correctlabel": "D"
+            "qtext": "True or False: Solving a non linear separation problem with a hard margin Kernelized SVM (Gaussian RBF Kernel) might lead to overfitting.",
+            "choices": ["True", "False"], 
+            "answerlabels": ["A", "B"],
+            "correctlabel": "A",
+            "correctanswer": "True",
+            "explanation": "No fucking idea."
         }
     ]
 }
