@@ -81,9 +81,10 @@ A __convex function__ is a function such that for every $x, y \in \mathbb{R}^d$,
 
 A very frequently used example of a convex function is $y = x^2$. Note that any line segment we try to draw between points will act as a "lid" to the x-range between those points! Try this yourself. 
 
+Let's take a quiz.
 
-Let's take a quiz. 
 
+<script src="/Users/Kevin/jupyter_books/ML_book/js/quiz.js"></script>
 <div id="Question1" class="MCQ">
 </div>
 

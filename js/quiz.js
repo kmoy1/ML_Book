@@ -1,9 +1,9 @@
 var q_bank;
+console.log("Starting Script");
 $.getJSON("https://my-json-server.typicode.com/kmoy1/ML_book/db", function(data){
-    q_bank = data["questions"]
+    q_bank = data["questions"];
     // Populate question text + choices. 
-});
-q_bank.forEach(question =>{
+    q_bank.forEach(question =>{
     if ($(`div#${question.name}`)){
         $(`div#${question.name}`).html(`<div class="q-text">
                                         </div>
@@ -68,3 +68,4 @@ function checkAnswer2(questionId){
         $(`div#${questionId} .MCQ-choice span`)[user_selected_ind].innerHTML += "Incorrect.";
     }
 }
+});

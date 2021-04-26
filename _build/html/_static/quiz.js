@@ -1,8 +1,12 @@
 var q_bank;
+console.log("Starting Script");
 $.getJSON("https://my-json-server.typicode.com/kmoy1/ML_book/db", function(data){
-    q_bank = data["questions"]
+    q_bank = data["questions"];
     // Populate question text + choices. 
+    console.log("Fuck you");
+    console.log("HERE" + q_bank);
 });
+console.log(q_bank);
 q_bank.forEach(question =>{
     if ($(`div#${question.name}`)){
         $(`div#${question.name}`).html(`<div class="q-text">

@@ -19,7 +19,7 @@ label {
     width:100%;
 }
 
-.center:first-child { //doesn't work in IE 6
+.center:first-child { 
     margin:auto;
     text-align:left;
 }
