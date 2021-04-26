@@ -19,6 +19,16 @@
             "correctlabel": "A",
             "correctanswer": "True",
             "explanation": "No fucking idea."
+        },
+        {
+            "name": "Question3",
+            "type": "Blank",
+            "qtext": "(4+3) * 2 = ?",
+            "choices": ["True", "False"], 
+            "answerlabels": ["A", "B"],
+            "correctlabel": "A",
+            "correctanswer": "True",
+            "explanation": "No fucking idea."
         }
     ]
 }

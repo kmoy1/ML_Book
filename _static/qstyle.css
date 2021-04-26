@@ -1,0 +1,25 @@
+input {
+    transform: scale(1.6); 
+    margin-right: 10px; 
+    vertical-align: middle; 
+    margin-top: -2px;
+}
+.MCQ-choice {
+    padding: 10px;
+}
+label {
+    padding: 5px;
+}
+.MCQ{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.center {
+    text-align:center;
+    width:100%;
+}
+
+.center:first-child { 
+    margin:auto;
+    text-align:left;
+}

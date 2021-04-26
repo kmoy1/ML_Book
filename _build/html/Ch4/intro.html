@@ -32,6 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/qstyle.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     
@@ -44,6 +45,7 @@
     <script src="../_static/togglebutton.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
+    <script src="../_static/quiz.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
@@ -311,7 +313,10 @@
 
     <div class="dropdown-buttons">
         <!-- ipynb file if we had a myst markdown file -->
-        
+        <a class="dropdown-buttons"
+            href="../_sources/Ch4/intro.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download notebook file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
         <!-- Download raw file -->
         <a class="dropdown-buttons" href="../_sources/Ch4/intro.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
@@ -348,6 +353,23 @@
                         class="fas fa-expand"></i></button></a>
 
             <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/kmoy1/ML_Book.git/master?urlpath=tree/docs/Ch4/intro.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
 
         </div>
 
@@ -427,21 +449,71 @@
 <h1>Optomization<a class="headerlink" href="#optomization" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="intro">
 <h2>Intro<a class="headerlink" href="#intro" title="Permalink to this headline">¶</a></h2>
-<p>Let’s say Apple makes two products (iPhone and iPad) using two machines (A and B), both of which can produce the iPhone or iPad. It takes machine A 50 minutes to make one iPhone, and 30 minutes to make one iPad. It takes machine B 24 minutes to make 1 iPhone and 33 minutes to make 1 iPad. Let’s say the company goal is to produce 45 iPhones and 5 iPads by the end of the week. Here’s the catch, though: available processing time on machine A is 40 hours total, and for B it is 35 hours total.</p>
-<p>So given that hunk of information, we try to answer this: how many iPhones and iPads should Apple produce by the end of the week to maximize the total number of units (iPhones and iPads) produced?</p>
-<p>More generally, if you have some controllable weights <span class="math notranslate nohighlight">\(w\)</span>, how can you “tune” the individual elements in <span class="math notranslate nohighlight">\(w\)</span> to optimize some quantity? Let’s say you’re a rave DJ: if each weight corresponded to a setting on a DJ board, but a few of the knobs and dials are broken or distorted, what tunings do you set to generate the most happiness out of the crowd?</p>
-<p>You might have seen this kind of problem in your high school algebra class. It is an optomization problem with linear constraints, and has <em>many</em> real-world applications. In this chapter, we focus on the details behind these kinds of optomization problems. There are a few core types of these problems, along with associated algorithms to solve them. It is by no means a simple subject, but let’s try to break it down here.</p>
+<p>Let’s say we have 500 feet of fencing. We want to make a square fence for our house that encloses as much area as possible. What are the dimensions of this square? More than that, if our fence could be <em>any</em> shape, what is the maximum-area figure that we can construct with 500 feet of fencing?</p>
+<p>Here’s another cool analogy I came up with. If you have some controllable weights <span class="math notranslate nohighlight">\(w\)</span>, how can you “tune” the individual elements in <span class="math notranslate nohighlight">\(w\)</span> to optimize some quantity? Let’s say you’re a rave DJ: if each weight corresponded to a setting on a DJ board, but a few of the knobs and dials are broken or distorted, what tunings do you set to generate the most happiness out of the crowd? How do you work within the <em>constraints</em> that have been given to maximize production?</p>
+<p>In this note we focus on the details behind these kinds of optomization problems. There are a few core types of these problems, along with associated algorithms to solve them. It is by no means a simple subject, but let’s try to break it down here.</p>
 </div>
 <div class="section" id="optomization-problems">
 <h2>Optomization Problems<a class="headerlink" href="#optomization-problems" title="Permalink to this headline">¶</a></h2>
 <p>There are two basic kinds of optimization problems: constrained and unconstrained.</p>
-<p>Let’s start with <strong>unconstrained optomization</strong>. Generally, this problem involves finding a weight vector <span class="math notranslate nohighlight">\(w\)</span> that minimizes (or maximizes) some <em>continuous</em> objective function <span class="math notranslate nohighlight">\(f(w)\)</span>. We also hope that <span class="math notranslate nohighlight">\(f\)</span> is <em>smooth</em> as well: this means that <span class="math notranslate nohighlight">\(f\)</span> AND its gradient <span class="math notranslate nohighlight">\(\nabla f\)</span> is continuous.</p>
-<!-- TODO: Give examples of smooth + continuous functions. Example of a continuous but not smooth function. -->
-<!-- TODO: How do we prove a function is continuous? Smooth? -->
+<p>Let’s start with <strong>unconstrained optomization</strong>. Generally, this problem involves finding a weight vector <span class="math notranslate nohighlight">\(w\)</span> that minimizes (or maximizes) some <em>continuous</em> objective function <span class="math notranslate nohighlight">\(f(w)\)</span>.</p>
+<div class="proof definition admonition" id="contfunc">
+<p class="admonition-title"><span class="caption-number">Definition 4 </span> (Continuous Function)</p>
+<div class="definition-content section" id="proof-content">
+<p>A <strong>continuous function</strong> is a function that can be drawn without <em>discontinuities</em>- ones you can draw without picking up the pencil. More math-ily, a function is continuous when, for every <span class="math notranslate nohighlight">\(c\)</span> in the domain of <span class="math notranslate nohighlight">\(f\)</span>:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(f(c)\)</span> is defined</p></li>
+<li><p><span class="math notranslate nohighlight">\(\lim_{x \to c}f(x) = f(c)\)</span></p></li>
+</ul>
+</div>
+</div><p>One well-known function that is certainly discontinuous is <span class="math notranslate nohighlight">\(\tan x\)</span>. Note the jumps.</p>
+<center>
+  <script src="https://www.desmos.com/api/v1.6/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+  <div id="calculator" style="width: 300px; height: 300px; text-align: center;"></div>
+  <script>
+    var elt = document.getElementById('calculator');
+    var calculator = Desmos.GraphingCalculator(elt, {expressions:false});
+    calculator.setExpression({ id: 'graph1', latex: 'y = \\tan x' });
+  </script>
+</center>
+<p>More than continuous, we hope our objective function <span class="math notranslate nohighlight">\(f\)</span> is <em>smooth</em> as well:</p>
+<div class="proof definition admonition" id="smoothfunc">
+<p class="admonition-title"><span class="caption-number">Definition 5 </span> (Smooth Function)</p>
+<div class="definition-content section" id="proof-content">
+<p>A <strong>smooth function</strong> is a continuous function that does not have sharp edges.- ones you can draw without picking up the pencil. Mathematically, this means <span class="math notranslate nohighlight">\(f\)</span> is differentiable at all <span class="math notranslate nohighlight">\(x\)</span>: it also means that <span class="math notranslate nohighlight">\(f\)</span> AND its gradient (derivative) <span class="math notranslate nohighlight">\(\nabla f\)</span> is continuous.</p>
+</div>
+</div><p>An example of a non-smooth but continuous function is <span class="math notranslate nohighlight">\(|x|\)</span>:</p>
+<center>
+  <script src="https://www.desmos.com/api/v1.6/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+  <div id="calculator2" style="width: 300px; height: 300px; align-items: center; justify-content: center"></div>
+  <script>
+    var elt = document.getElementById('calculator2');
+    var calculator = Desmos.GraphingCalculator(elt, {expressions:false});
+    calculator.setExpression({ id: 'graph1', latex: '\\abs (x) ' });
+  </script>
+</center>
+<!-- TODO: How do we prove/know a function is continuous? Smooth? -->
 <p>A <strong>global minimum</strong> of <span class="math notranslate nohighlight">\(f\)</span> is denoted as <span class="math notranslate nohighlight">\(\underset{w}{\arg\min} f(w)\)</span>: in other words, <span class="math notranslate nohighlight">\(f(w) \le f(v)\)</span> for all <span class="math notranslate nohighlight">\(v\)</span>. A <strong>local minimum</strong> of <span class="math notranslate nohighlight">\(f\)</span> is a vector <span class="math notranslate nohighlight">\(w\)</span> such that <span class="math notranslate nohighlight">\(f(w) \le f(v)\)</span> AROUND <span class="math notranslate nohighlight">\(w\)</span>: in a tiny ball centered around <span class="math notranslate nohighlight">\(w\)</span>.</p>
-<!-- TODO: Give examples of local and global minima. -->
-<p>Usually, finding a local minimum is easy, but finding the global minimum is generally pretty hard or even impossible. However, the exception for this comes when we have a <strong>convex function</strong>: a function such that for every <span class="math notranslate nohighlight">\(x, y \in \mathbb{R}^d\)</span>, the line segment connecting <span class="math notranslate nohighlight">\((x, f(x))\)</span> to <span class="math notranslate nohighlight">\((y, f(y))\)</span> <em>does not go below</em> any <span class="math notranslate nohighlight">\(f(z)\)</span> for any <span class="math notranslate nohighlight">\(z \in [x,y]\)</span>.</p>
-<!-- TODO: Example of a convex function. -->
+<p>Let’s connect this math to something visual. If we take the function <span class="math notranslate nohighlight">\(y = x^6 + x^3 - x^2\)</span>, we’ll see there’s a local minimum at <span class="math notranslate nohighlight">\(x=0.52\)</span>, and a global minimum at <span class="math notranslate nohighlight">\(x = -0.948\)</span>:</p>
+<center>
+  <script src="https://www.desmos.com/api/v1.6/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+  <div id="calculator3" style="width: 500px; height: 300px; align-items: center; justify-content: center"></div>
+  <script>
+    var elt = document.getElementById('calculator3');
+    var calculator = Desmos.GraphingCalculator(elt, {expressions:false});
+    calculator.setExpression({ id: 'graph1', latex: 'x^6 + x^3 - x^2'});
+  </script>
+</center>
+<p>Usually, finding a local minimum is easy, but finding the global minimum is generally pretty hard or even impossible. However, the exception for this comes when we have a <strong>convex function</strong>.</p>
+<div class="proof definition admonition" id="convexfunc">
+<p class="admonition-title"><span class="caption-number">Definition 6 </span> (Convex Function)</p>
+<div class="definition-content section" id="proof-content">
+<p>A <strong>convex function</strong> is a function such that for every <span class="math notranslate nohighlight">\(x, y \in \mathbb{R}^d\)</span>, the line segment connecting <span class="math notranslate nohighlight">\((x, f(x))\)</span> to <span class="math notranslate nohighlight">\((y, f(y))\)</span> <em>does not go below</em> any <span class="math notranslate nohighlight">\(f(z)\)</span> for any <span class="math notranslate nohighlight">\(z \in [x,y]\)</span>.</p>
+</div>
+</div><p>A very frequently used example of a convex function is <span class="math notranslate nohighlight">\(y = x^2\)</span>. Note that any line segment we try to draw between points will act as a “lid” to the x-range between those points! Try this yourself.</p>
+<p>Let’s take a quiz.</p>
+<div id="Question1" class="MCQ">
+</div>
 <p>The sum of a bunch of convex functions is still convex: therefore, since the risk function is just a sum of a bunch of convex loss functions, the perceptron risk function is convex. However, it is also non-smooth because of the linear constraints it must account for.</p>
 <p>In support vector machines, we are minimizing <span class="math notranslate nohighlight">\(||w||^2\)</span>: since this is a quadratic program, it is convex. However, it is not unconstrained, of course.</p>
 <p>The reason we like convex functions because on a closed convex domain it must have one of three possibilities:</p>

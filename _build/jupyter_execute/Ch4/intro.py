@@ -1,18 +1,3 @@
----
-jupytext:
-  cell_metadata_filter: -all
-  formats: md:myst
-  text_representation:
-    extension: .md
-    format_name: myst
-    format_version: 0.13
-    jupytext_version: 1.10.3
-kernelspec:
-  display_name: Python 3
-  language: python
-  name: python3
----
-
 Optomization
 ========================================
 
@@ -95,6 +80,12 @@ A __convex function__ is a function such that for every $x, y \in \mathbb{R}^d$,
 ```
 
 A very frequently used example of a convex function is $y = x^2$. Note that any line segment we try to draw between points will act as a "lid" to the x-range between those points! Try this yourself. 
+
+
+Let's take a quiz. 
+
+<div id="Question1" class="MCQ">
+</div>
 
 The sum of a bunch of convex functions is still convex: therefore, since the risk function is just a sum of a bunch of convex loss functions, the perceptron risk function is convex. However, it is also non-smooth because of the linear constraints it must account for.
 

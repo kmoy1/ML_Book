@@ -1,33 +1,106 @@
+---
+jupytext:
+  cell_metadata_filter: -all
+  formats: md:myst
+  text_representation:
+    extension: .md
+    format_name: myst
+    format_version: 0.13
+    jupytext_version: 1.10.3
+kernelspec:
+  display_name: Python 3
+  language: python
+  name: python3
+---
+
 Optomization
 ========================================
 
 ## Intro
 
-Let's say Apple makes two products (iPhone and iPad) using two machines (A and B), both of which can produce the iPhone or iPad. It takes machine A 50 minutes to make one iPhone, and 30 minutes to make one iPad. It takes machine B 24 minutes to make 1 iPhone and 33 minutes to make 1 iPad. Let's say the company goal is to produce 45 iPhones and 5 iPads by the end of the week. Here's the catch, though: available processing time on machine A is 40 hours total, and for B it is 35 hours total. 
+Let's say we have 500 feet of fencing. We want to make a square fence for our house that encloses as much area as possible. What are the dimensions of this square? More than that, if our fence could be _any_ shape, what is the maximum-area figure that we can construct with 500 feet of fencing?
 
-So given that hunk of information, we try to answer this: how many iPhones and iPads should Apple produce by the end of the week to maximize the total number of units (iPhones and iPads) produced? 
+Here's another cool analogy I came up with. If you have some controllable weights $w$, how can you "tune" the individual elements in $w$ to optimize some quantity? Let's say you're a rave DJ: if each weight corresponded to a setting on a DJ board, but a few of the knobs and dials are broken or distorted, what tunings do you set to generate the most happiness out of the crowd? How do you work within the _constraints_ that have been given to maximize production?
 
-More generally, if you have some controllable weights $w$, how can you "tune" the individual elements in $w$ to optimize some quantity? Let's say you're a rave DJ: if each weight corresponded to a setting on a DJ board, but a few of the knobs and dials are broken or distorted, what tunings do you set to generate the most happiness out of the crowd? 
-
-You might have seen this kind of problem in your high school algebra class. It is an optomization problem with linear constraints, and has _many_ real-world applications. In this chapter, we focus on the details behind these kinds of optomization problems. There are a few core types of these problems, along with associated algorithms to solve them. It is by no means a simple subject, but let's try to break it down here. 
+In this note we focus on the details behind these kinds of optomization problems. There are a few core types of these problems, along with associated algorithms to solve them. It is by no means a simple subject, but let's try to break it down here. 
 
 ## Optomization Problems
 
 There are two basic kinds of optimization problems: constrained and unconstrained. 
 
-Let's start with __unconstrained optomization__. Generally, this problem involves finding a weight vector $w$ that minimizes (or maximizes) some _continuous_ objective function $f(w)$. We also hope that $f$ is _smooth_ as well: this means that $f$ AND its gradient $\nabla f$ is continuous. 
+Let's start with __unconstrained optomization__. Generally, this problem involves finding a weight vector $w$ that minimizes (or maximizes) some _continuous_ objective function $f(w)$.
 
-<!-- TODO: Give examples of smooth + continuous functions. Example of a continuous but not smooth function. -->
+```{prf:definition} Continuous Function
+:label: contfunc
 
-<!-- TODO: How do we prove a function is continuous? Smooth? -->
+A __continuous function__ is a function that can be drawn without _discontinuities_- ones you can draw without picking up the pencil. More math-ily, a function is continuous when, for every $c$ in the domain of $f$: 
+  - $f(c)$ is defined
+  - $\lim_{x \to c}f(x) = f(c)$
+```
+
+One well-known function that is certainly discontinuous is $\tan x$. Note the jumps.
+
+<center>
+  <script src="https://www.desmos.com/api/v1.6/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+  <div id="calculator" style="width: 300px; height: 300px; text-align: center;"></div>
+  <script>
+    var elt = document.getElementById('calculator');
+    var calculator = Desmos.GraphingCalculator(elt, {expressions:false});
+    calculator.setExpression({ id: 'graph1', latex: 'y = \\tan x' });
+  </script>
+</center>
+
+More than continuous, we hope our objective function $f$ is _smooth_ as well:
+
+```{prf:definition} Smooth Function
+:label: smoothfunc
+
+A __smooth function__ is a continuous function that does not have sharp edges.- ones you can draw without picking up the pencil. Mathematically, this means $f$ is differentiable at all $x$: it also means that $f$ AND its gradient (derivative) $\nabla f$ is continuous.
+```
+
+An example of a non-smooth but continuous function is $|x|$: 
+
+<center>
+  <script src="https://www.desmos.com/api/v1.6/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+  <div id="calculator2" style="width: 300px; height: 300px; align-items: center; justify-content: center"></div>
+  <script>
+    var elt = document.getElementById('calculator2');
+    var calculator = Desmos.GraphingCalculator(elt, {expressions:false});
+    calculator.setExpression({ id: 'graph1', latex: '\\abs (x) ' });
+  </script>
+</center>
+
+<!-- TODO: How do we prove/know a function is continuous? Smooth? -->
 
 A __global minimum__ of $f$ is denoted as $\underset{w}{\arg\min} f(w)$: in other words, $f(w) \le f(v)$ for all $v$. A __local minimum__ of $f$ is a vector $w$ such that $f(w) \le f(v)$ AROUND $w$: in a tiny ball centered around $w$.
 
-<!-- TODO: Give examples of local and global minima. -->
+Let's connect this math to something visual. If we take the function $y = x^6 + x^3 - x^2$, we'll see there's a local minimum at $x=0.52$, and a global minimum at $x = -0.948$:
 
-Usually, finding a local minimum is easy, but finding the global minimum is generally pretty hard or even impossible. However, the exception for this comes when we have a __convex function__: a function such that for every $x, y \in \mathbb{R}^d$, the line segment connecting $(x, f(x))$ to $(y, f(y))$ _does not go below_ any $f(z)$ for any $z \in [x,y]$.
+<center>
+  <script src="https://www.desmos.com/api/v1.6/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+  <div id="calculator3" style="width: 500px; height: 300px; align-items: center; justify-content: center"></div>
+  <script>
+    var elt = document.getElementById('calculator3');
+    var calculator = Desmos.GraphingCalculator(elt, {expressions:false});
+    calculator.setExpression({ id: 'graph1', latex: 'x^6 + x^3 - x^2'});
+  </script>
+</center>
 
-<!-- TODO: Example of a convex function. -->
+Usually, finding a local minimum is easy, but finding the global minimum is generally pretty hard or even impossible. However, the exception for this comes when we have a __convex function__.
+
+```{prf:definition} Convex Function
+:label: convexfunc
+
+A __convex function__ is a function such that for every $x, y \in \mathbb{R}^d$, the line segment connecting $(x, f(x))$ to $(y, f(y))$ _does not go below_ any $f(z)$ for any $z \in [x,y]$.
+```
+
+A very frequently used example of a convex function is $y = x^2$. Note that any line segment we try to draw between points will act as a "lid" to the x-range between those points! Try this yourself. 
+
+
+Let's take a quiz. 
+
+<div id="Question1" class="MCQ">
+</div>
 
 The sum of a bunch of convex functions is still convex: therefore, since the risk function is just a sum of a bunch of convex loss functions, the perceptron risk function is convex. However, it is also non-smooth because of the linear constraints it must account for.
 
@@ -123,5 +196,4 @@ A hard-margin SVM will always have (at least) two active constraints: one for cl
 Many algorithms also exist for solving quadratic programs:
 - Simplex-like algorithms
 - Sequential minimal optimization (SMO)
-- Coordinate descent 
-
+- Coordinate descent
