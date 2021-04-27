@@ -49,9 +49,10 @@
     - file: Ch14/NNexample.ipynb
 - file: Ch15/intro
   title: "Chapter 15: Neurobiology and Variations on Neural Networks"
-- file: Ch15/js-test
-  title: "DEV ONLY: Test Interactive"
-
+- file: Ch16/intro
+  title: "Chapter 16: Unsupervised Learning and PCA"
+- file: Ch17/intro
+  title: "Chapter 17: Singular Value Decomposition and Clustering"
 
 
     
