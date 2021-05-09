@@ -60,7 +60,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Singular Value Decomposition and Clustering" href="../Ch17/intro.html" />
-    <link rel="prev" title="Neurobiology and Variations on Neural Networks" href="../Ch15/intro.html" />
+    <link rel="prev" title="Improving Neural Network Training" href="../Ch15/intro.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -256,8 +256,8 @@
   </a>
   <ul class="collapse-ul">
    <li class="toctree-l2">
-    <a class="reference internal" href="../Ch14/NNexample.html">
-     Neural Network Backpropagation: An Example
+    <a class="reference internal" href="../Ch14/intro2.html">
+     Neural Network Variations
     </a>
    </li>
   </ul>
@@ -266,7 +266,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../Ch15/intro.html">
-   Chapter 15: Neurobiology and Variations on Neural Networks
+   Chapter 15: Improving Neural Network Training
   </a>
  </li>
  <li class="toctree-l1 current active">
@@ -277,6 +277,31 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../Ch17/intro.html">
    Chapter 17: Singular Value Decomposition and Clustering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch18/intro.html">
+   Chapter 18: Spectral Graph Clustering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch19/intro.html">
+   Chapter 19: Multiple Eigenvectors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch20/intro.html">
+   Chapter 20: AdaBoost
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch21/intro.html">
+   Chapter 21: Nearest Neighbors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch22/intro.html">
+   Chapter 22: Optomizing k-NN
   </a>
  </li>
 </ul>
@@ -387,7 +412,7 @@
 <h1>Unsupervised Learning and PCA<a class="headerlink" href="#unsupervised-learning-and-pca" title="Permalink to this headline">¶</a></h1>
 <p>Up until this point, our studies in regression and classification have only looked at <em>supervised learning</em>: where the labels are known. In <em>unsupervised learning</em>, well, we don’t have these labels anymore.</p>
 <div class="proof definition admonition" id="unsup">
-<p class="admonition-title"><span class="caption-number">Definition 7 </span> (Unsupervised Learning)</p>
+<p class="admonition-title"><span class="caption-number">Definition 11 </span> (Unsupervised Learning)</p>
 <div class="definition-content section" id="proof-content">
 <p><strong>Unsupervised learning</strong> is machine learning on unlabelled data: no classes, no y-values. Instead of a human “supervising” the model, the model figures out patterns from data <em>by itself</em>.</p>
 </div>
@@ -407,7 +432,7 @@
 <p>First, we see a bunch of points in 3D on the left. Imagine they are raindrops, frozen in time, hovering over a sheet of paper. Now, after time starts again: they’ll fall to the paper and make splotches corresponding to where they were in the air. In other words, we are <em>reducing our raindrops/data points from 3 dimensions (air) to 2 dimensions (paper)</em>. How can we do this? Note the left diagram is showing us how: we pick a <span class="math notranslate nohighlight">\(k\)</span>-dimensional subspace, in this case a 2-dimensional <em>plane</em>, and project all our data points orthogonally to that subspace. This will give us the image on the right.</p>
 <p>So how do we choose such a subspace? We want the subspace such that when we project to the lower dimension, we can still tell the separation between the points. Formally, we want to choose <span class="math notranslate nohighlight">\(k\)</span> direction vectors, or <strong>principal components</strong> that <strong>maximize variance between the data points</strong>.</p>
 <div class="proof definition admonition" id="pcacomps">
-<p class="admonition-title"><span class="caption-number">Definition 8 </span> (Unsupervised Learning)</p>
+<p class="admonition-title"><span class="caption-number">Definition 12 </span> (Unsupervised Learning)</p>
 <div class="definition-content section" id="proof-content">
 <p><strong>Principal Components</strong> are the <span class="math notranslate nohighlight">\(k\)</span> mutually orthogonal direction vectors that maximize variance among our dataset. They form the subspace that we project our high-dimensional data onto to make it low-dimensional.</p>
 </div>
@@ -419,13 +444,13 @@
 <p>Let <span class="math notranslate nohighlight">\(X\)</span> be our <span class="math notranslate nohighlight">\(n \times d\)</span> design matrix, with no fictitious dimension. Assume <span class="math notranslate nohighlight">\(X\)</span> is centered: the mean of all sample points <span class="math notranslate nohighlight">\(\mu_X = 0\)</span>. To understand PCA, we first must understand projecting a point onto a <span class="math notranslate nohighlight">\(k\)</span>-dimensional subspace.</p>
 <p>Let’s start simple: let’s say we have a <span class="math notranslate nohighlight">\(k=1\)</span>-dimensional subspace. Specifically, let this single vector be <span class="math notranslate nohighlight">\(w\)</span>. Then, the <strong>orthogonal projection</strong> of a point <span class="math notranslate nohighlight">\(x\)</span> onto vector <span class="math notranslate nohighlight">\(w\)</span> is equal to <span class="math notranslate nohighlight">\(\tilde{x} = \frac{x \cdot w}{||w||^2} w\)</span>. Note that if <span class="math notranslate nohighlight">\(w\)</span> is a unit vector, then  <span class="math notranslate nohighlight">\(\tilde{x} = (x \cdot w)w\)</span>.</p>
 <div class="proof definition admonition" id="orthproj">
-<p class="admonition-title"><span class="caption-number">Definition 9 </span> (Orthogonal Projection)</p>
+<p class="admonition-title"><span class="caption-number">Definition 13 </span> (Orthogonal Projection)</p>
 <div class="definition-content section" id="proof-content">
-<p>An <strong>orthogonal projection</strong> of a vector <span class="math notranslate nohighlight">\(x\)</span> onto a subspace <span class="math notranslate nohighlight">\(W\)</span> is the vector <span class="math notranslate nohighlight">\(x_W\)</span> in <span class="math notranslate nohighlight">\(W\)</span> that is as close as possible to <span class="math notranslate nohighlight">\(x\)</span>.</p>
+<p>An <strong>orthogonal projection</strong> of a vector <span class="math notranslate nohighlight">\(x\)</span> onto a subspace <span class="math notranslate nohighlight">\(W\)</span> (made of orthogonal basis vectors) is the vector <span class="math notranslate nohighlight">\(x_W\)</span> in <span class="math notranslate nohighlight">\(W\)</span> that is as close as possible to <span class="math notranslate nohighlight">\(x\)</span>.</p>
 </div>
 </div><p>Of course, if we project from, say, 100 dimensions to 1 dimension, we’re going to lose a LOT of information. Thankfully, we can project to several dimensions: this just means we must pick several different orthogonal direction vectors. We’re still going to orthogonally project points onto this subspace: just now, our subspace is defined by multiple orthogonal basis vectors instead of just one.</p>
 <div class="proof definition admonition" id="orthprojformula">
-<p class="admonition-title"><span class="caption-number">Definition 10 </span> (Orthogonal Projection Formula)</p>
+<p class="admonition-title"><span class="caption-number">Definition 14 </span> (Orthogonal Projection Formula)</p>
 <div class="definition-content section" id="proof-content">
 <p>For a <span class="math notranslate nohighlight">\(k\)</span>-dimensional subspace <span class="math notranslate nohighlight">\(W\)</span> characterized by <span class="math notranslate nohighlight">\(k\)</span> basis vectors <span class="math notranslate nohighlight">\(v_1,...,v_k\)</span>, the orthogonal projection of a vector <span class="math notranslate nohighlight">\(x\)</span> on subspace <span class="math notranslate nohighlight">\(W\)</span> is <span class="math notranslate nohighlight">\(\tilde{x} = \sum_{i=1}^{k}(x \cdot v_i)v_i\)</span>.</p>
 </div>
@@ -441,7 +466,7 @@
 <p>Note this Gaussian’s isocontours will be concentric ovals with the same shape as the border shown. Remember that we take the eigenvectors (the ellipse axes shown) and eigenvalues (the magnitudes of the vectors) of the sample covariance matrix <span class="math notranslate nohighlight">\(\Sigma\)</span>. Remember that MLE gives a covariance matrix as <span class="math notranslate nohighlight">\(\hat{\Sigma} = \frac{1}{n}X^TX\)</span>.</p>
 <p>Now, let’s sketch out the actual PCA algorithm.</p>
 <div class="proof algorithm admonition" id="PCA-Alg">
-<p class="admonition-title"><span class="caption-number">Algorithm 11 </span> (PCA)</p>
+<p class="admonition-title"><span class="caption-number">Algorithm 15 </span> (PCA)</p>
 <div class="algorithm-content section" id="proof-content">
 <p><strong>Inputs</strong> <span class="math notranslate nohighlight">\(d\)</span>-dimensional dataset <span class="math notranslate nohighlight">\(X\)</span></p>
 <p><strong>Output</strong> Compute principal coordinates <span class="math notranslate nohighlight">\(x \cdot v_i\)</span> determined by</p>
@@ -454,7 +479,6 @@
 </div>
 </div><p>One thing to remember: we centered the training data <em>beforehand</em>. We need to apply the same thing to test data. However, there is an alternative: we can un-center the training data <em>before</em> we project them onto PC space.</p>
 <p>Let’s see an example that shows the difference normalizing data could make in PCA:</p>
-<a class="reference internal image-reference" href="../_images/normalizePCA.png"><img alt="../_images/normalizePCA.png" class="align-center" src="../_images/normalizePCA.png" style="width: 600px;" /></a>
 <p>So in this example, our <span class="math notranslate nohighlight">\(X\)</span> consists of a bunch of 4-dimensional points, one for each metropolitan region. For each point, we measure urban population and 3 crime rates per capita. We want to project this down into 2D space. On the left, we have projected data which is scaled by normalization, and on the right we don’t do this. Notice the large difference in the projected points! The reason that they look so different is the fact that rape and murder are far less common as assault. This means if we don’t normalize the data, such datapoints won’t have as much influence on PCA projections. Note that in the unscaled case, assault and urban population numbers are much larger, so they get much bigger contributions to the PCA directions than rape and murder. But when we scale, they all are about the same size.</p>
 <p>When do we choose if we want to scale or not? Totally application-dependent. Should low-frequency events like murder and rape have a disproportionate (bigger) influence on PCA axes? If yes, then you probably want to scale.</p>
 <p>Of course, with more eigenvectors and eigenvalues (more dimensions), we get more variance captured from the original dataset. We can calculate the percent of variance we capture by dividing the sum of our eigenvalues used by all the eigenvalues of <span class="math notranslate nohighlight">\(X^TX\)</span>.</p>
@@ -509,7 +533,7 @@ one direction, then we have to pick a direction that’s orthogonal to the best 
         
         <div class='prev-next-bottom'>
             
-    <a class='left-prev' id="prev-link" href="../Ch15/intro.html" title="previous page">Neurobiology and Variations on Neural Networks</a>
+    <a class='left-prev' id="prev-link" href="../Ch15/intro.html" title="previous page">Improving Neural Network Training</a>
     <a class='right-next' id="next-link" href="../Ch17/intro.html" title="next page">Singular Value Decomposition and Clustering</a>
 
         </div>
@@ -522,7 +546,7 @@ one direction, then we have to pick a direction that’s orthogonal to the best 
         
           By Kevin Moy<br/>
         
-            &copy; Copyright 2020.<br/>
+            &copy; Copyright 2021.<br/>
       </p>
     </div>
   </footer>

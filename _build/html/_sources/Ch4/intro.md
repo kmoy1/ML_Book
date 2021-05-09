@@ -94,16 +94,19 @@ Usually, finding a local minimum is easy, but finding the global minimum is gene
 A __convex function__ is a function such that for every $x, y \in \mathbb{R}^d$, the line segment connecting $(x, f(x))$ to $(y, f(y))$ _does not go below_ any $f(z)$ for any $z \in [x,y]$.
 ```
 
-A very frequently used example of a convex function is $y = x^2$. Note that any line segment we try to draw between points will act as a "lid" to the x-range between those points! Try this yourself. 
+A very frequently used example of a convex function is $y = x^2$. Note that any line segment we try to draw between points will act as a "lid" to the x-range between those points! Try this yourself.
 
-Let's take a quiz.
+```{image} pictures/convex.png
+:align: center
+```
 
-
-<script src="/Users/Kevin/jupyter_books/ML_book/js/quiz.js"></script>
-<div id="Question1" class="MCQ">
+<div class="admonition note" name="html-admonition" style="background: lightgreen; padding: 10px">
+<p class="title">This is the **title**</p>
+This is the *content*
 </div>
 
-The sum of a bunch of convex functions is still convex: therefore, since the risk function is just a sum of a bunch of convex loss functions, the perceptron risk function is convex. However, it is also non-smooth because of the linear constraints it must account for.
+The sum of a bunch of convex functions is still convex: therefore, since the risk function is just a sum of a bunch of convex loss functions, the perceptron risk function is convex. However, it is also non-smooth because of the linear constraints it must account for. To prove a function is convex, we simply take its second derivative: 
+if $f''(x) \ge 0$ for all $x$, then $f$ is convex. 
 
 In support vector machines, we are minimizing $||w||^2$: since this is a quadratic program, it is convex. However, it is not unconstrained, of course.
 

@@ -259,8 +259,8 @@
   </a>
   <ul class="collapse-ul">
    <li class="toctree-l2">
-    <a class="reference internal" href="Ch14/NNexample.html">
-     Neural Network Backpropagation: An Example
+    <a class="reference internal" href="Ch14/intro2.html">
+     Neural Network Variations
     </a>
    </li>
   </ul>
@@ -269,7 +269,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="Ch15/intro.html">
-   Chapter 15: Neurobiology and Variations on Neural Networks
+   Chapter 15: Improving Neural Network Training
   </a>
  </li>
  <li class="toctree-l1">
@@ -280,6 +280,31 @@
  <li class="toctree-l1">
   <a class="reference internal" href="Ch17/intro.html">
    Chapter 17: Singular Value Decomposition and Clustering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Ch18/intro.html">
+   Chapter 18: Spectral Graph Clustering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Ch19/intro.html">
+   Chapter 19: Multiple Eigenvectors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Ch20/intro.html">
+   Chapter 20: AdaBoost
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Ch21/intro.html">
+   Chapter 21: Nearest Neighbors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Ch22/intro.html">
+   Chapter 22: Optomizing k-NN
   </a>
  </li>
 </ul>
@@ -359,15 +384,24 @@
 
    <div class="modindex-jumpbox">
    <a href="#cap-PCA-Alg"><strong>PCA-Alg</strong></a> | 
+   <a href="#cap-SVD"><strong>SVD</strong></a> | 
+   <a href="#cap-algorithm-0"><strong>algorithm-0</strong></a> | 
+   <a href="#cap-algorithm-1"><strong>algorithm-1</strong></a> | 
+   <a href="#cap-algorithm-2"><strong>algorithm-2</strong></a> | 
    <a href="#cap-alpha-origin"><strong>alpha-origin</strong></a> | 
+   <a href="#cap-cheeger"><strong>cheeger</strong></a> | 
    <a href="#cap-contfunc"><strong>contfunc</strong></a> | 
    <a href="#cap-convexfunc"><strong>convexfunc</strong></a> | 
+   <a href="#cap-definition-0"><strong>definition-0</strong></a> | 
+   <a href="#cap-graphbi"><strong>graphbi</strong></a> | 
+   <a href="#cap-graphbirelaxed"><strong>graphbirelaxed</strong></a> | 
    <a href="#cap-orthproj"><strong>orthproj</strong></a> | 
    <a href="#cap-orthprojformula"><strong>orthprojformula</strong></a> | 
    <a href="#cap-pcacomps"><strong>pcacomps</strong></a> | 
    <a href="#cap-signed-dist"><strong>signed-dist</strong></a> | 
    <a href="#cap-smoothfunc"><strong>smoothfunc</strong></a> | 
    <a href="#cap-theorem-0"><strong>theorem-0</strong></a> | 
+   <a href="#cap-theorem-1"><strong>theorem-1</strong></a> | 
    <a href="#cap-unsup"><strong>unsup</strong></a>
    </div>
 
@@ -381,6 +415,38 @@
        <a href="Ch16/intro.html#PCA-Alg"><code class="xref">PCA-Alg</code></a> <em>(Ch16/intro)</em></td><td>
        <em>algorithm</em></td></tr>
      <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-SVD"><td></td><td>
+       <strong>SVD</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="Ch17/intro.html#SVD"><code class="xref">SVD</code></a> <em>(Ch17/intro)</em></td><td>
+       <em>definition</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-algorithm-0"><td></td><td>
+       <strong>algorithm-0</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="Ch15/intro.html#algorithm-0"><code class="xref">algorithm-0</code></a> <em>(Ch15/intro)</em></td><td>
+       <em>algorithm</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-algorithm-1"><td></td><td>
+       <strong>algorithm-1</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="Ch20/intro.html#algorithm-1"><code class="xref">algorithm-1</code></a> <em>(Ch20/intro)</em></td><td>
+       <em>algorithm</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-algorithm-2"><td></td><td>
+       <strong>algorithm-2</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="Ch13/intro.html#algorithm-2"><code class="xref">algorithm-2</code></a> <em>(Ch13/intro)</em></td><td>
+       <em>algorithm</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
      <tr class="cap" id="cap-alpha-origin"><td></td><td>
        <strong>alpha-origin</strong></td><td></td></tr>
      <tr>
@@ -388,6 +454,14 @@
        <td>
        <a href="Ch2/hyperplanes.html#alpha-origin"><code class="xref">alpha-origin</code></a> <em>(Ch2/hyperplanes)</em></td><td>
        <em>theorem</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-cheeger"><td></td><td>
+       <strong>cheeger</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="Ch18/intro.html#cheeger"><code class="xref">cheeger</code></a> <em>(Ch18/intro)</em></td><td>
+       <em>definition</em></td></tr>
      <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
      <tr class="cap" id="cap-contfunc"><td></td><td>
        <strong>contfunc</strong></td><td></td></tr>
@@ -403,6 +477,30 @@
        <td></td>
        <td>
        <a href="Ch4/intro.html#convexfunc"><code class="xref">convexfunc</code></a> <em>(Ch4/intro)</em></td><td>
+       <em>definition</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-definition-0"><td></td><td>
+       <strong>definition-0</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="Ch20/intro.html#definition-0"><code class="xref">definition-0</code></a> <em>(Ch20/intro)</em></td><td>
+       <em>definition</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-graphbi"><td></td><td>
+       <strong>graphbi</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="Ch18/intro.html#graphbi"><code class="xref">graphbi</code></a> <em>(Ch18/intro)</em></td><td>
+       <em>definition</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-graphbirelaxed"><td></td><td>
+       <strong>graphbirelaxed</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="Ch18/intro.html#graphbirelaxed"><code class="xref">graphbirelaxed</code></a> <em>(Ch18/intro)</em></td><td>
        <em>definition</em></td></tr>
      <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
      <tr class="cap" id="cap-orthproj"><td></td><td>
@@ -453,6 +551,14 @@
        <a href="Ch2/hyperplanes.html#theorem-0"><code class="xref">theorem-0</code></a> <em>(Ch2/hyperplanes)</em></td><td>
        <em>theorem</em></td></tr>
      <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
+     <tr class="cap" id="cap-theorem-1"><td></td><td>
+       <strong>theorem-1</strong></td><td></td></tr>
+     <tr>
+       <td></td>
+       <td>
+       <a href="Ch17/intro.html#theorem-1"><code class="xref">theorem-1</code></a> <em>(Ch17/intro)</em></td><td>
+       <em>theorem</em></td></tr>
+     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
      <tr class="cap" id="cap-unsup"><td></td><td>
        <strong>unsup</strong></td><td></td></tr>
      <tr>
@@ -479,7 +585,7 @@
         
           By Kevin Moy<br/>
         
-            &copy; Copyright 2020.<br/>
+            &copy; Copyright 2021.<br/>
       </p>
     </div>
   </footer>

@@ -256,8 +256,8 @@
   </a>
   <ul class="collapse-ul">
    <li class="toctree-l2">
-    <a class="reference internal" href="../Ch14/NNexample.html">
-     Neural Network Backpropagation: An Example
+    <a class="reference internal" href="../Ch14/intro2.html">
+     Neural Network Variations
     </a>
    </li>
   </ul>
@@ -266,7 +266,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../Ch15/intro.html">
-   Chapter 15: Neurobiology and Variations on Neural Networks
+   Chapter 15: Improving Neural Network Training
   </a>
  </li>
  <li class="toctree-l1">
@@ -277,6 +277,31 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../Ch17/intro.html">
    Chapter 17: Singular Value Decomposition and Clustering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch18/intro.html">
+   Chapter 18: Spectral Graph Clustering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch19/intro.html">
+   Chapter 19: Multiple Eigenvectors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch20/intro.html">
+   Chapter 20: AdaBoost
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch21/intro.html">
+   Chapter 21: Nearest Neighbors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch22/intro.html">
+   Chapter 22: Optomizing k-NN
   </a>
  </li>
 </ul>
@@ -371,6 +396,21 @@
    The Magic: Kernelization
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#kernel-perceptrons">
+   Kernel Perceptrons
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#kernelized-logistic-regression">
+   Kernelized Logistic Regression
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#gaussian-kernel">
+   Gaussian Kernel
+  </a>
+ </li>
 </ul>
 
         </nav>
@@ -385,51 +425,154 @@
                 
   <div class="section" id="kernels">
 <h1>Kernels<a class="headerlink" href="#kernels" title="Permalink to this headline">¶</a></h1>
-<p>WARNING: The topic that is to come is <em>very</em> difficult.</p>
-<p>This note focuses on <strong>kernels</strong>, also known as the <strong>kernel trick</strong> or <strong>kernelization</strong>. It’s pretty magical- let’s see why.</p>
-<p>To motivate kernels, let’s recall polynomial features. Say we have a dataset with <span class="math notranslate nohighlight">\(d\)</span> features and we want to fit a degree-<span class="math notranslate nohighlight">\(p\)</span> polynomial to get a more complicated decision boundary. Of course, overfitting is always an issue here. However, another issue comes where we rapidly blow up the number of features we are using. Specifically, we blow the number of features up to <span class="math notranslate nohighlight">\(O(d^p)\)</span> features when we have a degree-<span class="math notranslate nohighlight">\(p\)</span> polynomial with <span class="math notranslate nohighlight">\(d\)</span> features! For example, say we have <span class="math notranslate nohighlight">\(d = 100\)</span> features and we want a degree <span class="math notranslate nohighlight">\(p = 4\)</span> decision function- each lifted feature vector needs to account for <em>all combinations</em> of features, and thus will have about <em>four million</em> features. Not good.</p>
-<p>So in this note we’ll show we can still fit these polynomials very fast - we don’t need to compute all <span class="math notranslate nohighlight">\(d\)</span> features to use them. There’s a very clever mathematical trick that allows us to not compute our <span class="math notranslate nohighlight">\(d^p\)</span> features, but still get our polynomial anyway!</p>
-<p>Kernelization is based on two observations about many learning algorithms. The first observation: often, when you compute the optimal solution for an optimization problem, you often discover that the <strong>solution can be written as a linear combination of the sample points</strong>. Why this happens is kind of abstract and certainly out of scope, but it does hold true for a lot of algorithms: SVMs, ridge regression, perceptrons, logistic regression,  etc. The second observation: with the right organization of computation, <strong>these algorithms can use inner products of lifted feature vectors only.</strong> For a sample point <span class="math notranslate nohighlight">\(x\)</span>, our lifted feature vector is <span class="math notranslate nohighlight">\(\Phi(x)\)</span>. A lot of these algorithms just need to have an inner product of a couple of <span class="math notranslate nohighlight">\(\Phi(x)\)</span> vectors as their central computation. With the right conditions, we actually <strong>don’t need to know <span class="math notranslate nohighlight">\(\Phi(x)\)</span></strong> <strong>to find their inner product</strong>!</p>
+<p>One of the tasks we’re now familiar with is feature engineering: we transform raw data into feature vectors through a feature map. This process can take a long ass time, especially if we decide to have a ton of features. The kernel trick, or kernelization, can make things so we don’t need our feature map, but just a <em>similarity</em> map between datapoints.</p>
+<p>Say we have a dataset with <span class="math notranslate nohighlight">\(d\)</span> features and we want to fit a degree-<span class="math notranslate nohighlight">\(p\)</span> polynomial decision boundary to them. Of course, overfitting is always an issue here. But we will also be using way more features- specifically, <span class="math notranslate nohighlight">\(O(d^p)\)</span> features for a degree-<span class="math notranslate nohighlight">\(p\)</span> polynomial with <span class="math notranslate nohighlight">\(d\)</span> features in our dataset! For example, if we have <span class="math notranslate nohighlight">\(d = 100\)</span> features and want to fit a degree <span class="math notranslate nohighlight">\(p = 4\)</span> decision function- each lifted feature vector needs to account for <em>all combinations</em> of features, and thus will have about <em>four million</em> features. Not good.</p>
+<p>With kernelization, we’ll find we can still compute this feature vector incredibly fast; we don’t need to compute all features explicitly to use them.</p>
+<p>Kernelization is based on two observations about many learning algorithms.</p>
+<ol class="simple">
+<li><p>The optimal solution for an optomization problem can often be written as a linear combination of the sample points. We see this in a lot of algorithms: SVMs, ridge regression, perceptrons, logistic regression,  etc.</p></li>
+<li><p>We can denote optimal solutions as inner products of <strong>lifted feature vectors</strong>. For a sample point <span class="math notranslate nohighlight">\(x\)</span>,  <em>lifted feature vector</em> is denoted as <span class="math notranslate nohighlight">\(\Phi(x)\)</span>. Many optomization algorithms only require computation of the inner product of few <span class="math notranslate nohighlight">\(\Phi(x)\)</span> vectors as their central computation. Often <strong>we don’t need to compute <span class="math notranslate nohighlight">\(\Phi(x)\)</span> to find their inner product</strong>!</p></li>
+</ol>
 <p>Let’s take a mathematical look into observation 1. Let’s suppose optimal weight vector <span class="math notranslate nohighlight">\(w\)</span> (could be many) takes the form:</p>
 <p><span class="math notranslate nohighlight">\(w = X^Ta = \sum_{i=1}^{n}a_iX_i\)</span></p>
-<p>where <span class="math notranslate nohighlight">\(X\)</span> is our design matrix, and <span class="math notranslate nohighlight">\(a\)</span> is our coefficient vector that tells us what linear combination of sample points give us our optimal solution. If this is true for some <span class="math notranslate nohighlight">\(a \in R^n\)</span>. Once we know this is possible, we can derive a new form of our algorithm, that’s based on finding the optimal <span class="math notranslate nohighlight">\(a\)</span> instead of finding the optimal <span class="math notranslate nohighlight">\(w\)</span>. We do this by simply substituting <span class="math notranslate nohighlight">\(w = X^Ta\)</span> into our algorithm and solving for <span class="math notranslate nohighlight">\(a\)</span> instead of <span class="math notranslate nohighlight">\(w\)</span>. The entries of <span class="math notranslate nohighlight">\(a\)</span> are called <strong>dual weights</strong>, or sometimes called dual parameters. We thus are optimizing <span class="math notranslate nohighlight">\(n\)</span> dual weights instead of <span class="math notranslate nohighlight">\(d+1\)</span> (or <span class="math notranslate nohighlight">\(d^p\)</span>) primal weights <span class="math notranslate nohighlight">\(w\)</span>.</p>
-<p>Let’s use ridge regression as an example- this will lead to a <strong>kernel ridge regression</strong> algorithm. Before we dualize ridge regression, there’s one small detail we need to take care of first. Before, in ridge regression we do not have to penalize the bias term- however, in this case we do, because we’re assuming that weights are a linear combination of the sample points- this is only true IF we penalize the bias term. One way to minimize damage from this is by first centering <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(y\)</span> (so their means are zero)- for each sample point (row) <span class="math notranslate nohighlight">\(X_i\)</span>, subtract the mean <span class="math notranslate nohighlight">\(\mu_X\)</span>. Similarly, subtract each <span class="math notranslate nohighlight">\(y_i\)</span> by <span class="math notranslate nohighlight">\(\mu_y\)</span>. <em>Don’t subtract from the bias column, though.</em></p>
-<p>So now that things are centered, it’s less harmful to penalize our bias term. This means for ridge regression, instead of <span class="math notranslate nohighlight">\(I'\)</span> where the last diagonal element of <span class="math notranslate nohighlight">\(I'\)</span> was 0, we can just use the identity matrix <span class="math notranslate nohighlight">\(I\)</span> in our normal equations. Recall our normal equations for the standard primal form of ridge regression:</p>
+<p>where <span class="math notranslate nohighlight">\(X\)</span> is our design matrix, and <span class="math notranslate nohighlight">\(a\)</span> is our coefficient vector that indicates the optimal linear combination of sample points. If we assume this, we can instead the optimal <span class="math notranslate nohighlight">\(a\)</span> instead of <span class="math notranslate nohighlight">\(w\)</span>. In practice, we simply substitute <span class="math notranslate nohighlight">\(w = X^Ta\)</span> into our algorithm and solve for <span class="math notranslate nohighlight">\(a\)</span>. <span class="math notranslate nohighlight">\(a\)</span>’s weights are called <strong>dual weights</strong>. So now, our goal is to find <span class="math notranslate nohighlight">\(n\)</span> optimal dual weights for <span class="math notranslate nohighlight">\(a\)</span> instead of <span class="math notranslate nohighlight">\(d+1\)</span> (or <span class="math notranslate nohighlight">\(d^p\)</span>) optimal primal weights for <span class="math notranslate nohighlight">\(w\)</span>.</p>
+<p>Let’s do this for ridge regression as an example. Before we dualize the ridge regression equation, though, there’s one small detail we need to take care of first. In this case, we do want to penalize the bias term because we’re finding a linear combination of the sample points- this is only true IF we penalize the bias term. To minimize damage from this, we first center <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(y\)</span> so their means are zero. Specifically, for each sample point (row) <span class="math notranslate nohighlight">\(X_i\)</span>, subtract the mean <span class="math notranslate nohighlight">\(\mu_X\)</span>. For each <span class="math notranslate nohighlight">\(y_i\)</span>, subtract by <span class="math notranslate nohighlight">\(\mu_y\)</span>. <em>Don’t center the bias column, though: a 0s column will not be useful.</em></p>
+<p>With centered <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(y\)</span>, it’s less harmful to penalize our bias term. So in the ridge regression equation, instead of <span class="math notranslate nohighlight">\(I'\)</span> where the last diagonal element of <span class="math notranslate nohighlight">\(I'\)</span> was 0, we can just use the identity matrix <span class="math notranslate nohighlight">\(I\)</span> in our normal equations. Recall our normal equations for the standard primal form of ridge regression:</p>
 <p><span class="math notranslate nohighlight">\((X^TX + \lambda I)w = X^Ty\)</span></p>
-<p>The reasoning centering helps: if we have data from a random distribution, then the expected linear regression will pass through the origin. So centering <span class="math notranslate nohighlight">\(X,y\)</span> will have the decision boundary likely to pass through the origin or close to it.</p>
+<p>Why does centering help? If we have data from a random distribution, then the expected linear regression will pass through the origin. So centering <span class="math notranslate nohighlight">\(X,y\)</span> will have the decision boundary likely to pass through the origin or close to it.</p>
 <p>Let’s now look at the normal equations for the dual form of ridge regression, which we can obtain from above via substitution. Suppose we have a vector <span class="math notranslate nohighlight">\(a\)</span> which is a solution to:</p>
 <p><span class="math notranslate nohighlight">\((XX^T+\lambda I)a = y\)</span></p>
-<p>Then, <span class="math notranslate nohighlight">\(X^Ty = X^TXX^Ta + \lambda X^Ta = (X^TX+\lambda I)X^T a\)</span>.</p>
-<p>Note that the first term <span class="math notranslate nohighlight">\((X^TX+\lambda I)\)</span> matches the first term in the primal form. Thus, <span class="math notranslate nohighlight">\(X^Ta\)</span> <em>must be a solution for</em> <span class="math notranslate nohighlight">\(w\)</span> in the primal normal equations. Thus, we conclude <span class="math notranslate nohighlight">\(w = X^Ta\)</span> is a solution to the primal normal equations. Moreover, we see that <span class="math notranslate nohighlight">\(w\)</span> is indeed a linear combination of sample points from <span class="math notranslate nohighlight">\(X\)</span>! This is key to making kernels and duality work.</p>
+<p>Then, <span class="math notranslate nohighlight">\(X^Ty = X^TXX^Ta + \lambda X^Ta = (X^TX+\lambda I)X^T a\)</span>. Therefore, <span class="math notranslate nohighlight">\(w = X^Ta\)</span> is a solution to our normal equations, and <span class="math notranslate nohighlight">\(w\)</span> is a linear combination of points in <span class="math notranslate nohighlight">\(X\)</span>.</p>
 <p>So we call <span class="math notranslate nohighlight">\(a\)</span> the <strong>dual solution</strong>. It solves the dual form of ridge regression and we want to find <span class="math notranslate nohighlight">\(a\)</span> that minimizes</p>
 <p><span class="math notranslate nohighlight">\(||XX^Ta-y||^2+\lambda||X^Ta||^2\)</span></p>
 <p>We got this objective function by simply plugging in <span class="math notranslate nohighlight">\(w = X^Ta\)</span> into the original cost function for ridge regression. We can easily verify <span class="math notranslate nohighlight">\(a\)</span> by taking the gradient of this function and solving for <span class="math notranslate nohighlight">\(a\)</span>.</p>
-<p>For the training part of dual ridge regression, we first solve the normal equations for dual weights <span class="math notranslate nohighlight">\(a\)</span>. Since we know this system of linear equations <span class="math notranslate nohighlight">\((XX^T+\lambda I)\)</span> is symmetric and positive definite, it’s easy to solve and has a unique solution. For testing, our regression function on test point <span class="math notranslate nohighlight">\(z\)</span> is <span class="math notranslate nohighlight">\(h(z) = w^Tz = a^TXz\)</span>. Note that <span class="math notranslate nohighlight">\(a^TXz\)</span> is also a linear combination, or weighted sum, of inner products:</p>
+<p>For the training part of dual ridge regression, we first solve the dual normal equations for <span class="math notranslate nohighlight">\(a\)</span>. Since we know <span class="math notranslate nohighlight">\((XX^T+\lambda I)\)</span> is symmetric and positive definite, it has a unique solution. For testing, our regression function on test point <span class="math notranslate nohighlight">\(z\)</span> is <span class="math notranslate nohighlight">\(h(z) = w^Tz = a^TXz\)</span>. Note that <span class="math notranslate nohighlight">\(a^TXz\)</span> is also a linear combination, or weighted sum, of inner products:</p>
 <p><span class="math notranslate nohighlight">\(a^TXz = \sum_{i=1}^{n}a_iX_i^Tz\)</span></p>
-<p>This is key: remember I mentioned earlier that we calculate inner products of lifted feature vectors- the <span class="math notranslate nohighlight">\(X_i^Tz\)</span> is our inner product here that will be <strong>very</strong> important for what we want to do later.</p>
+<p>So our hypothesis is a weighted sum of inner products. The inner product <span class="math notranslate nohighlight">\(X_i^Tz\)</span> is an inner product here that will be <strong>very</strong> important for what we want to do later.</p>
 <p>Now that we have a good understanding of dual ridge regression, let’s define a little terminology.</p>
-<p>First, let us define the <strong>kernel function</strong> <span class="math notranslate nohighlight">\(k(x,z)\)</span>, where <span class="math notranslate nohighlight">\(x\)</span> is. For now, let the kernel function simply be the dot product of its input vectors: <span class="math notranslate nohighlight">\(k(x,z) = x^Tz\)</span>. Later, we’ll incorporate the lifting map <span class="math notranslate nohighlight">\(\Phi\)</span> on the two vectors before taking their inner product, but we’re not there yet.</p>
-<p>Now, define <strong>kernel matrix</strong> <span class="math notranslate nohighlight">\(XX^T\)</span> be an <span class="math notranslate nohighlight">\(n \times n\)</span> matrix. Note that <span class="math notranslate nohighlight">\(X\)</span> will have the bias dimension here. <span class="math notranslate nohighlight">\(K\)</span> is defined such that <span class="math notranslate nohighlight">\(K_{ij} = k(X_i, X_j)\)</span>. <span class="math notranslate nohighlight">\(K\)</span> is always positive semidefinite, but not necessarily positive definite. It is quite common for <span class="math notranslate nohighlight">\(K\)</span> to be singular, and this is quite common if <span class="math notranslate nohighlight">\(n &gt; d+1\)</span>- and singularity can even happen even when this is not the case.</p>
-<p>If this happens, don’t expect a solution to your dual ridge regression problem if <span class="math notranslate nohighlight">\(\lambda = 0\)</span> (no regularization). This means we probably want <em>some</em> regularization- and this is good anyway to reduce overfitting.</p>
+<p>First, let us define the <strong>kernel function</strong> <span class="math notranslate nohighlight">\(k(x,z) = x^Tz\)</span>: simply the dot product of its input vectors. Later, we’ll replace <span class="math notranslate nohighlight">\(x, z\)</span> with <span class="math notranslate nohighlight">\(\Phi(x), \Phi(z)\)</span>, but we’re not there yet.</p>
+<p>Now, define <strong>kernel matrix</strong> <span class="math notranslate nohighlight">\(K = XX^T\)</span>, where <span class="math notranslate nohighlight">\(K\)</span> is an <span class="math notranslate nohighlight">\(n \times n\)</span> matrix. Note that <span class="math notranslate nohighlight">\(X\)</span> <em>does</em> have the bias dimension. Here, we can see that <span class="math notranslate nohighlight">\(K_{ij} = k(X_i, X_j)\)</span>. <span class="math notranslate nohighlight">\(K\)</span> is always positive semidefinite, but not necessarily positive definite. It is quite common for <span class="math notranslate nohighlight">\(K\)</span> to be singular, and this is quite common if <span class="math notranslate nohighlight">\(n &gt; d+1\)</span>- and singularity can even happen even when this is not the case. If <span class="math notranslate nohighlight">\(K\)</span> is singular, don’t expect a solution to dual ridge regression if <span class="math notranslate nohighlight">\(\lambda = 0\)</span> (no regularization). This means we probably want <em>some</em> regularization- and this is good anyway to reduce overfitting.</p>
 <p>Kernelization and kernel algorithms is most interesting when <span class="math notranslate nohighlight">\(d\)</span> is very large, since our lifting map adds a lot of new features anyway. So the  <span class="math notranslate nohighlight">\(n &gt; d+1\)</span> isn’t something <em>too</em> worrisome.</p>
-<p>Now let’s write out the dual ridge regression algorithm in a manner that uses the kernel matrix and function, so we can apply it to kernelization. First, we compute the kernel matrix <span class="math notranslate nohighlight">\(K\)</span>: simply calculate <span class="math notranslate nohighlight">\(K_{ij} = k(X_i, X_j)\)</span>. Once we have this kernel matrix, we apply it to our dual normal equations to get</p>
-<p><span class="math notranslate nohighlight">\((K + \lambda I)a = y\)</span></p>
-<p>which gives us a linear system of equations to solve for dual weights <span class="math notranslate nohighlight">\(a\)</span>. Again, this is the training portion of the dual algorithm: for testing, we calculate <span class="math notranslate nohighlight">\(h(z)\)</span> for each test point <span class="math notranslate nohighlight">\(z\)</span>, where <span class="math notranslate nohighlight">\(h(z) = \sum_{i=1}^{n}a_ik(X_i, z)\)</span>. We’re going to work some magic to make our kernel function <span class="math notranslate nohighlight">\(k\)</span> <em>supremely fast</em>.</p>
-<p>But before we do that, let’s calculate the runtime of our dual algorithm. First, in calculating <span class="math notranslate nohighlight">\(K\)</span>, we calculate <span class="math notranslate nohighlight">\(n^2\)</span> entries as <span class="math notranslate nohighlight">\(k(X_i, X_j)\)</span>. Each calculation of <span class="math notranslate nohighlight">\(k(X_i, X_j)\)</span> is the dot product which has <span class="math notranslate nohighlight">\(O(d)\)</span> runtime, so computing <span class="math notranslate nohighlight">\(K\)</span> is <span class="math notranslate nohighlight">\(O(n^2d)\)</span>. Then, solving our <span class="math notranslate nohighlight">\(n \times n\)</span> linear system of equations generally takes <span class="math notranslate nohighlight">\(O(n^3)\)</span> time. Finally, for each test point, we compute <span class="math notranslate nohighlight">\(h(z)\)</span>, which takes <span class="math notranslate nohighlight">\(O(nd)\)</span> time. So overall, since we’re considering <span class="math notranslate nohighlight">\(d &gt;&gt; n\)</span>, our dual algorithm takes <span class="math notranslate nohighlight">\(O(n^2d + n^3)\)</span> time.</p>
+<p>Now let’s write out the dual ridge regression algorithm in a manner that uses the kernel matrix <span class="math notranslate nohighlight">\(K\)</span> and kernel function <span class="math notranslate nohighlight">\(k\)</span>.</p>
+<div class="proof algorithm admonition" id="algorithm-0">
+<p class="admonition-title"><span class="caption-number">Algorithm 7 </span> (Dual Ridge Regression, Kernelized)</p>
+<div class="algorithm-content section" id="proof-content">
+<ol class="simple">
+<li><p>Calculate kernel matrix <span class="math notranslate nohighlight">\(K\)</span> where <span class="math notranslate nohighlight">\(K_{ij} = k(X_i, X_j)\)</span>.</p></li>
+<li><p>Solve dual ridge regression equation <span class="math notranslate nohighlight">\((K + \lambda I)a = y\)</span> for dual weights vector <span class="math notranslate nohighlight">\(a\)</span>.</p></li>
+<li><p>For each test point <span class="math notranslate nohighlight">\(z\)</span></p>
+<ol class="simple">
+<li><p>Calculate prediction <span class="math notranslate nohighlight">\(h(z) = \sum_{i=1}^{n}a_ik(X_i, z)\)</span></p></li>
+</ol>
+</li>
+</ol>
+</div>
+</div><p>Let’s calculate the runtime of our dual algorithm. First, in calculating <span class="math notranslate nohighlight">\(K\)</span>, we calculate <span class="math notranslate nohighlight">\(n^2\)</span> entries as <span class="math notranslate nohighlight">\(k(X_i, X_j)\)</span>. Each calculation of <span class="math notranslate nohighlight">\(k(X_i, X_j)\)</span> is the dot product which has <span class="math notranslate nohighlight">\(O(d)\)</span> runtime, so computing <span class="math notranslate nohighlight">\(K\)</span> is <span class="math notranslate nohighlight">\(O(n^2d)\)</span>. Then, solving our <span class="math notranslate nohighlight">\(n \times n\)</span> linear system of equations generally takes <span class="math notranslate nohighlight">\(O(n^3)\)</span> time. Finally, for each test point, we compute <span class="math notranslate nohighlight">\(h(z)\)</span>, which takes <span class="math notranslate nohighlight">\(O(nd)\)</span> time. So overall, since we’re considering <span class="math notranslate nohighlight">\(d &gt;&gt; n\)</span>, __the dual algorithm takes <span class="math notranslate nohighlight">\(O(n^2d + n^3)\)</span> time. __</p>
+<p>Now, we’re going to work some magic to make our kernel function <span class="math notranslate nohighlight">\(k\)</span> <em>supremely fast</em>.</p>
 <p>Note our dual algorithm <em>does not use sample points <span class="math notranslate nohighlight">\(X_i\)</span> directly</em>. It is only used as an input to our kernel function <span class="math notranslate nohighlight">\(k\)</span>. So this means if we can configure our kernel function <span class="math notranslate nohighlight">\(k\)</span> to avoid using <span class="math notranslate nohighlight">\(X_i\)</span>’s value directly, this will be great for speed.</p>
-<p>Now let’s compare the dual algorithm with the primal for ridge regression. In the dual, we solve an <span class="math notranslate nohighlight">\(n \times n\)</span> linear system, and in the primal, we solve a <span class="math notranslate nohighlight">\(d \times d\)</span> system. We don’t transpose in the primal, so <span class="math notranslate nohighlight">\(n\)</span> and <span class="math notranslate nohighlight">\(d\)</span> simply swap places- meaning we have a <span class="math notranslate nohighlight">\(O(d^3 + d^2n)\)</span> runtime.</p>
-<p>This means that the choice between dual or runtime depends on comparing <span class="math notranslate nohighlight">\(d\)</span> and <span class="math notranslate nohighlight">\(n\)</span>. For raw runtime, we prefer dual when <span class="math notranslate nohighlight">\(d &gt; n\)</span>, and primal when <span class="math notranslate nohighlight">\(d \leq n\)</span>. Practically, though, we know that we’ll usually have way more sample points than features: <span class="math notranslate nohighlight">\(n &gt;&gt; d\)</span>. However, remember we’re using polynomial features and parabolic lifting, so we’re actually gonna have way more features than we think. This is why the dual might be useful here! <strong>Moreover, adding polynomial terms as new features will blow up <span class="math notranslate nohighlight">\(d\)</span> in the primal algorithm, but will stay constant in the dual.</strong></p>
+<p>Now let’s compare the dual algorithm with the primal for ridge regression. In the dual, we solve an <span class="math notranslate nohighlight">\(n \times n\)</span> linear system, and in the primal, we solve a <span class="math notranslate nohighlight">\(d \times d\)</span> system. We don’t transpose in the primal, so <span class="math notranslate nohighlight">\(n\)</span> and <span class="math notranslate nohighlight">\(d\)</span> simply swap places- meaning the <strong>primal algorithm has a <span class="math notranslate nohighlight">\(O(d^3 + d^2n)\)</span> runtime.</strong></p>
+<p>This means that the choice between dual or primal depends on comparing <span class="math notranslate nohighlight">\(d\)</span> and <span class="math notranslate nohighlight">\(n\)</span>. For raw runtime, we prefer dual when <span class="math notranslate nohighlight">\(d &gt; n\)</span>, and primal when <span class="math notranslate nohighlight">\(d \leq n\)</span>. Practically, though, we’ll usually have way more sample points than features: <span class="math notranslate nohighlight">\(n &gt;&gt; d\)</span>. However, with polynomial features and parabolic lifting, we’re actually gonna have way more features than we think. <strong>More importantly, adding polynomial terms as new features will blow up <span class="math notranslate nohighlight">\(d\)</span> in the primal algorithm runtime, but does not affect <span class="math notranslate nohighlight">\(d\)</span> in the dual runtime.</strong> So dual ridge regression is looking better and better here.</p>
 <p>Finally, remember that <strong>dual and primal produce the same exact predictions</strong>. They are just different ways of doing the same computation.</p>
 <div class="section" id="the-magic-kernelization">
 <h2>The Magic: Kernelization<a class="headerlink" href="#the-magic-kernelization" title="Permalink to this headline">¶</a></h2>
-<p>Now finally, the magic part. We can compute a polynomial kernel with <em>many</em> monomial terms <em>without actually computing the individual terms itself</em>.</p>
+<p>Now finally, the magic part. We can compute a polynomial kernel with many monomial terms <em>without actually computing the individual terms itself</em>.</p>
 <p>The polynomial kernel of degree <span class="math notranslate nohighlight">\(p\)</span> is given as <span class="math notranslate nohighlight">\(k(x,z) = (x^Tz + 1)^p\)</span>. Note that <span class="math notranslate nohighlight">\(x^Tz + 1\)</span> is a <em>scalar</em>, so taking it to a power is <span class="math notranslate nohighlight">\(O(1)\)</span> time.</p>
 <p>A theorem: <span class="math notranslate nohighlight">\((x^Tz + 1)^p = \Phi(x)^T\Phi(z)\)</span> where <span class="math notranslate nohighlight">\(\Phi(x)\)</span> contains every monomial in <span class="math notranslate nohighlight">\(x\)</span> of degree <span class="math notranslate nohighlight">\(p\)</span> (degree 0 to p). For example, let’s say we have <span class="math notranslate nohighlight">\(d=2\)</span> features, and want a degree <span class="math notranslate nohighlight">\(p=2\)</span> polynomial. Let’s assume <span class="math notranslate nohighlight">\(x, z \in R^2\)</span>. Then,</p>
 <p><span class="math notranslate nohighlight">\(k(x,z) = (x^Tz + 1)^2 = x_1^2z_1^2 + x_2^2z_2^2 + 2x_1z_1x_2z_2 + 2x_1z_1 + 2x_2z_2 + 1\)</span>.</p>
 <p>We can factor this into an inner product of two vectors, one with <span class="math notranslate nohighlight">\(x\)</span> terms and one with <span class="math notranslate nohighlight">\(z\)</span> terms:</p>
 <p><span class="math notranslate nohighlight">\(= \begin{bmatrix}x_1^2 &amp; x_2^2 &amp; \sqrt{2}x_1x_2 &amp; \sqrt{2}x_1 &amp; \sqrt{2}x_2 1\end{bmatrix} * \begin{bmatrix}z_1^2 &amp; z_2^2 &amp; \sqrt{2}z_1z_2 &amp; \sqrt{2}z_1 &amp; \sqrt{2}z_2 1\end{bmatrix}^T\)</span></p>
 <p>Now define <span class="math notranslate nohighlight">\(\Phi(x)\)</span> and <span class="math notranslate nohighlight">\(\Phi(z)\)</span> as these two respective vectors. Which means we can <em>finally</em> compute <span class="math notranslate nohighlight">\(k(x,z) = \Phi(x)^T\Phi(z)\)</span> like we dreamed of, and calculate it as a single expression <span class="math notranslate nohighlight">\((x^Tz + 1)^p\)</span> instead of actually computing <span class="math notranslate nohighlight">\(\Phi(x)\)</span> or <span class="math notranslate nohighlight">\(\Phi(z)\)</span> themselves! It’ll take <span class="math notranslate nohighlight">\(O(d)\)</span> runtime instead of <span class="math notranslate nohighlight">\(O(d^p)\)</span> time (by calculating <span class="math notranslate nohighlight">\(d^p\)</span> terms in <span class="math notranslate nohighlight">\(\Phi(x)\)</span>).</p>
-<p>Now, applying kernelization to ridge regression, the important thing to understand: we take our dual and replace <span class="math notranslate nohighlight">\(X_i\)</span> with <span class="math notranslate nohighlight">\(\Phi(X_i)\)</span>. Now, our kernel function is <span class="math notranslate nohighlight">\(k(x,z) = \Phi(x)^T\Phi(z)\)</span>.</p>
+<p>Now, applying kernelization to ridge regression, the important thing to understand: we take our dual and replace <span class="math notranslate nohighlight">\(X_i\)</span> with <span class="math notranslate nohighlight">\(\Phi(X_i)\)</span>. Now, our kernel function is <span class="math notranslate nohighlight">\(k(x,z) = \Phi(x)^T\Phi(z)\)</span>. But we aren’t computing  <span class="math notranslate nohighlight">\(\Phi(x)\)</span> or <span class="math notranslate nohighlight">\(\Phi(z)\)</span> and taking their inner product. We are computing <span class="math notranslate nohighlight">\((x^Tz + 1)^p\)</span>, which is equivalent.</p>
+</div>
+<div class="section" id="kernel-perceptrons">
+<h2>Kernel Perceptrons<a class="headerlink" href="#kernel-perceptrons" title="Permalink to this headline">¶</a></h2>
+<p>So how can we apply kernelization to ML algorithms? Let’s look at an example with perceptrons. The perceptron algorithm will stay the same as before, except we replace <span class="math notranslate nohighlight">\(X_i\)</span> with <span class="math notranslate nohighlight">\(\Phi(X_i)\)</span>:</p>
+<div class="proof algorithm admonition" id="algorithm-1">
+<p class="admonition-title"><span class="caption-number">Algorithm 8 </span> (Kernelized Perceptron, Primal)</p>
+<div class="algorithm-content section" id="proof-content">
+<ol class="simple">
+<li><p>Pick some starting point, e.g. <span class="math notranslate nohighlight">\(w = y_1\Phi(X_1)\)</span></p></li>
+<li><p>Training. While some <span class="math notranslate nohighlight">\(y_i \Phi(X_i) \cdot w &lt; 0\)</span> (there exists a misclassified point):</p>
+<ol class="simple">
+<li><p><span class="math notranslate nohighlight">\(w \leftarrow w + \epsilon y_i \Phi(X_i)\)</span></p></li>
+</ol>
+</li>
+<li><p>Testing. For each test point <span class="math notranslate nohighlight">\(z\)</span>:</p>
+<ol class="simple">
+<li><p><span class="math notranslate nohighlight">\(h(z) \leftarrow w \cdot \Phi(z)\)</span></p></li>
+</ol>
+</li>
+</ol>
+</div>
+</div><p>How do we convert this algorithm to its dual form?</p>
+<p>First, we want a <em>lifted</em> design matrix <span class="math notranslate nohighlight">\(\Phi(X)\)</span>, which is an <span class="math notranslate nohighlight">\(n \times D\)</span> matrix where <span class="math notranslate nohighlight">\(D\)</span> is the number of features after lifting. Each row <span class="math notranslate nohighlight">\(\Phi(X_i)^T\)</span> is a lifted sample point.</p>
+<p>Next, we define a kernel matrix <span class="math notranslate nohighlight">\(K = \Phi(X) \Phi(X)^T\)</span>. Note it is applied on lifted features, not raw features.</p>
+<p>Next, we substitute <span class="math notranslate nohighlight">\(w = \Phi(X)^Ta\)</span>, noting that our optimal solution is simply a linear combination of lifted sample points. We solve for <span class="math notranslate nohighlight">\(a\)</span>.</p>
+<p>So in the primal algorithm’s training phase, in step 2.1, we use stochastic gradient descent to find an optimal <span class="math notranslate nohighlight">\(w\)</span>. In the dual algorithm, we update each weight in <span class="math notranslate nohighlight">\(a\)</span> individually as follows:</p>
+<div class="math notranslate nohighlight">
+\[
+a_i \leftarrow a_i + \epsilon y_i
+\]</div>
+<p>This has the same effect as <span class="math notranslate nohighlight">\(w \leftarrow w + \epsilon y_i \Phi(X_i)\)</span> in the primal. We can verify this by simply substituting <span class="math notranslate nohighlight">\(w = \Phi(X)^Ta\)</span> into the primal update.</p>
+<p>Also note that <span class="math notranslate nohighlight">\(\Phi(X_i) \cdot w = (\Phi(X) \cdot w)_i = (\Phi(X) \Phi(X)^T a)_i = (Ka)_i\)</span>.</p>
+<p>Finally, we can set up our dual algorithm:</p>
+<div class="proof algorithm admonition" id="algorithm-2">
+<p class="admonition-title"><span class="caption-number">Algorithm 9 </span> (Kernelized Perceptron, Dual)</p>
+<div class="algorithm-content section" id="proof-content">
+<ol class="simple">
+<li><p>Get a starting point <span class="math notranslate nohighlight">\(a\)</span>, e.g. <span class="math notranslate nohighlight">\(a = \begin{bmatrix}y_1 &amp; 0 &amp; ... &amp; 0 \end{bmatrix}^T\)</span></p></li>
+<li><p>Compute kernel matrix <span class="math notranslate nohighlight">\(K\)</span></p></li>
+<li><p>Training: While some <span class="math notranslate nohighlight">\(y_i(Ka)_i &lt; 0\)</span>:</p>
+<ol class="simple">
+<li><p>$a_i \leftarrow a_i + \epsilon y_i</p></li>
+</ol>
+</li>
+<li><p>Testing: For each test point <span class="math notranslate nohighlight">\(z\)</span>:</p>
+<ol class="simple">
+<li><p><span class="math notranslate nohighlight">\(h(z) \leftarrow \sum_{i=1}^{n}a_ik(X_i, z)\)</span></p></li>
+</ol>
+</li>
+</ol>
+</div>
+</div><p>Let’s go over runtime again. Like always, computing the kernel matrix <span class="math notranslate nohighlight">\(K\)</span> takes <span class="math notranslate nohighlight">\(O(n^2d)\)</span> time. Note <span class="math notranslate nohighlight">\(d\)</span> is the number of <em>pre-lifted</em> (raw) features. Updating <span class="math notranslate nohighlight">\(a_i\)</span> takes <span class="math notranslate nohighlight">\(O(1)\)</span> time, but updating <span class="math notranslate nohighlight">\((Ka)_i\)</span> at every iteration takes <span class="math notranslate nohighlight">\(O(n)\)</span> time. Finally, computing test point predictions for <span class="math notranslate nohighlight">\(n\)</span> points takes <span class="math notranslate nohighlight">\(O(nd)\)</span> time.</p>
+</div>
+<div class="section" id="kernelized-logistic-regression">
+<h2>Kernelized Logistic Regression<a class="headerlink" href="#kernelized-logistic-regression" title="Permalink to this headline">¶</a></h2>
+<p>Kernelization is <em>very</em> common in logistic regression, and we’ll find that we’ve already done most of the work in previous sections! The key differences just deal with the characteristics of logistic regression itself:</p>
+<ol class="simple">
+<li><p>Instead of searching for a misclassified sample point each iteration, we apply GD to all points at once, or random sample points.</p></li>
+<li><p>The stochastic gradient step changes to account for logistic regression: it is now <span class="math notranslate nohighlight">\(a_i \leftarrow a_i + \epsilon(y_i - s((Ka)_i))\)</span>, where <span class="math notranslate nohighlight">\(s\)</span> is the logistic function.</p></li>
+<li><p>Our starting weights vector is <span class="math notranslate nohighlight">\(0\)</span>.</p></li>
+</ol>
+<p>Just like with perceptrons, every training iteration, we update a single dual weight <span class="math notranslate nohighlight">\(a_i\)</span>, and then update <span class="math notranslate nohighlight">\(Ka\)</span> in <span class="math notranslate nohighlight">\(O(n)\)</span> time. This way, we don’t have to compute <span class="math notranslate nohighlight">\(Ka\)</span> from scratch on the next iteration.</p>
+<p>What if we want batch gradient descent instead? All we have to change here is now apply <span class="math notranslate nohighlight">\(s\)</span> element-wise to a vector, specifically vector <span class="math notranslate nohighlight">\(Ka\)</span>. So our update rule is <span class="math notranslate nohighlight">\(a \leftarrow a + \epsilon(y-s(Ka))\)</span>. And for test predictions, we simply apply the sigmoid function on our weighted sample point sum: <span class="math notranslate nohighlight">\(h(z) = s(\sum_{i=1}^{n}a_ik(X_i, z))\)</span>. Note this is purely for knowledge of posterior probabilities; if we just want the classifier prediction, we don’t really need the sigmoid function in any case, and can just take the weighted sum as usual.</p>
+</div>
+<div class="section" id="gaussian-kernel">
+<h2>Gaussian Kernel<a class="headerlink" href="#gaussian-kernel" title="Permalink to this headline">¶</a></h2>
+<p>So we’ve learned how to do fast computation in extremely high dimensions. So one day some crackhead decided to expand on this and ask: if we can work with high-dimensional feature vectors, what about feature vectors in <em>infinite</em>-dimensional space?</p>
+<p>The <strong>Gaussian kernel</strong> is denoted by</p>
+<div class="math notranslate nohighlight">
+\[
+k(x, z) = \exp(-\frac{||x-z||^2}{2\sigma^2})
+\]</div>
+<p>Note that <span class="math notranslate nohighlight">\(-\frac{||x-z||^2}{2\sigma^2}\)</span> is the exponential part of the Gaussian PDF. Computing this kernel term takes <span class="math notranslate nohighlight">\(O(d)\)</span> time, as usual. Again, this kernel is the inner product of lifted feature vectors <span class="math notranslate nohighlight">\(\Phi(x) \cdot \Phi(z)\)</span>, where <span class="math notranslate nohighlight">\(\Phi\)</span> now has <em>infinite</em> dimensions.</p>
+<p>Let’s consider the case when <span class="math notranslate nohighlight">\(d=1\)</span>. In this case, our lifted feature vector is</p>
+<div class="math notranslate nohighlight">
+\[
+\Phi(X) = \exp(-\frac{x^2}{2\sigma^2})\begin{bmatrix} 1 &amp; \frac{x}{\sigma \sqrt{1}} &amp; \frac{x^2}{\sigma^2 \sqrt{2!}} &amp; \frac{x^3}{\sigma^3 \sqrt{3!}} &amp; ... \end{bmatrix}^T
+\]</div>
+<p>Again, we <em>don’t actually compute this</em>: instead, we are computing the kernel function <span class="math notranslate nohighlight">\(k(.,.)\)</span>.</p>
+<p>Now the hypothesis function for infinite-dimension lifts would be <span class="math notranslate nohighlight">\(h(z) = \sum_{i=1}^{n}a_ik(X_i, z)\)</span>, which is a <em>linear combination of Gaussians</em>. Each Gaussian is centered at a sample point <span class="math notranslate nohighlight">\(X_i\)</span>. Let’s visualize this as a 3D plot of <span class="math notranslate nohighlight">\(h(z)\)</span>:</p>
+<a class="reference internal image-reference" href="../_images/Gaussians.png"><img alt="../_images/Gaussians.png" class="align-center" src="../_images/Gaussians.png" style="width: 400px;" /></a>
+<p>Here we see a linear combination of four Gaussians. The 2 humps are Gaussians with <em>positive</em> coefficients <span class="math notranslate nohighlight">\(a_i\)</span>, while the 2 troughs are Gaussians with negative coefficients. Gaussian-kernel ridge regression will output this kind of regression function.</p>
+<p>The Gaussian kernel is very popular in practice. Why? There are many reasons:</p>
+<ul class="simple">
+<li><p>Smooth regression function <span class="math notranslate nohighlight">\(h\)</span>: in fact, <span class="math notranslate nohighlight">\(h\)</span> is infinitely differentiable.</p></li>
+<li><p>Behaves similar to k-nearest-neighbors. Sample points <span class="math notranslate nohighlight">\(X_i\)</span> closer to a test point <span class="math notranslate nohighlight">\(z\)</span> have a much greater influence than sample points further away. This is, of course, indicated by the kernel function. Fortunately, unlike k-NN, the Gaussian kernel tends to give much smoother decision boundaries.</p></li>
+<li><p>Decision boundaries oscillate much less than high-degree polynomials, depending on Gaussian width hyperparameter <span class="math notranslate nohighlight">\(\sigma\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(k(x,z)\)</span> is interpreted as a similarity function. Thus, <span class="math notranslate nohighlight">\(k\)</span> is maximized when <span class="math notranslate nohighlight">\(x = z\)</span>, but fades to 0 as the distance between <span class="math notranslate nohighlight">\(x, z\)</span> increases.</p></li>
+</ul>
+<p>The hyperparameter <span class="math notranslate nohighlight">\(\sigma\)</span> represents Gaussian width. Like all hyperparameters, we choose <span class="math notranslate nohighlight">\(\sigma\)</span> by validation. With larger <span class="math notranslate nohighlight">\(\sigma\)</span>, we have wider Gaussians, which means <span class="math notranslate nohighlight">\(h\)</span> is smoother, which increases bias but decreases variance.</p>
 </div>
 </div>
 
@@ -471,7 +614,7 @@
         
           By Kevin Moy<br/>
         
-            &copy; Copyright 2020.<br/>
+            &copy; Copyright 2021.<br/>
       </p>
     </div>
   </footer>

@@ -59,7 +59,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Neural Network Backpropagation: An Example" href="NNexample.html" />
+    <link rel="next" title="Neural Network Variations" href="intro2.html" />
     <link rel="prev" title="Kernels" href="../Ch13/intro.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -256,8 +256,8 @@
   </a>
   <ul class="collapse-ul">
    <li class="toctree-l2">
-    <a class="reference internal" href="NNexample.html">
-     Neural Network Backpropagation: An Example
+    <a class="reference internal" href="intro2.html">
+     Neural Network Variations
     </a>
    </li>
   </ul>
@@ -266,7 +266,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../Ch15/intro.html">
-   Chapter 15: Neurobiology and Variations on Neural Networks
+   Chapter 15: Improving Neural Network Training
   </a>
  </li>
  <li class="toctree-l1">
@@ -277,6 +277,31 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../Ch17/intro.html">
    Chapter 17: Singular Value Decomposition and Clustering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch18/intro.html">
+   Chapter 18: Spectral Graph Clustering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch19/intro.html">
+   Chapter 19: Multiple Eigenvectors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch20/intro.html">
+   Chapter 20: AdaBoost
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch21/intro.html">
+   Chapter 21: Nearest Neighbors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch22/intro.html">
+   Chapter 22: Optomizing k-NN
   </a>
  </li>
 </ul>
@@ -419,14 +444,14 @@
 <li><p>Logistic Regression</p></li>
 <li><p>Ensemble Learning</p></li>
 <li><p>Stochastic Gradient Descent</p></li>
-<li><p>Lifting sample points to a higher-dimensional feature space</p></li>
+<li><p>Higher-dimensional feature vector lifting</p></li>
 </ul>
 <p>Let’s go back a few chapters: all the way back to perceptrons. Remember that perceptrons were basically machines that came up with a linear decision boundary. Of course, there are inherent limitations to what a perceptron can do, particularly XOR:</p>
 <a class="reference internal image-reference" href="../_images/XOR.png"><img alt="../_images/XOR.png" src="../_images/XOR.png" style="width: 400px;" /></a>
 <p>Here, we simply convert the XOR truth table to four points in 2-dimensional (binary) feature space. Blue points correspond to 1, while white points correspond to 0? Note that no matter how hard you try, you cannot find a linear separator that separates blue from white.</p>
 <p>The fact that the perceptron showed such limitations on even “simple” problems like these drastically slowed research in the neural network field, for about a decade. Tough.</p>
 <p>But there exist many simple solutions for this. One is  adding a quadratic feature <span class="math notranslate nohighlight">\(x_1x_2\)</span>- effectively lifting our points to 3-dimensional feature space. <em>Now</em>, XOR is linearly separable.</p>
-<p>But what about another way? Say we want to calculate <span class="math notranslate nohighlight">\(X\)</span> XOR <span class="math notranslate nohighlight">\(Y\)</span>. We know that perceptrons output a linear combination of its inputs. What if we <em><em>chained</em></em> multiple perceptrons together like this, for inputs <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>. Can <span class="math notranslate nohighlight">\(Z\)</span> be the XOR of <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>?</p>
+<p>But what about another way? Say we want to calculate <span class="math notranslate nohighlight">\(X\)</span> XOR <span class="math notranslate nohighlight">\(Y\)</span>. We know that perceptrons output a linear combination of its inputs. What if we <em>chained</em> multiple perceptrons together like this, for inputs <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>. Can <span class="math notranslate nohighlight">\(Z\)</span> be the XOR of <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span>?</p>
 <img src="C:\Users\Kevin\AppData\Roaming\Typora\typora-user-images\image-20210418153907912.png" alt="image-20210418153907912" style="zoom:50%;" />
 <p>No. In all, all we have from chaining linear combos in this manner is just another linear combination. So equivalently, we just have another perceptron- will only work for linearly separable points.</p>
 <p>We need to implement in between the initial perceptron outputs. Let us call the linear combo boxes <em>neurons</em>, although they may sometimes be referred to as <em>units</em>. If a neuron’s output is run through some nonlinear function <em>before</em> it goes to the next neuron as an input, then we may be able to simulate logic gates, and from there we might be able to build XOR.</p>
@@ -437,7 +462,7 @@
 </div>
 <div class="section" id="neural-networks-with-1-hidden-layer">
 <h2>Neural Networks with 1 Hidden Layer<a class="headerlink" href="#neural-networks-with-1-hidden-layer" title="Permalink to this headline">¶</a></h2>
-<p>Remember with our bias term, our inputs layer has <span class="math notranslate nohighlight">\(d+1\)</span> units. Then, we have a <strong>hidden layer</strong> of perceptrons- again, accounting for the bias term, we have <span class="math notranslate nohighlight">\(m+1\)</span> units. Finally, our output layer will have <span class="math notranslate nohighlight">\(k\)</span> units- the number that <span class="math notranslate nohighlight">\(k\)</span> represents is application-dependent.</p>
+<p>Remember with our bias term, our inputs layer has <span class="math notranslate nohighlight">\(d+1\)</span> units. Then, we have a <strong>hidden layer</strong> of perceptrons- again, accounting for the bias term, we have <span class="math notranslate nohighlight">\(m+1\)</span> units. Finally, our output layer will have <span class="math notranslate nohighlight">\(k\)</span> units- the number that <span class="math notranslate nohighlight">\(k\)</span> represents is application-dependent. For example, if we want to classify digits, then we might want <span class="math notranslate nohighlight">\(k=10\)</span> output units, where each output represents a posterior probability that the classification is a certain digit.</p>
 <p>Each layer’s weights can be represented by a matrix with each row representing a node in the <em>next</em> layer, and each column representing a node in the <em>current</em> layer. Therefore, for our first layer, we will have a <span class="math notranslate nohighlight">\(m \times (d + 1)\)</span> sized matrix <span class="math notranslate nohighlight">\(V\)</span>, with each element representing a connection weight between nodes in the input layer and hidden layer. Similarly, the weight matrix connecting the hidden layer to the output layer has size <span class="math notranslate nohighlight">\(k \times (m+1)\)</span>. We will denote this matrix <span class="math notranslate nohighlight">\(W\)</span>.</p>
 <p>Assume our activation function is the logistic function, but many other activation functions can be used here.</p>
 <p>We can denote our output vector as a function of the input:</p>
@@ -576,7 +601,7 @@
         <div class='prev-next-bottom'>
             
     <a class='left-prev' id="prev-link" href="../Ch13/intro.html" title="previous page">Kernels</a>
-    <a class='right-next' id="next-link" href="NNexample.html" title="next page">Neural Network Backpropagation: An Example</a>
+    <a class='right-next' id="next-link" href="intro2.html" title="next page">Neural Network Variations</a>
 
         </div>
         
@@ -588,7 +613,7 @@
         
           By Kevin Moy<br/>
         
-            &copy; Copyright 2020.<br/>
+            &copy; Copyright 2021.<br/>
       </p>
     </div>
   </footer>

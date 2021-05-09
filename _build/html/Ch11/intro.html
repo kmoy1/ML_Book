@@ -256,8 +256,8 @@
   </a>
   <ul class="collapse-ul">
    <li class="toctree-l2">
-    <a class="reference internal" href="../Ch14/NNexample.html">
-     Neural Network Backpropagation: An Example
+    <a class="reference internal" href="../Ch14/intro2.html">
+     Neural Network Variations
     </a>
    </li>
   </ul>
@@ -266,7 +266,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../Ch15/intro.html">
-   Chapter 15: Neurobiology and Variations on Neural Networks
+   Chapter 15: Improving Neural Network Training
   </a>
  </li>
  <li class="toctree-l1">
@@ -277,6 +277,31 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../Ch17/intro.html">
    Chapter 17: Singular Value Decomposition and Clustering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch18/intro.html">
+   Chapter 18: Spectral Graph Clustering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch19/intro.html">
+   Chapter 19: Multiple Eigenvectors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch20/intro.html">
+   Chapter 20: AdaBoost
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch21/intro.html">
+   Chapter 21: Nearest Neighbors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch22/intro.html">
+   Chapter 22: Optomizing k-NN
   </a>
  </li>
 </ul>
@@ -367,8 +392,35 @@
         <nav id="bd-toc-nav">
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ridge-regression">
+   Ridge Regression
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#bayesian-justification-for-ridge-regression">
    Bayesian Justification for Ridge Regression
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#feature-subset-selection">
+   Feature Subset Selection
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#heuristic-1-forward-stepwise-selection">
+     Heuristic 1: Forward Stepwise Selection
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#heuristic-2-backward-stepwise-selection">
+     Heuristic 2: Backward Stepwise Selection
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#lasso-regularization">
+   LASSO Regularization
   </a>
  </li>
 </ul>
@@ -385,24 +437,67 @@
                 
   <div class="section" id="regularization">
 <h1>Regularization<a class="headerlink" href="#regularization" title="Permalink to this headline">¶</a></h1>
-<p>Today we’ll talk about various methods called <strong>shrinkage</strong>, ways to regularize weights learned to be smaller than they should be.</p>
-<p>The first method is <strong>ridge regression</strong>: it uses L2 regularization (sometimes called Tikhonov regularization). It’s a lot like OLS, but we use the <span class="math notranslate nohighlight">\(l2\)</span> penalized mean loss. So we find <span class="math notranslate nohighlight">\(w\)</span> that minimizes</p>
+<p>Sometimes, a model can learn very large weights, which can cause a lot of overfitting. To combat this, we use <strong>regularization</strong>: putting limits on learning weights, making them smaller than they should be. To put this in effect, we can add a term that penalizes large weights in the risk function. The two main types of regularization:</p>
+<ul class="simple">
+<li><p>L1 regularization: penalty term is <span class="math notranslate nohighlight">\(\lambda \sum_i |w_i|\)</span></p></li>
+<li><p>L2 regularization: penalty term is <span class="math notranslate nohighlight">\(\lambda ||w||^2\)</span>.</p></li>
+</ul>
+<p>where <span class="math notranslate nohighlight">\(\lambda\)</span> is a hyperparameter that we can control: the larger it is, the more that large weights are penalized. Let’s take a look at this in depth.</p>
+<div class="section" id="ridge-regression">
+<h2>Ridge Regression<a class="headerlink" href="#ridge-regression" title="Permalink to this headline">¶</a></h2>
+<p><strong>Ridge regression</strong> is regression applied with <span class="math notranslate nohighlight">\(L_2\)</span> regularization. In ridge regression, we are now finding <span class="math notranslate nohighlight">\(w\)</span> that minimizes</p>
 <div class="math notranslate nohighlight">
-\[ \begin{align}\begin{aligned}||X \cdot w - y||^2 + \lambda||w'||^2$$. \\The regularization term (aka penalty term) takes $w'$: it is the same as $w$ except the bias term is 0 (we don't penalize the bias term). This regularization term &quot;encourages&quot; the weights in $w$ to be small, as we penalize larger ones. By shrinkage of $w$, we ensure our normal vectors are not too long. \\Two common reasons why we want shrinkage. First of all, **ridge regression guarantees a positive definite matrix of normal equations** (whereas only positive semidefinite was guaranteed before). For example, if points did not fully span our feature span, i.e. they were on a hyperplane of feature space, then least-squares linear regression DOES NOT have a unique solution, since our matrix is PSD (might have a few 0-eigenvalues). **This ensures there's always a unique solution**. \\Take a look at the diagram below:\\&lt;img src=&quot;C:\Users\Kevin\AppData\Roaming\Typora\typora-user-images\image-20210315134352411.png&quot; alt=&quot;image-20210315134352411&quot; style=&quot;zoom:33%;&quot; /&gt;\\On the left, the quadratic form from a least squares regression problem. `beta1, beta2` are the feature space. The z axis is the cost function we want to optimize. Note there's more than one solution, indicated by the flat line at the bottom of the paraboloid. Such a regression problem is said to be **ill-posed**. \\Now on the right, adding the regularization term turns our ill-posed problem into a **well-posed** problem- there's one unique solution now. \\So the second motivation: we reduce overfitting by reducing variance. Imagine regression gives us a curve $h(x) = 500x_1 - 500x_2$. However, the points are well-separated. But the labels are constrained as $y_i \in [0,1]$. So the points aren't close, but the labels are. The weights being that large doesn't really make sense- a very small change in $x$ can give a very large change in $y$! When a curve $h$ oscillates a lot, it's a sign of overfitting and high variance. \\Recall our objective function $J(w) = ||Xw -y||^2$ has weights $\beta_1, \beta_2$. At the center of the contours of $J(w)$, we have our optimal solution WITHOUT regularization.\\&lt;img src=&quot;C:\Users\Kevin\AppData\Roaming\Typora\typora-user-images\image-20210315135520811.png&quot; alt=&quot;image-20210315135520811&quot; style=&quot;zoom:33%;&quot; /&gt;\\However, once we do add regularization term $\lambda||w'||^2$, the isocontours of this term are perfect spheres (blue circle above). What we want to do is minimize a weighted combination of regularization and squared error. **The optimal solution is where an isocontour of 1 barely touches an isocontour of the other**. Note the point where the red touches the sphere: that is ONE solution for a particular choice of $\lambda$. But for different $\lambda$, it'll be different. For all possible solutions given all possible lambda, we get a *curve* of all optimal solutions. One endpoint is when $\lambda$ = 0: this is the center point of the red ellipses.\\We can still solve $\nabla J(w) = 0$  through calculus. Specifically, we get \\$$(X^TX + \lambda I')w = X^Ty\end{aligned}\end{align} \]</div>
-<p>where <span class="math notranslate nohighlight">\(I'\)</span> is identity matrix with the bottom right term set to 0 (since we don’t penalize the bias term).</p>
-<p>Once we solve for <span class="math notranslate nohighlight">\(w\)</span>, we just return the hypothesis as <span class="math notranslate nohighlight">\(h(z) = w^Tz\)</span>.</p>
-<p>With increasing lambda, we of course apply more regularization, forcing <span class="math notranslate nohighlight">\(||w'||\)</span> to get smaller and smaller. Assuming a model of the data where we assume the data came from a linear relationship with Gaussian noise (<span class="math notranslate nohighlight">\(y = Xv + e\)</span>), the variance of ridge regression is equal to</p>
+\[
+J(w) = ||X \cdot w - y||^2 + \lambda||w'||^2
+\]</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Ridge regression is a special case of <em>Tikhonov regularization</em>, which represent regularization methods where all weights are penalized equally.</p>
+</div>
+<p>Note that we don’t want to penalize the bias term, so <span class="math notranslate nohighlight">\(w'\)</span> is just <span class="math notranslate nohighlight">\(w\)</span> except the bias term is 0. In training, the penalty term “pushes” the model’s learned weights <span class="math notranslate nohighlight">\(w\)</span> to be smaller. By shrinkage of <span class="math notranslate nohighlight">\(w\)</span>, we limit the magnitude of our normal vector.</p>
+<p>There are two common reasons why we want to apply regularization- specifically, ridge regression:</p>
+<ol class="simple">
+<li><p>Ridge Regression guarantees a unique solution.</p></li>
+<li><p>Regularization reduces overfitting.</p></li>
+</ol>
+<p>Let’s analyze each of these two reasons in detail.</p>
+<p>Before in standard OLS, in the case that <span class="math notranslate nohighlight">\(d &gt; n\)</span> (more features than rows), our <em>normal equation matrix</em> <span class="math notranslate nohighlight">\(X^TX\)</span> does not have full rank, and therefore cannot be inverted to obtain a closed-form solution. In other words, <span class="math notranslate nohighlight">\(X^TX\)</span> was only positive semidefinite: it had a few 0-eigenvalues. However, the addition of the penalty term <em>guarantees</em> a positive definite <span class="math notranslate nohighlight">\(X^TX\)</span>, and thus positive eigenvalues, and thus a unique solution. This will become even clearer once we derive the closed-form solution for <span class="math notranslate nohighlight">\(w\)</span>.</p>
+<p>Take a look at the diagram below:</p>
+<a class="reference internal image-reference" href="../_images/ridgequad.png"><img alt="../_images/ridgequad.png" class="align-center" src="../_images/ridgequad.png" style="width: 600px;" /></a>
+<p>Here, we plot risk vs. a 2-dimensional feature space. The z axis is the cost function <span class="math notranslate nohighlight">\(J\)</span> we want to minimize. On the left, our cost function takes a <em>positive semidefinite quadratic form</em>: all this means is that for all possible inputs <span class="math notranslate nohighlight">\(w\)</span>, <span class="math notranslate nohighlight">\(J(w) \ge 0\)</span>. Note there’s infinite solutions along the flat line at the bottom of the paraboloid.</p>
+<p>On the right, we have the regularized cost function, which makes it positive definite: <span class="math notranslate nohighlight">\(J(w) &gt; 0\)</span> for all <span class="math notranslate nohighlight">\(w\)</span>. It has one unique solution.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Regression problems with infinite solutions are said to be <strong>ill-posed</strong>. “Regularization” itself implies we turn an ill-posed problem into a <em>well-posed</em> one: one with a unique solution.</p>
+</div>
+<p>The second reason for regularization: dealing with overfitting. In ridge regression, we are reducing overfitting by reducing variance. Remember that when small changes to input lead to large changes in output, we have high variance and overfitting. Imagine regression gives us a curve <span class="math notranslate nohighlight">\(h(x) = 500x_1 - 500x_2\)</span>. However, the points are well-separated. But the labels are constrained as <span class="math notranslate nohighlight">\(y_i \in [0,1]\)</span>. So the points aren’t close, but the labels are. The weights being that large doesn’t really make sense- a very small change in <span class="math notranslate nohighlight">\(x\)</span> can give a very large change in <span class="math notranslate nohighlight">\(y\)</span>! When a curve <span class="math notranslate nohighlight">\(h\)</span> oscillates a lot, it’s a sign of overfitting and high variance.</p>
+<p>So to “resist” learning these large weights, we add a penalty term for them.</p>
+<p>Let’s look at a visual example. Say our objective function is for least squares: <span class="math notranslate nohighlight">\(J(w) = ||Xw -y||^2\)</span>. Note there’s no regularization here. At the center of the red contours of <span class="math notranslate nohighlight">\(J(w)\)</span>, we have our optimal solution <span class="math notranslate nohighlight">\(\hat{w}\)</span>. We also plot the regularization term <span class="math notranslate nohighlight">\(\lambda||\w'||^2\)</span> in blue, which have perfectly spherical isocontours.</p>
+<a class="reference internal image-reference" href="../_images/ridgeterms.png"><img alt="../_images/ridgeterms.png" class="align-center" src="../_images/ridgeterms.png" style="width: 400px;" /></a>
+<p>Note that <strong>the optimal solution is where an isocontour of 1 barely touches an isocontour of the other</strong>. In other words, there exist 2 isovalues for <span class="math notranslate nohighlight">\(||Xw-y||^2\)</span> and <span class="math notranslate nohighlight">\(\lambda||\w'||^2\)</span> such that they intersect tangentially, and intersection point <span class="math notranslate nohighlight">\(\hat{w}\)</span> is our unique solution <em>for a given <span class="math notranslate nohighlight">\(\lambda\)</span></em>. For different <span class="math notranslate nohighlight">\(\lambda\)</span>, the solution can and will be different. This means we can have a curve of all optimal solutions for every given <span class="math notranslate nohighlight">\(\lambda \ge 0\)</span>. For example, one endpoint is when <span class="math notranslate nohighlight">\(\lambda\)</span> = 0: this is the center point of the red ellipses, as there’s regularization and we’re back to least squares.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It is also extremely common to view penalty terms as a <em>constraint</em> rather than part of the cost function to minimize. For example, in L2 regularization, we could also write the problem as minimizing <span class="math notranslate nohighlight">\(||X \cdot w - y||^2\)</span> subject to constraint <span class="math notranslate nohighlight">\(||w'||^2 \le T\)</span> for some arbitrary scalar <span class="math notranslate nohighlight">\(T\)</span>. Fortunately, for visualization purposes, it’s the exact same; now our penalty term’s isocontours are represented as <span class="math notranslate nohighlight">\(T\)</span>.</p>
+</div>
+<p>Let’s solve <span class="math notranslate nohighlight">\(\nabla J(w) = 0\)</span>  through calculus. We get normal equations</p>
+<div class="math notranslate nohighlight">
+\[(X^TX + \lambda I')w = X^Ty\]</div>
+<p>where <span class="math notranslate nohighlight">\(I'\)</span> is identity matrix with the bottom right term set to 0 (since we don’t penalize the bias term). Once we solve for <span class="math notranslate nohighlight">\(w\)</span>, we have our model: our hypothesis function <span class="math notranslate nohighlight">\(h(z) = w^Tz\)</span>.</p>
+<p>With increasing <span class="math notranslate nohighlight">\(\lambda\)</span>, we of course apply more regularization, forcing <span class="math notranslate nohighlight">\(||w'||\)</span> to get smaller and smaller. Assuming our data’s true relationship is linear with Gaussian noise (<span class="math notranslate nohighlight">\(y = Xv + e\)</span>), the variance of ridge regression is equal to</p>
 <div class="math notranslate nohighlight">
 \[\text{Var}(z^T(X^TX+\lambda I')^{-1}X^Te)\]</div>
 <p>which is the standard variance over the distribution of all possible <span class="math notranslate nohighlight">\(X,y\)</span>. The matrix <span class="math notranslate nohighlight">\(\lambda I'\)</span> gets larger as lambda does, so as <span class="math notranslate nohighlight">\(\lambda \to \infty\)</span> variance goes to 0, BUT bias will increase.</p>
 <img src="C:\Users\Kevin\AppData\Roaming\Typora\typora-user-images\image-20210315140946841.png" alt="image-20210315140946841" style="zoom:33%;" /> 
-<p>As lambda gets larger, variance drops to 0, but bias (squared) is increasing. In fact, the hypothesis ITSELF is actually pushed to 0 (since its weights are), so once it gets super small it’s obviously not a good approximation of <span class="math notranslate nohighlight">\(g\)</span>. The point X where we minimize test error is considered optimal and the lambda we want.</p>
-<p>Note the regularization term <span class="math notranslate nohighlight">\(\lambda ||w'||^2\)</span> penalizes all weights equally- this isn’t generally true in practice. For that reason, it makes sense to <em>normalize</em> all features s.t. they all have the same variance, and are thus on the same “scale”.</p>
-<p>Alternatively, we can use an <em>asymmetric penalty</em> by replacing <span class="math notranslate nohighlight">\(I'\)</span> with some other diagonal matrix. For example, cubic features should not have the same penalty as linear features.</p>
+<p>As lambda gets larger, there’s more regularization, which means less variance but more bias. Eventually our model weights get so small that our model <span class="math notranslate nohighlight">\(h\)</span> itself is actually pushed to 0, and at this point it’s obviously not a good approximation of <span class="math notranslate nohighlight">\(g\)</span>. The <span class="math notranslate nohighlight">\(\lambda\)</span> where we minimize test error is considered optimal- we find this via validation.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><span class="math notranslate nohighlight">\(\lambda ||w'||^2\)</span> penalizes all weights equally. This might not hold well in practice, since features can have very different measurement units. For that reason, it makes sense to <em>normalize</em> all features s.t. they all have the same variance, and are thus on the same “scale”. Alternatively, we can implement an <em>asymmetric penalty</em> by replacing <span class="math notranslate nohighlight">\(I'\)</span> with some other diagonal matrix. For example, we might want to penalize cubic feature weights more than linear features, so we’d give the corresponding diagonal element a higher value.</p>
+</div>
+</div>
 <div class="section" id="bayesian-justification-for-ridge-regression">
 <h2>Bayesian Justification for Ridge Regression<a class="headerlink" href="#bayesian-justification-for-ridge-regression" title="Permalink to this headline">¶</a></h2>
-<p>We can justify using an L2 regularization term in ridge regression.</p>
-<p>First, we assign a prior probability on <span class="math notranslate nohighlight">\(w'\)</span>: we don’t assume all weights are equally likely. If a weight is big, be skeptical, if small, trust more. We can express this by stating that our weights <span class="math notranslate nohighlight">\(w' \sim N(0, \sigma^2)\)</span>. So very large <span class="math notranslate nohighlight">\(w'\)</span> will have very low PDF values (probabilities) in the normal distribution.</p>
+<p>Why use <span class="math notranslate nohighlight">\(L_2\)</span> regularization in particular for ridge regression?</p>
+<p>First, let’s assign a prior probability on <span class="math notranslate nohighlight">\(w'\)</span>: we don’t assume all weights are equally likely. If a weight is big, be skeptical, if small, it’s probably more likely to be correct. We can express this by stating that our weights <span class="math notranslate nohighlight">\(w' \sim N(0, \sigma^2)\)</span>. So very large <span class="math notranslate nohighlight">\(w'\)</span> will have very low PDF values or probabilities.</p>
 <p>Now, we <strong>apply MLE to the posterior probability</strong>. Remember Bayes theorem gives posterior</p>
 <div class="math notranslate nohighlight">
 \[f(w|X, y) = \frac{f(y|X, w) * f(w')}{f(y|X)}\]</div>
@@ -410,30 +505,56 @@
 <p>We can also think of the class-conditional probability/density as the likelihood function of <span class="math notranslate nohighlight">\(w\)</span> given <span class="math notranslate nohighlight">\(X, y\)</span>, so we get</p>
 <div class="math notranslate nohighlight">
 \[f(w|X,y) = \frac{L(w) * f(w')}{f(y|X)}\]</div>
-<p>Now maximizing the log posterior gives</p>
+<p>Now the log posterior, which we want to maximize, is given as</p>
 <div class="math notranslate nohighlight">
 \[ln(L(w)) + ln(f(w')) - C = -C_1||Xw-y||^2-C_2||w'||^2-C_3\]</div>
-<p>which finally leads to MINIMIZING</p>
+<p>which is equivalent to minimizing</p>
 <div class="math notranslate nohighlight">
-\[ \begin{align}\begin{aligned}||Xw-y||^2 + \lambda||w'||^2$$.\\So the process is:\\1. Assuming weights follow a distribution- some more likely than others.
-2. Write expression for posterior probability
-3. Apply MLE to posterior to get ridge regression function. \\We find the value of $\lambda$ by validation. \\## Feature Subset Selection\\Now what if the goal was to get rid of features that weren't very predictive? When there's a shitload of features, there comes a point where most just increase variance without reducing bias. \\So the idea is we identify the poorly predictive features and effectively get rid of them by setting corresponding weights to 0. This means less overfitting and smaller test errors. Another motivation is *inference*: we apply some human-understandable rules as features. The simpler your model, the easier to interpret it meaningfully.\\Pretty much all classification and regression benefits from this idea. But this could be a difficult problem. Different features can encode the same information in different ways. So it can be hard to figure out which subset is the best subset. \\The first algorithm for best subset selection is to just try all $2^d-1$ nonempty feature subsets, and train a classifier for EACH. We choose the best one by validation. Of course, this is incredibly inefficient and slow if $d$  is large. \\So here's where heuristics come into play.\\## Heuristic 1: Forward Stepwise Selection\\Forward stepwise selection adds one feature at a time to the model. We start with the null model (0 features). Then, add the best feature  left at each iteration. To select the best feature, we just train $d$ models and compare with validation. We stop when validation errors start to increase instead of decrease (from overfitting).\\So now we're training $O(d^2)$ models instead of $O(2^d)$. Better.\\But not perfect: for example, there may be cases where we have a 2-feature model if neither of the features yield the best 1-feature model (they have to be good individually).\\## Heuristic 2: Backward Stepwise Selection\\This is now pretty straightforward (straightbackward). Now, we start with all $d$ features and remove one at a time until validation error starts to decrease. \\This also trains $O(d^2)$. \\Which is the better choice? Depends on how many features you think will be useful. If you only think a few features would be good, go forward, and vice versa. For example, for spam classification FSS is probably better. \\## Lasso Regularization\\Now we move on to L1 regularization- L1 penalized mean loss instead of L2.  \\Lasso, incidentally, is an acronym: for &quot;least absolute shrinkage + selection operator&quot;. \\The advantage of L1 regularization over L2 is it **naturally sets some weights to zero.** This can be really useful in some cases, at it sort of emulates subset selection. However, it's harder to optimize (minimize) our objective function:\\$$||Xw-y||^2 + \lambda||w'||_1\end{aligned}\end{align} \]</div>
+\[||Xw-y||^2 + \lambda||w'||^2\]</div>
+<p>and we are done. We’ve shown that given our weights follow some normal distribution, the best way to apply regularization would be through an <span class="math notranslate nohighlight">\(L_2\)</span> penalty term.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This method of finding a point <span class="math notranslate nohighlight">\(w\)</span> that maximizes the posterior probability <span class="math notranslate nohighlight">\(f(w|X,y)\)</span> is called <strong>maximum a posteriori estimation</strong> (MAP). Setting a prior probability on weights is another way to understand regularizing ill-posed problems.</p>
+</div>
+</div>
+<div class="section" id="feature-subset-selection">
+<h2>Feature Subset Selection<a class="headerlink" href="#feature-subset-selection" title="Permalink to this headline">¶</a></h2>
+<p>Sometimes, we just have features that weren’t very useful. When we hit a point where most of our features are useless, these additional features just increase variance without reducing bias. In other words, they do more harm than good; we want to get rid of them. But how?</p>
+<p>Ideally, we’d have a way to identify bad features and effectively get rid of them by setting corresponding weights in <span class="math notranslate nohighlight">\(w\)</span> to 0. This means less overfitting and smaller test errors. Also, we make our model simpler, and thus easier to interpret it meaningfully.</p>
+<p>This idea is useful in pretty much all classification and regression. However, how can we figure out which subset of features to choose? After all, different features can encode the same information in different ways, so things might get tricky.</p>
+<p>Let’s start with the naive algorithm for best subset selection: try all <span class="math notranslate nohighlight">\(2^d-1\)</span> nonempty feature subsets, train a classifier for each, and choose the best one by validation. Of course, this is incredibly inefficient and slow if <span class="math notranslate nohighlight">\(d\)</span> is large. No good. So here’s where we need heuristics.</p>
+<div class="section" id="heuristic-1-forward-stepwise-selection">
+<h3>Heuristic 1: Forward Stepwise Selection<a class="headerlink" href="#heuristic-1-forward-stepwise-selection" title="Permalink to this headline">¶</a></h3>
+<p>In <strong>forward stepwise selection</strong>, we start with the 0 features model (null model), then continue to add the best feature remaining at each iteration. To select the best feature, we train <span class="math notranslate nohighlight">\(d\)</span> models (one per <em>remaining</em> feature) and choose the feature that gives the best validation accuracy. We stop when validation errors start to increase instead of decrease (from overfitting).</p>
+<p>So now we’re training <span class="math notranslate nohighlight">\(O(d^2)\)</span> models instead of <span class="math notranslate nohighlight">\(O(2^d)\)</span>. Better. However, our algorithm isn’t perfect: for example, the optimal 2-feature model might not be found if, for both of the features that make it, have shitty validation accuracy as one-feature models on the previous iteration.</p>
+</div>
+<div class="section" id="heuristic-2-backward-stepwise-selection">
+<h3>Heuristic 2: Backward Stepwise Selection<a class="headerlink" href="#heuristic-2-backward-stepwise-selection" title="Permalink to this headline">¶</a></h3>
+<p>In backward stepwise selection, it’s just the other way around: we start with all <span class="math notranslate nohighlight">\(d\)</span> features and remove one at a time until validation error starts to decrease. This also trains <span class="math notranslate nohighlight">\(O(d^2)\)</span>.</p>
+<p>Which is the better choice? Depends on how many features you think will be useful in your final model. If you only think a few features would be good, go forward, and vice versa. For example, for spam classification FSS is probably better, since only a few factors generally indicate the presence of spam.</p>
+</div>
+</div>
+<div class="section" id="lasso-regularization">
+<h2>LASSO Regularization<a class="headerlink" href="#lasso-regularization" title="Permalink to this headline">¶</a></h2>
+<p>The other commonly used type of regularization is <strong>LASSO regularization</strong>. LASSO stands for “least absolute shrinkage + selection operator”. Now we are using <span class="math notranslate nohighlight">\(L_1\)</span> regularization, so our cost function is now:</p>
+<div class="math notranslate nohighlight">
+\[J(w) = ||Xw-y||^2 + \lambda||w'||_1\]</div>
 <p>where <span class="math notranslate nohighlight">\(||w'|| = \sum_{i=1}^{d}|w_i|\)</span> : the sum over the <span class="math notranslate nohighlight">\(d\)</span> components of the normal vector. Again, we don’t penalize the bias term.</p>
-<p>Recall the isosurfaces of <span class="math notranslate nohighlight">\(||w'||^2\)</span> in ridge regression are hyperspheres. However, the isosurfaces of <span class="math notranslate nohighlight">\(||w'||_1\)</span> are <strong>cross-polytopes</strong>. The unit cross-polytope is the convex hull of all unit coordinate vectors, including positive and negative versions of those vectors.</p>
-<p>For example, the convex hull of a 2D vector (where axes are the +/- of each coordinate vector) is this diamond shape:</p>
-<img src="C:\Users\Kevin\AppData\Roaming\Typora\typora-user-images\image-20210315144632065.png" alt="image-20210315144632065" style="zoom:50%;" />
+<p>The advantage of L1 regularization over L2 is it <strong>naturally sets some weights to zero.</strong> This can be used to emulate feature subset selection. The disadvantage: it’s harder to minimize our cost function with this kind of penalty term.</p>
+<p>Recall the isosurfaces of <span class="math notranslate nohighlight">\(||w'||^2\)</span> in ridge regression are hyperspheres. However, the isosurfaces of <span class="math notranslate nohighlight">\(||w'||_1\)</span> are <strong>cross-polytopes</strong>. The unit cross-polytope is the <em>convex hull</em> of all unit coordinate vectors, including positive and negative versions of those vectors. You can think of the convex hull as the smallest polygon containing points (vectors) in some set <span class="math notranslate nohighlight">\(S\)</span>.</p>
+<p>For example, the convex hull of a 2D vector (where <span class="math notranslate nohighlight">\(S\)</span> contains the 2d unit coordinate vectors) is this diamond shape:</p>
+<a class="reference internal image-reference" href="../_images/hull2d.png"><img alt="../_images/hull2d.png" class="align-center" src="../_images/hull2d.png" style="width: 400px;" /></a>
 <p>This diamond shape is the isocontour (isosurface) where <span class="math notranslate nohighlight">\(||w'||_1 = 1\)</span>.</p>
-<p>In 3D, you can imagine the isosurface looks like this:</p>
-<img src="C:\Users\Kevin\AppData\Roaming\Typora\typora-user-images\image-20210315144755070.png" alt="image-20210315144755070" style="zoom:50%;" />
-<p>Note for <span class="math notranslate nohighlight">\(d\)</span> dimensions, we’ll have <span class="math notranslate nohighlight">\(2d\)</span> coordinate vectors, and taking the convex hull of them gives the polytope in <span class="math notranslate nohighlight">\(d\)</span>-dimensional space.</p>
-<p>What does this do in regularization? Remember in ridge regression, we find the point where the ellipses of regression and sphere of regularization just barely touch. This was an optimum for SOME value of <span class="math notranslate nohighlight">\(\lambda\)</span>. It’s the same thing with L1, but now instead of a sphere, the isosurfaces are now convex hulls.</p>
-<p>One of the solutions in LASSO will have one of its weights set to 0. <strong>The bigger <span class="math notranslate nohighlight">\(\lambda\)</span> is, the higher tendency to set weights to 0</strong>.</p>
-<p>When a regularization ellipse touches a TIP of the convex hull, then ALL weights get set to 0 EXCEPT for 1.</p>
+<p>Extending to 3D, our polytope looks like this:</p>
+<a class="reference internal image-reference" href="../_images/hull3d.png"><img alt="../_images/hull3d.png" class="align-center" src="../_images/hull3d.png" style="width: 450px;" /></a>
+<p>For <span class="math notranslate nohighlight">\(d\)</span> dimensions, we’ll have <span class="math notranslate nohighlight">\(2d\)</span> coordinate vectors, and taking the convex hull of them gives the polytope in <span class="math notranslate nohighlight">\(d\)</span>-dimensional space.</p>
+<p>Remember in ridge regression, we find the point where the isocontours of regression and regularization touch tangentially. For LASSO, all that changes is the regularization isosurface: instead of hyperspheres, our isosurfaces are now convex hulls.</p>
+<p>Because we are now summing absolute values of coefficients, LASSO solutions will tend to have multiple weights set to 0. Again, <span class="math notranslate nohighlight">\(\lambda\)</span> is the hyperparameter that penalizes weights, so larger <span class="math notranslate nohighlight">\(\lambda\)</span> means more weights set to 0 and effectively excluded. The reasoning behind this is related to the graphical properties of convex hulls and isocontours, and I won’t explain it here.</p>
 <p>Let’s look at a graph that shows how weights behave for a higher dimensional space.</p>
-<img src="C:\Users\Kevin\AppData\Roaming\Typora\typora-user-images\image-20210315145511201.png" alt="image-20210315145511201" style="zoom: 50%;" />
-<p>This chart shows that as <span class="math notranslate nohighlight">\(\lambda\)</span> increases, we see the evolution of different weight variables. The chart indicates that four weight curves, and thus four weights, are truly notable while 6 are not.</p>
-<p>Two main algorithms for solving LASSO are called least-angle regression (LARS) and forward stagewise.</p>
+<a class="reference internal image-reference" href="../_images/lassoweights.png"><img alt="../_images/lassoweights.png" class="align-center" src="../_images/lassoweights.png" style="width: 300px;" /></a>
+<p>This chart shows how weights change in the optimal solution for LASSO in response to <span class="math notranslate nohighlight">\(\lambda\)</span>. We can see that four weights change significantly while the others do not.</p>
 <p>Again, like ridge, we probably want to normalize features for LASSO.</p>
+<p>Two main algorithms for solving LASSO are called least-angle regression (LARS) and forward stagewise.</p>
 </div>
 </div>
 
@@ -475,7 +596,7 @@
         
           By Kevin Moy<br/>
         
-            &copy; Copyright 2020.<br/>
+            &copy; Copyright 2021.<br/>
       </p>
     </div>
   </footer>

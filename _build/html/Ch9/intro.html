@@ -256,8 +256,8 @@
   </a>
   <ul class="collapse-ul">
    <li class="toctree-l2">
-    <a class="reference internal" href="../Ch14/NNexample.html">
-     Neural Network Backpropagation: An Example
+    <a class="reference internal" href="../Ch14/intro2.html">
+     Neural Network Variations
     </a>
    </li>
   </ul>
@@ -266,7 +266,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../Ch15/intro.html">
-   Chapter 15: Neurobiology and Variations on Neural Networks
+   Chapter 15: Improving Neural Network Training
   </a>
  </li>
  <li class="toctree-l1">
@@ -277,6 +277,31 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../Ch17/intro.html">
    Chapter 17: Singular Value Decomposition and Clustering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch18/intro.html">
+   Chapter 18: Spectral Graph Clustering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch19/intro.html">
+   Chapter 19: Multiple Eigenvectors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch20/intro.html">
+   Chapter 20: AdaBoost
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch21/intro.html">
+   Chapter 21: Nearest Neighbors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch22/intro.html">
+   Chapter 22: Optomizing k-NN
   </a>
  </li>
 </ul>
@@ -367,33 +392,25 @@
         <nav id="bd-toc-nav">
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#normal-equations">
-   Normal Equations
+  <a class="reference internal nav-link" href="#least-squares-linear-regression">
+   Least-Squares Linear Regression
   </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#advantages-of-least-squares-regression-vs-other-regressions">
-   Advantages of Least-Squares Regression (vs. Other Regressions)
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#disadvantages-of-least-squares-regression">
-   Disadvantages of Least-Squares Regression
-  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#advantages-of-least-squares-regression-vs-other-regressions">
+     Advantages of Least-Squares Regression (vs. Other Regressions)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#disadvantages-of-least-squares-regression">
+     Disadvantages of Least-Squares Regression
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#logistic-regression">
    Logistic Regression
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#gradient-descent-rule">
-   Gradient Descent Rule
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#stochastic-gradient-descent-rule">
-   Stochastic Gradient Descent Rule
   </a>
  </li>
 </ul>
@@ -410,10 +427,11 @@
                 
   <div class="section" id="regression">
 <h1>Regression<a class="headerlink" href="#regression" title="Permalink to this headline">¶</a></h1>
-<p>(Overview of cost functions and regression methods)</p>
-<div class="section" id="normal-equations">
-<h2>Normal Equations<a class="headerlink" href="#normal-equations" title="Permalink to this headline">¶</a></h2>
-<p>Finding <span class="math notranslate nohighlight">\(w\)</span> that minimizes <span class="math notranslate nohighlight">\(||Xw-y||^2\)</span>, aka <strong>residual sum of squares</strong>, which can be done by calculus. We apply calculus to find the critical point.</p>
+<p><strong>Regression</strong> is the second kind of prediction: we are predicting a numerical value. In GDA/LDA, we get posterior probabilities too- so they are technically doing regression as well as classification.</p>
+<p>The goal is to choose a regression function <span class="math notranslate nohighlight">\(h(x; p)\)</span>, called <span class="math notranslate nohighlight">\(h\)</span> for <em>hypothesis function</em>. It performs the same function as the decision function in classification, except our prediction serves a different purpose. We also need a <em>cost function</em> <span class="math notranslate nohighlight">\(J(w)\)</span> to optomize. There are many choices for regression and cost functions.</p>
+<div class="section" id="least-squares-linear-regression">
+<h2>Least-Squares Linear Regression<a class="headerlink" href="#least-squares-linear-regression" title="Permalink to this headline">¶</a></h2>
+<p>The goal in (linear) regression is finding <span class="math notranslate nohighlight">\(w\)</span> that minimizes <span class="math notranslate nohighlight">\(||Xw-y||^2 = \text{RSS}(w)\)</span>, aka <strong>residual sum of squares</strong>, which can be done by calculus. We apply calculus to find the critical point.</p>
 <p>There exist several ways to compute <span class="math notranslate nohighlight">\(\nabla_w ||Xw-y||^2\)</span>. First, expanding <span class="math notranslate nohighlight">\(||Xw-y||^2\)</span> gives us</p>
 <div class="math notranslate nohighlight">
 \[w^TX^TXw - 2y^TXw + y^Ty\]</div>
@@ -423,43 +441,48 @@
 <p>When we set this equal to 0, we can reduce this further to give us <strong>normal equations</strong></p>
 <div class="math notranslate nohighlight">
 \[X^TXw = X^Ty\]</div>
-<p>First, think of <span class="math notranslate nohighlight">\(X^TX\)</span> as a single <span class="math notranslate nohighlight">\((d+1) \times (d+1)\)</span> matrix (accounting for the bias term). Of course we know <span class="math notranslate nohighlight">\(w\)</span> is a d+1-length vector, and  of finally, <span class="math notranslate nohighlight">\(X^Ty\)</span> is a d+1-length vector.</p>
-<p>So we multiply a square PSD matrix <span class="math notranslate nohighlight">\(X^TX\)</span> by <span class="math notranslate nohighlight">\(w\)</span>. Of course, <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(y\)</span> are our function inputs, and we want to solve for <span class="math notranslate nohighlight">\(w\)</span>.</p>
-<p>One thing that comes up: if <span class="math notranslate nohighlight">\(X^TX\)</span> is singular, i.e. all sample points lie on a common hyperplane in <span class="math notranslate nohighlight">\(d+1\)</span>- dimensional space, the normal equations are <strong>underconstrained</strong>. This gives us a situation where <span class="math notranslate nohighlight">\(X^TX\)</span> might not be positive definite, and may have some 0 eigenvalues. When this occurs, we know <span class="math notranslate nohighlight">\(w\)</span> has more than one solution.</p>
-<p>However, there will always be at least one solution for <span class="math notranslate nohighlight">\(w\)</span>.</p>
-<p>For now, suppose that <span class="math notranslate nohighlight">\(X^TX\)</span> is invertible and positive definite. Then, there will be a unique solution <span class="math notranslate nohighlight">\(w^*\)</span>. We use a <strong>linear solver</strong> to find <span class="math notranslate nohighlight">\(w^* = (X^TX)^{-1}X^Ty\)</span>.</p>
-<p>Note that <span class="math notranslate nohighlight">\((X^TX)^{-1}X^T\)</span> is a <strong>linear transformation</strong> of <span class="math notranslate nohighlight">\(y\)</span> to weight vector <span class="math notranslate nohighlight">\(w\)</span>. It is called the <strong>pseudoinverse</strong> of <span class="math notranslate nohighlight">\(X\)</span>, or <span class="math notranslate nohighlight">\(X^+\)</span> for short. <strong>Every matrix <span class="math notranslate nohighlight">\(X\)</span> has a pseudoinverse</strong>. Note that it is a d+1 x n matrix (whereas <span class="math notranslate nohighlight">\(X\)</span> is an n x d+1 matrix). In an ideal world, if the points <span class="math notranslate nohighlight">\(y\)</span> did actually lie on a hyperplane, then <span class="math notranslate nohighlight">\(y = Xw\)</span>. So it’s only natural that we take the inverse of <span class="math notranslate nohighlight">\(X\)</span> to get <span class="math notranslate nohighlight">\(w\)</span>.</p>
-<p>If <span class="math notranslate nohighlight">\(X^TX\)</span> is invertible, then <span class="math notranslate nohighlight">\(X^+\)</span> is a <strong>left inverse</strong> of <span class="math notranslate nohighlight">\(X\)</span>. Note: <span class="math notranslate nohighlight">\(X^+X = (X^TX)^{-1}X^T = I\)</span>, so we see that it is a left inverse. Note that <span class="math notranslate nohighlight">\(XX^+\)</span> is generally NOT equal to <span class="math notranslate nohighlight">\(I\)</span>.</p>
+<p>Here, <span class="math notranslate nohighlight">\(X^TX\)</span> is a <span class="math notranslate nohighlight">\((d+1) \times (d+1)\)</span> matrix (accounting for the bias term), and <span class="math notranslate nohighlight">\(w\)</span> and <span class="math notranslate nohighlight">\(X^Ty\)</span> are length-<span class="math notranslate nohighlight">\(d+1\)</span> vectors. So we have a system of equations here to solve. Where we know that <span class="math notranslate nohighlight">\(X^TX\)</span> is positive semidefinite.</p>
+<p>If <span class="math notranslate nohighlight">\(X^TX\)</span> is singular, then we know all our sample points lie on a common hyperplane in <span class="math notranslate nohighlight">\(d+1\)</span>-dimensional space. In this case, the normal equations are <strong>underconstrained</strong>. This gives us a situation where <span class="math notranslate nohighlight">\(X^TX\)</span> might not be positive definite, and may have some 0 eigenvalues. When this occurs, we know <span class="math notranslate nohighlight">\(w\)</span> has more than one solution; in fact, infinite solutions However, there will always be at least one solution for <span class="math notranslate nohighlight">\(w\)</span>.</p>
+<p>For now, suppose that <span class="math notranslate nohighlight">\(X^TX\)</span> is invertible and positive definite. Then, there will be a unique solution <span class="math notranslate nohighlight">\(w^*\)</span>. We use a <strong>linear solver</strong> to find <span class="math notranslate nohighlight">\(w^* = (X^TX)^{-1}X^Ty\)</span>. Note: don’t actually compute the inverse of <span class="math notranslate nohighlight">\(X^TX\)</span>! We don’t need to.</p>
+<p>Note that <span class="math notranslate nohighlight">\((X^TX)^{-1}X^T\)</span> is a linear transformation that maps a length-<span class="math notranslate nohighlight">\(d+1\)</span> <span class="math notranslate nohighlight">\(y\)</span> to a length-<span class="math notranslate nohighlight">\(d+1\)</span> weight vector <span class="math notranslate nohighlight">\(w\)</span>. This matrix is called <strong>pseudoinverse</strong> of <span class="math notranslate nohighlight">\(X\)</span>, labeled <span class="math notranslate nohighlight">\(X^+\)</span> for convenience. Every matrix <span class="math notranslate nohighlight">\(X\)</span> has a pseudoinverse <span class="math notranslate nohighlight">\(X^+\)</span>. Note that it is a d+1 x n matrix (whereas <span class="math notranslate nohighlight">\(X\)</span> is an n x d+1 matrix). In an ideal world, if the points <span class="math notranslate nohighlight">\(y\)</span> did actually lie on a hyperplane, then <span class="math notranslate nohighlight">\(y = Xw\)</span>. So it’s only natural that we take the inverse of <span class="math notranslate nohighlight">\(X\)</span> to get <span class="math notranslate nohighlight">\(w\)</span>.</p>
+<p>If <span class="math notranslate nohighlight">\(X^TX\)</span> is invertible, then <span class="math notranslate nohighlight">\(X^+\)</span> is a <strong>left inverse</strong> of <span class="math notranslate nohighlight">\(X\)</span>. Note: <span class="math notranslate nohighlight">\(X^+X = (X^TX)^{-1}X^T = I\)</span>, so we can see that it is indeed an inverse of <span class="math notranslate nohighlight">\(X^TX\)</span> if multiplied on the left. Note that <span class="math notranslate nohighlight">\(XX^+\)</span> is generally NOT equal to <span class="math notranslate nohighlight">\(I\)</span>.</p>
 <p>Once we do the regression, we can go back and look at our predictions for our sample points using the regression function. A prediction for sample point <span class="math notranslate nohighlight">\(X_i\)</span> will give us <span class="math notranslate nohighlight">\(\hat{y}_i = w \cdot X_i\)</span>. Doing it all at once gives <span class="math notranslate nohighlight">\(\hat{y} = Xw = XX^+y = Hy\)</span>, where <span class="math notranslate nohighlight">\(H = XX^+\)</span>. <span class="math notranslate nohighlight">\(H\)</span> is called the <strong>hat matrix</strong>, which is an <span class="math notranslate nohighlight">\(n \times n\)</span> matrix, since it is a linear transformation that puts a hat on <span class="math notranslate nohighlight">\(y\)</span>.</p>
 <p>So <span class="math notranslate nohighlight">\(y\)</span> is the real set of labels, <span class="math notranslate nohighlight">\(\hat{y}\)</span> is our predictions.</p>
-</div>
 <div class="section" id="advantages-of-least-squares-regression-vs-other-regressions">
-<h2>Advantages of Least-Squares Regression (vs. Other Regressions)<a class="headerlink" href="#advantages-of-least-squares-regression-vs-other-regressions" title="Permalink to this headline">¶</a></h2>
-<p>Least squares regression is easy to compute for <span class="math notranslate nohighlight">\(w\)</span>, since we’re just solving a linear system. It also gives a unique solution, unless underconstrained (there are still ways to get solutions from here!). It’s generally considered a  <strong>stable solution</strong> as well: small changes to the data <span class="math notranslate nohighlight">\(X\)</span> will not likely change your solution.</p>
+<h3>Advantages of Least-Squares Regression (vs. Other Regressions)<a class="headerlink" href="#advantages-of-least-squares-regression-vs-other-regressions" title="Permalink to this headline">¶</a></h3>
+<p>Why is least squares regression so popular? There are a couple of reasons.</p>
+<ul class="simple">
+<li><p>Least squares regression is easy to compute for <span class="math notranslate nohighlight">\(w\)</span>, since we’re just solving a linear system.</p></li>
+<li><p>It also gives a unique solution <span class="math notranslate nohighlight">\(\hat{w}\)</span>, unless underconstrained- and even this can be dealt with fairly easily (more on this later).</p></li>
+<li><p><span class="math notranslate nohighlight">\(\hat{w}\)</span> is generally considered a  <strong>stable solution</strong> as well: small changes to the data <span class="math notranslate nohighlight">\(X\)</span> will not likely change it. So it’s resistant to overfitting.</p></li>
+</ul>
 </div>
 <div class="section" id="disadvantages-of-least-squares-regression">
-<h2>Disadvantages of Least-Squares Regression<a class="headerlink" href="#disadvantages-of-least-squares-regression" title="Permalink to this headline">¶</a></h2>
-<p>Least-squares is very sensitive to outliers, since errors are squared. Additionally, if <span class="math notranslate nohighlight">\(X^TX\)</span> is singular, then it won’t have a unique solution and we need another method to find a valid solution out of many.</p>
+<h3>Disadvantages of Least-Squares Regression<a class="headerlink" href="#disadvantages-of-least-squares-regression" title="Permalink to this headline">¶</a></h3>
+<p>However, there are some disadvantages as well:</p>
+<ul class="simple">
+<li><p>Least-squares is very sensitive to outliers, since errors are squared.</p></li>
+<li><p>If <span class="math notranslate nohighlight">\(X^TX\)</span> is singular, then it won’t have a unique solution. Again, in this case our problem is underconstrained and we need another way.</p></li>
+</ul>
+</div>
 </div>
 <div class="section" id="logistic-regression">
 <h2>Logistic Regression<a class="headerlink" href="#logistic-regression" title="Permalink to this headline">¶</a></h2>
-<p>Now, we use the logistic regression function, whose outputs can only be <em>probabilities</em>- thus between 0 and 1.</p>
-<p>The main application for logistic regression is classification. Most applications have labels of <span class="math notranslate nohighlight">\(y_i\)</span> as 0 or 1.</p>
-<p>Remember that <strong>generative models</strong> build a full probability model of all probabilities involved, i.e. class-conditional distributions. These include LDA and QDA. <strong>Discriminative models</strong>try to interpolate and model the posteriors <em>directly</em>. <strong>Posterior probabilities are often well-modeled by the logistic function.</strong></p>
-<p>So the goal is to find <span class="math notranslate nohighlight">\(w\)</span> that minimizes the cost function</p>
+<p>Probably the second most popular kind of regression is logistic regression. In <strong>logistic regression</strong>, we utilize the logistic regression function, whose outputs can only be <em>probabilities</em>- thus between 0 and 1. Additionally, we now use logistic loss instead of the squared loss we are so familiar with. The main application for logistic regression is classification- specifically, binary classification.</p>
+<p>Remember that <strong>generative models</strong> build a full probability model of all probabilities involved, i.e. class-conditional distributions. These include LDA and QDA. On the other hand, <strong>discriminative models</strong> try to interpolate and model the posterior <em>directly</em>. <strong>Posterior probabilities are often well-modeled by the logistic function.</strong></p>
+<p>So in logistic regression, the goal is to find <span class="math notranslate nohighlight">\(w\)</span> that minimizes</p>
 <div class="math notranslate nohighlight">
-\[J(w) = \sum_{i=1}^{n}L(x \cdot w_i, y_i)\]</div>
+\[J(w) = \sum_{i=1}^{n}L(X_i \cdot w_i, y_i)\]</div>
 <p>where <span class="math notranslate nohighlight">\(L\)</span> is the <strong>logistic loss function</strong>. Plugging that in, we get:</p>
 <div class="math notranslate nohighlight">
 \[J(w) = \sum_{i=1}^{n}-y_i\ln s(X_i\cdot w) + (1-y_i)\ln (1-s(X_i \cdot w))\]</div>
-<p>Let’s take a look at what exactly we’re minimizing.</p>
-<img src="C:\Users\Kevin\AppData\Roaming\Typora\typora-user-images\image-20210316153556472.png" alt="image-20210316153556472" style="zoom: 25%;" />
-<p>These are graphs of the logistic function of our prediction given <span class="math notranslate nohighlight">\(y\)</span>. In the left example, the loss function is 0 when the prediction is 0, matching the true label 0. However, loss goes to infinity when prediction goes further away to 1. It is obvious that the minimal loss occurs when the prediction matches the truth.</p>
-<p>Fortunately, our cost function <span class="math notranslate nohighlight">\(J(w)\)</span> is <strong>smooth and convex</strong>. Many ways to solve it, including gradient descent and Newton’s method. Let’s solve it with GD.</p>
-<p>First, we know that the derivative of the sigmoid function <span class="math notranslate nohighlight">\(s(\gamma)\)</span> is <span class="math notranslate nohighlight">\(s'(\gamma) = s(\gamma)(1-s(\gamma))\)</span>. This is its graph:</p>
-<img src="C:\Users\Kevin\AppData\Roaming\Typora\typora-user-images\image-20210316154137417.png" alt="image-20210316154137417" style="zoom:25%;" />
-<p>We can see that the derivative is maximized at 0: this shouldn’t be surprising, considering the sigmoid function’s slope is also maximized at <span class="math notranslate nohighlight">\(\gamma = 0\)</span>.</p>
-<p>To proceed with gradient descent, we need the gradient of the cost function with respect to <span class="math notranslate nohighlight">\(w\)</span>. Let <span class="math notranslate nohighlight">\(s_i = s(X_i \cdot w)\)</span>.</p>
+<p>Let’s take a look at what exactly we’re minimizing. For truth value <span class="math notranslate nohighlight">\(y=0\)</span>, the logistic loss for a prediction <span class="math notranslate nohighlight">\(z\)</span> looks like:</p>
+<a class="reference internal image-reference" href="../_images/logloss1.png"><img alt="../_images/logloss1.png" class="align-center" src="../_images/logloss1.png" style="width: 500px;" /></a>
+<p>In the left example, we have logistic loss for truth value <span class="math notranslate nohighlight">\(y=0\)</span>. Note loss goes to infinity when prediction goes further away to 1. Obviously, loss gets smaller the closer the prediction gets to the truth. On the right, we have it when the truth value is <span class="math notranslate nohighlight">\(y=0.7\)</span>.</p>
+<p>The <strong>logistic cost function is smooth and convex</strong>. While there doesn’t exist a closed-form solution for maximal <span class="math notranslate nohighlight">\(w\)</span> (unlike with least squares), there are many ways to solve it, including gradient descent and Newton’s method. Let’s first try gradient descent.</p>
+<p>To do gradient descent, we need to compute the gradient of <span class="math notranslate nohighlight">\(J(w)\)</span> with respect to <span class="math notranslate nohighlight">\(w\)</span>.</p>
+<p>First, we know that the derivative of the sigmoid function <span class="math notranslate nohighlight">\(s(\gamma)\)</span> is <span class="math notranslate nohighlight">\(s'(\gamma) = s(\gamma)(1-s(\gamma))\)</span>. We can see that the derivative is maximized at 0: this shouldn’t be surprising, considering the sigmoid function’s slope is also maximized at <span class="math notranslate nohighlight">\(\gamma = 0\)</span>.</p>
+<p>Now let <span class="math notranslate nohighlight">\(s_i = s(X_i \cdot w)\)</span>.</p>
 <div class="math notranslate nohighlight">
 \[\nabla_wJ(w) = -\sum_{i}(\frac{y_i}{s_i}\nabla s_i - \frac{1-y_i}{1-s_i}\nabla s_i)\]</div>
 <p>We know that <span class="math notranslate nohighlight">\(\nabla s_i\)</span> is basically the derivative of sigmoid, so we can reduce this to</p>
@@ -469,24 +492,20 @@
 \[= -\sum_{i}(y_i - s_i)X_i\]</div>
 <div class="math notranslate nohighlight">
 \[= -X^T(y-s(Xw))\]</div>
-<p>where <span class="math notranslate nohighlight">\(s(Xw)\)</span> is just a vector of <span class="math notranslate nohighlight">\(s(X_i \cdot w)\)</span>.</p>
-</div>
-<div class="section" id="gradient-descent-rule">
-<h2>Gradient Descent Rule<a class="headerlink" href="#gradient-descent-rule" title="Permalink to this headline">¶</a></h2>
+<p>where <span class="math notranslate nohighlight">\(s\)</span> applies the sigmoid function element-wise on <span class="math notranslate nohighlight">\(Xw\)</span>.</p>
+<p>So now that we’ve found <span class="math notranslate nohighlight">\(\nabla_w J\)</span>, we can write out our gradient descent rule:</p>
 <div class="math notranslate nohighlight">
 \[w^{(t+1)} = w^{(t)} + \epsilon X^T(y-s(Xw))\]</div>
-</div>
-<div class="section" id="stochastic-gradient-descent-rule">
-<h2>Stochastic Gradient Descent Rule<a class="headerlink" href="#stochastic-gradient-descent-rule" title="Permalink to this headline">¶</a></h2>
+<p>We can also write out the stochastic gradient descent rule, which is just element-wise instead of everything:</p>
 <div class="math notranslate nohighlight">
 \[w^{(t+1)} = w^{(t)} + \epsilon (y_i-s(X_iw))X_i\]</div>
-<p>Notice here it’s basically the same as standard GD, but we’re doing steps <strong>one point at a time</strong>. This algorithm works best if we shuffle the points randomly, then process one by one.</p>
-<p>For large <span class="math notranslate nohighlight">\(n\)</span>, it is common that SGD converges before we process all the points.</p>
+<p>The stochastic gradient descent algorithm for logistic regression works best if we shuffle the points randomly, then process one by one. For large <span class="math notranslate nohighlight">\(n\)</span>, it is common that SGD converges before we process all the points.</p>
 <p>Notice the algorithm’s similarity to the perceptron learning rule:</p>
 <div class="math notranslate nohighlight">
 \[w^{(t+1)} = w^{(t)} + \epsilon(y_i)X_i\]</div>
-<p>We just start by setting <span class="math notranslate nohighlight">\(w = 0\)</span>, and this will always converge.</p>
-<p>If sample points are linearly separable, then logistic regression will always find a separator. Let’s say linear separator <span class="math notranslate nohighlight">\(w \cdot x = 0\)</span> separates them- the decision boundary doesn’t touch any of the points. Let’s say we scale <span class="math notranslate nohighlight">\(w\)</span> to have infinite length. When this happens, <span class="math notranslate nohighlight">\(s(X_i \cdot w) \to 1\)</span> for points in class C, while they go to 0 for points not in class C (correct prediction probabilities maximized). As a result, <span class="math notranslate nohighlight">\(J(w) \to 0\)</span>. Therefore, logistic regression always finds a separator.</p>
+<p>The only difference is that the <span class="math notranslate nohighlight">\(s_i\)</span> sigmoid term is new, and we’re not actively looking for misclassified points.</p>
+<p>Now here’s the cool part about gradient descent with logistic loss: <strong>starting point <span class="math notranslate nohighlight">\(w = 0\)</span> will always converge</strong>.</p>
+<p>If our training points are linearly separable, then applying logistic regression will always find a complete separator. Let’s say we have a complete linear separator <span class="math notranslate nohighlight">\(w \cdot x = 0\)</span>. Now scaling our weight vector <span class="math notranslate nohighlight">\(w\)</span> to have infinite length will cause <span class="math notranslate nohighlight">\(s(X_i \cdot w) \to 1\)</span> for points in class C, while <span class="math notranslate nohighlight">\(s(X_i \cdot w) \to 0\)</span> for points not in class C (correct prediction probabilities maximized). It is easy to verify this yourself: take the limit of <span class="math notranslate nohighlight">\(s(Xw)\)</span> as <span class="math notranslate nohighlight">\(||w|| \to \infty\)</span>. As a result, <span class="math notranslate nohighlight">\(J(w) \to 0\)</span>. Therefore, logistic regression always finds a linear separator, and it will be this exact weight-scaled separator with minimal <span class="math notranslate nohighlight">\(J(w)\)</span>.</p>
 </div>
 </div>
 
@@ -528,7 +547,7 @@
         
           By Kevin Moy<br/>
         
-            &copy; Copyright 2020.<br/>
+            &copy; Copyright 2021.<br/>
       </p>
     </div>
   </footer>

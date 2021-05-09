@@ -1,10 +1,12 @@
 # Regression
 
-(Overview of cost functions and regression methods)
+__Regression__ is the second kind of prediction: we are predicting a numerical value. In GDA/LDA, we get posterior probabilities too- so they are technically doing regression as well as classification. 
 
-## Normal Equations
+The goal is to choose a regression function $h(x; p)$, called $h$ for _hypothesis function_. It performs the same function as the decision function in classification, except our prediction serves a different purpose. We also need a _cost function_ $J(w)$ to optomize. There are many choices for regression and cost functions.
 
-Finding $w$ that minimizes $||Xw-y||^2$, aka **residual sum of squares**, which can be done by calculus. We apply calculus to find the critical point. 
+## Least-Squares Linear Regression
+
+The goal in (linear) regression is finding $w$ that minimizes $||Xw-y||^2 = \text{RSS}(w)$, aka **residual sum of squares**, which can be done by calculus. We apply calculus to find the critical point. 
 
 There exist several ways to compute $\nabla_w ||Xw-y||^2$. First, expanding $||Xw-y||^2$ gives us 
 
@@ -18,63 +20,63 @@ When we set this equal to 0, we can reduce this further to give us **normal equa
 
 $$X^TXw = X^Ty$$
 
-First, think of $X^TX$ as a single $(d+1) \times (d+1)$ matrix (accounting for the bias term). Of course we know $w$ is a d+1-length vector, and  of finally, $X^Ty$ is a d+1-length vector. 
+Here, $X^TX$ is a $(d+1) \times (d+1)$ matrix (accounting for the bias term), and $w$ and $X^Ty$ are length-$d+1$ vectors. So we have a system of equations here to solve. Where we know that $X^TX$ is positive semidefinite. 
 
-So we multiply a square PSD matrix $X^TX$ by $w$. Of course, $X$ and $y$ are our function inputs, and we want to solve for $w$. 
+If $X^TX$ is singular, then we know all our sample points lie on a common hyperplane in $d+1$-dimensional space. In this case, the normal equations are **underconstrained**. This gives us a situation where $X^TX$ might not be positive definite, and may have some 0 eigenvalues. When this occurs, we know $w$ has more than one solution; in fact, infinite solutions However, there will always be at least one solution for $w$. 
 
-One thing that comes up: if $X^TX$ is singular, i.e. all sample points lie on a common hyperplane in $d+1$- dimensional space, the normal equations are **underconstrained**. This gives us a situation where $X^TX$ might not be positive definite, and may have some 0 eigenvalues. When this occurs, we know $w$ has more than one solution. 
+For now, suppose that $X^TX$ is invertible and positive definite. Then, there will be a unique solution $w^*$. We use a **linear solver** to find $w^* = (X^TX)^{-1}X^Ty$. Note: don't actually compute the inverse of $X^TX$! We don't need to.
 
-However, there will always be at least one solution for $w$. 
+Note that $(X^TX)^{-1}X^T$ is a linear transformation that maps a length-$d+1$ $y$ to a length-$d+1$ weight vector $w$. This matrix is called **pseudoinverse** of $X$, labeled $X^+$ for convenience. Every matrix $X$ has a pseudoinverse $X^+$. Note that it is a d+1 x n matrix (whereas $X$ is an n x d+1 matrix). In an ideal world, if the points $y$ did actually lie on a hyperplane, then $y = Xw$. So it's only natural that we take the inverse of $X$ to get $w$. 
 
-For now, suppose that $X^TX$ is invertible and positive definite. Then, there will be a unique solution $w^*$. We use a **linear solver** to find $w^* = (X^TX)^{-1}X^Ty$. 
-
-Note that $(X^TX)^{-1}X^T$ is a **linear transformation** of $y$ to weight vector $w$. It is called the **pseudoinverse** of $X$, or $X^+$ for short. **Every matrix $X$ has a pseudoinverse**. Note that it is a d+1 x n matrix (whereas $X$ is an n x d+1 matrix). In an ideal world, if the points $y$ did actually lie on a hyperplane, then $y = Xw$. So it's only natural that we take the inverse of $X$ to get $w$. 
-
-If $X^TX$ is invertible, then $X^+$ is a **left inverse** of $X$. Note: $X^+X = (X^TX)^{-1}X^T = I$, so we see that it is a left inverse. Note that $XX^+$ is generally NOT equal to $I$. 
+If $X^TX$ is invertible, then $X^+$ is a **left inverse** of $X$. Note: $X^+X = (X^TX)^{-1}X^T = I$, so we can see that it is indeed an inverse of $X^TX$ if multiplied on the left. Note that $XX^+$ is generally NOT equal to $I$. 
 
 Once we do the regression, we can go back and look at our predictions for our sample points using the regression function. A prediction for sample point $X_i$ will give us $\hat{y}_i = w \cdot X_i$. Doing it all at once gives $\hat{y} = Xw = XX^+y = Hy$, where $H = XX^+$. $H$ is called the **hat matrix**, which is an $n \times n$ matrix, since it is a linear transformation that puts a hat on $y$. 
 
 So $y$ is the real set of labels, $\hat{y}$ is our predictions. 
 
-## Advantages of Least-Squares Regression (vs. Other Regressions)
+### Advantages of Least-Squares Regression (vs. Other Regressions)
 
-Least squares regression is easy to compute for $w$, since we're just solving a linear system. It also gives a unique solution, unless underconstrained (there are still ways to get solutions from here!). It's generally considered a  **stable solution** as well: small changes to the data $X$ will not likely change your solution.
+Why is least squares regression so popular? There are a couple of reasons.
+- Least squares regression is easy to compute for $w$, since we're just solving a linear system. 
+- It also gives a unique solution $\hat{w}$, unless underconstrained- and even this can be dealt with fairly easily (more on this later). 
+- $\hat{w}$ is generally considered a  **stable solution** as well: small changes to the data $X$ will not likely change it. So it's resistant to overfitting. 
 
-## Disadvantages of Least-Squares Regression 
+### Disadvantages of Least-Squares Regression 
 
-Least-squares is very sensitive to outliers, since errors are squared. Additionally, if $X^TX$ is singular, then it won't have a unique solution and we need another method to find a valid solution out of many. 
+However, there are some disadvantages as well:
+- Least-squares is very sensitive to outliers, since errors are squared. 
+- If $X^TX$ is singular, then it won't have a unique solution. Again, in this case our problem is underconstrained and we need another way. 
 
 ## Logistic Regression
 
-Now, we use the logistic regression function, whose outputs can only be *probabilities*- thus between 0 and 1. 
+Probably the second most popular kind of regression is logistic regression. In __logistic regression__, we utilize the logistic regression function, whose outputs can only be *probabilities*- thus between 0 and 1. Additionally, we now use logistic loss instead of the squared loss we are so familiar with. The main application for logistic regression is classification- specifically, binary classification. 
 
-The main application for logistic regression is classification. Most applications have labels of $y_i$ as 0 or 1. 
+Remember that __generative models__ build a full probability model of all probabilities involved, i.e. class-conditional distributions. These include LDA and QDA. On the other hand, __discriminative models__ try to interpolate and model the posterior *directly*. **Posterior probabilities are often well-modeled by the logistic function.** 
 
-Remember that **generative models** build a full probability model of all probabilities involved, i.e. class-conditional distributions. These include LDA and QDA. **Discriminative models**try to interpolate and model the posteriors *directly*. **Posterior probabilities are often well-modeled by the logistic function.** 
+So in logistic regression, the goal is to find $w$ that minimizes
 
-So the goal is to find $w$ that minimizes the cost function 
-
-$$J(w) = \sum_{i=1}^{n}L(x \cdot w_i, y_i)$$
+$$J(w) = \sum_{i=1}^{n}L(X_i \cdot w_i, y_i)$$
 
 where $L$ is the **logistic loss function**. Plugging that in, we get: 
 
 $$J(w) = \sum_{i=1}^{n}-y_i\ln s(X_i\cdot w) + (1-y_i)\ln (1-s(X_i \cdot w))$$
 
-Let's take a look at what exactly we're minimizing. 
+Let's take a look at what exactly we're minimizing. For truth value $y=0$, the logistic loss for a prediction $z$ looks like:
 
-<img src="C:\Users\Kevin\AppData\Roaming\Typora\typora-user-images\image-20210316153556472.png" alt="image-20210316153556472" style="zoom: 25%;" />
+```{image} pictures/logloss1.png
+:align: center
+:width: 500px 
+```
 
-These are graphs of the logistic function of our prediction given $y$. In the left example, the loss function is 0 when the prediction is 0, matching the true label 0. However, loss goes to infinity when prediction goes further away to 1. It is obvious that the minimal loss occurs when the prediction matches the truth. 
+In the left example, we have logistic loss for truth value $y=0$. Note loss goes to infinity when prediction goes further away to 1. Obviously, loss gets smaller the closer the prediction gets to the truth. On the right, we have it when the truth value is $y=0.7$.
 
-Fortunately, our cost function $J(w)$ is **smooth and convex**. Many ways to solve it, including gradient descent and Newton's method. Let's solve it with GD.
+The __logistic cost function is smooth and convex__. While there doesn't exist a closed-form solution for maximal $w$ (unlike with least squares), there are many ways to solve it, including gradient descent and Newton's method. Let's first try gradient descent.
 
-First, we know that the derivative of the sigmoid function $s(\gamma)$ is $s'(\gamma) = s(\gamma)(1-s(\gamma))$. This is its graph:
+To do gradient descent, we need to compute the gradient of $J(w)$ with respect to $w$. 
 
-<img src="C:\Users\Kevin\AppData\Roaming\Typora\typora-user-images\image-20210316154137417.png" alt="image-20210316154137417" style="zoom:25%;" />
+First, we know that the derivative of the sigmoid function $s(\gamma)$ is $s'(\gamma) = s(\gamma)(1-s(\gamma))$. We can see that the derivative is maximized at 0: this shouldn't be surprising, considering the sigmoid function's slope is also maximized at $\gamma = 0$. 
 
-We can see that the derivative is maximized at 0: this shouldn't be surprising, considering the sigmoid function's slope is also maximized at $\gamma = 0$. 
-
-To proceed with gradient descent, we need the gradient of the cost function with respect to $w$. Let $s_i = s(X_i \cdot w)$. 
+Now let $s_i = s(X_i \cdot w)$.  
 
 $$\nabla_wJ(w) = -\sum_{i}(\frac{y_i}{s_i}\nabla s_i - \frac{1-y_i}{1-s_i}\nabla s_i)$$
 
@@ -86,24 +88,24 @@ $$= -\sum_{i}(y_i - s_i)X_i$$
 
 $$= -X^T(y-s(Xw))$$
 
-where $s(Xw)$ is just a vector of $s(X_i \cdot w)$. 
+where $s$ applies the sigmoid function element-wise on $Xw$. 
 
-## Gradient Descent Rule
+So now that we've found $\nabla_w J$, we can write out our gradient descent rule: 
 
 $$w^{(t+1)} = w^{(t)} + \epsilon X^T(y-s(Xw))$$
 
-## Stochastic Gradient Descent Rule
+We can also write out the stochastic gradient descent rule, which is just element-wise instead of everything:
 
 $$w^{(t+1)} = w^{(t)} + \epsilon (y_i-s(X_iw))X_i$$
 
-Notice here it's basically the same as standard GD, but we're doing steps **one point at a time**. This algorithm works best if we shuffle the points randomly, then process one by one. 
-
-For large $n$, it is common that SGD converges before we process all the points.  
+The stochastic gradient descent algorithm for logistic regression works best if we shuffle the points randomly, then process one by one. For large $n$, it is common that SGD converges before we process all the points.  
 
 Notice the algorithm's similarity to the perceptron learning rule: 
 
 $$w^{(t+1)} = w^{(t)} + \epsilon(y_i)X_i$$
 
-We just start by setting $w = 0$, and this will always converge. 
+The only difference is that the $s_i$ sigmoid term is new, and we're not actively looking for misclassified points.
 
-If sample points are linearly separable, then logistic regression will always find a separator. Let's say linear separator $w \cdot x = 0$ separates them- the decision boundary doesn't touch any of the points. Let's say we scale $w$ to have infinite length. When this happens, $s(X_i \cdot w) \to 1$ for points in class C, while they go to 0 for points not in class C (correct prediction probabilities maximized). As a result, $J(w) \to 0$. Therefore, logistic regression always finds a separator.
+Now here's the cool part about gradient descent with logistic loss: __starting point $w = 0$ will always converge__. 
+
+If our training points are linearly separable, then applying logistic regression will always find a complete separator. Let's say we have a complete linear separator $w \cdot x = 0$. Now scaling our weight vector $w$ to have infinite length will cause $s(X_i \cdot w) \to 1$ for points in class C, while $s(X_i \cdot w) \to 0$ for points not in class C (correct prediction probabilities maximized). It is easy to verify this yourself: take the limit of $s(Xw)$ as $||w|| \to \infty$. As a result, $J(w) \to 0$. Therefore, logistic regression always finds a linear separator, and it will be this exact weight-scaled separator with minimal $J(w)$. 

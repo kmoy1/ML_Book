@@ -54,9 +54,12 @@
         const thebe_selector_output = ".output"
     </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Spectral Graph Clustering" href="../Ch18/intro.html" />
     <link rel="prev" title="Unsupervised Learning and PCA" href="../Ch16/intro.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -253,8 +256,8 @@
   </a>
   <ul class="collapse-ul">
    <li class="toctree-l2">
-    <a class="reference internal" href="../Ch14/NNexample.html">
-     Neural Network Backpropagation: An Example
+    <a class="reference internal" href="../Ch14/intro2.html">
+     Neural Network Variations
     </a>
    </li>
   </ul>
@@ -263,7 +266,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="../Ch15/intro.html">
-   Chapter 15: Neurobiology and Variations on Neural Networks
+   Chapter 15: Improving Neural Network Training
   </a>
  </li>
  <li class="toctree-l1">
@@ -274,6 +277,31 @@
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    Chapter 17: Singular Value Decomposition and Clustering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch18/intro.html">
+   Chapter 18: Spectral Graph Clustering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch19/intro.html">
+   Chapter 19: Multiple Eigenvectors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch20/intro.html">
+   Chapter 20: AdaBoost
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch21/intro.html">
+   Chapter 21: Nearest Neighbors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch22/intro.html">
+   Chapter 22: Optomizing k-NN
   </a>
  </li>
 </ul>
@@ -357,6 +385,43 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show">
             
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i>
+            Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#singular-value-decomposition">
+   Singular Value Decomposition
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#clustering">
+   Clustering
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#k-means">
+     K-Means
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#k-medioids">
+     K-Medioids
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#hierarchical-clustering">
+     Hierarchical Clustering
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+        </nav>
+        
         </div>
     </div>
 </div>
@@ -367,6 +432,151 @@
                 
   <div class="section" id="singular-value-decomposition-and-clustering">
 <h1>Singular Value Decomposition and Clustering<a class="headerlink" href="#singular-value-decomposition-and-clustering" title="Permalink to this headline">¶</a></h1>
+<p>So we know that computing the eigenvectors of <span class="math notranslate nohighlight">\(X^TX\)</span> for a given (centered) design matrix <span class="math notranslate nohighlight">\(X\)</span> is one of the steps in PCA. However, there are two problems with doing it this way:</p>
+<ul class="simple">
+<li><p>computing <span class="math notranslate nohighlight">\(X^TX\)</span> in general takes <span class="math notranslate nohighlight">\(\Theta(nd^2)\)</span> time.</p></li>
+<li><p><span class="math notranslate nohighlight">\(X^TX\)</span> is <em>poorly conditioned</em>: the ratio between <span class="math notranslate nohighlight">\(\lambda_1\)</span> and <span class="math notranslate nohighlight">\(\lambda_d\)</span> (smallest and largest eigenvalues) is very large. This means it has numerically inaccurate eigenvectors.</p></li>
+</ul>
+<p>So instead of calculating <span class="math notranslate nohighlight">\(X^TX\)</span>, we can instead calculate the <strong>singular value decomposition</strong> of <span class="math notranslate nohighlight">\(X\)</span>, which fixes both of these problems.</p>
+<div class="section" id="singular-value-decomposition">
+<h2>Singular Value Decomposition<a class="headerlink" href="#singular-value-decomposition" title="Permalink to this headline">¶</a></h2>
+<p>In earlier chapters, we learned the eigendecomposition of a square, symmetric matrix: <span class="math notranslate nohighlight">\(A = V\nabla V^T\)</span>. In practice, however, our matrices are usually not symmetric, and <span class="math notranslate nohighlight">\(V\)</span> is not orthogonal: thus, <span class="math notranslate nohighlight">\(V^{-1} \neq V^T\)</span>. and <span class="math notranslate nohighlight">\(A\)</span> doesn’t eigendecompose nearly as nicely. Even worse, if our matrix is non-square, it doesn’t have eigenvectors at all.</p>
+<p>Fortunately, the SVD applies to <em>all</em> matrices, even if they are nonsymmetric or non-square.</p>
+<div class="proof definition admonition" id="SVD">
+<p class="admonition-title"><span class="caption-number">Definition 16 </span> (SVD)</p>
+<div class="definition-content section" id="proof-content">
+<p>A <strong>singular value decomposition</strong> <span class="math notranslate nohighlight">\(X = U \Sigma V^T\)</span> always exists for <span class="math notranslate nohighlight">\(X \in \mathbb{R}^{n \times d}\)</span> where <span class="math notranslate nohighlight">\(n \ge d\)</span>. Columns of <span class="math notranslate nohighlight">\(U\)</span> are called <strong>left singular vectors</strong>, denoted as <span class="math notranslate nohighlight">\(u_i\)</span>. Rows of <span class="math notranslate nohighlight">\(V^T\)</span>, or columns of <span class="math notranslate nohighlight">\(V\)</span>, are called <strong>right singular vectors</strong>, denoted as <span class="math notranslate nohighlight">\(v_i\)</span>. <span class="math notranslate nohighlight">\(\Sigma\)</span> is a diagonal matrix where diagonal elements <span class="math notranslate nohighlight">\(\sigma_i\)</span> are nonnegative <strong>singular values</strong> of <span class="math notranslate nohighlight">\(X\)</span>.</p>
+</div>
+</div><p>Here’s a diagram to visualize the SVD.</p>
+<a class="reference internal image-reference" href="../_images/SVD.png"><img alt="../_images/SVD.png" class="align-center" src="../_images/SVD.png" style="width: 600px;" /></a>
+<p>Some important properties to note about the SVD:</p>
+<ul class="simple">
+<li><p>We can represent the SVD of <span class="math notranslate nohighlight">\(X\)</span> as a sum of <span class="math notranslate nohighlight">\(d\)</span> rank-1 matrices: <span class="math notranslate nohighlight">\(X = U \Sigma V^T = \sum_{i=1}^{d}\sigma_iu_iv_i\)</span></p></li>
+<li><p>Right singular vectors are mutually orthogonal, as are left singular vectors.</p></li>
+<li><p>Some <span class="math notranslate nohighlight">\(\sigma_i\)</span> might be zero; the number of nonzero singular values is equal to <span class="math notranslate nohighlight">\(\text{rank}(X)\)</span>.</p>
+<ul>
+<li><p>If points in centered <span class="math notranslate nohighlight">\(X\)</span> all lie on a line (1 dimension), there is only <em>one</em> nonzero singular value.</p></li>
+<li><p>If points in <span class="math notranslate nohighlight">\(X\)</span> span a subspace with <span class="math notranslate nohighlight">\(r\)</span> dimensions, we have <span class="math notranslate nohighlight">\(r\)</span> nonzero singular values.</p></li>
+</ul>
+</li>
+<li><p>If <span class="math notranslate nohighlight">\(n &lt; d\)</span>, the SVD of <span class="math notranslate nohighlight">\(X\)</span> will have a square <span class="math notranslate nohighlight">\(U\)</span> but a non-square <span class="math notranslate nohighlight">\(V\)</span>.</p></li>
+</ul>
+<p>So now just like PCA, we can get eigenvectors of <span class="math notranslate nohighlight">\(X^TX\)</span> easily from the SVD: <strong><span class="math notranslate nohighlight">\(v_i\)</span> (row <span class="math notranslate nohighlight">\(i\)</span> of <span class="math notranslate nohighlight">\(V^T\)</span>) is an eigenvector of <span class="math notranslate nohighlight">\(X^TX\)</span> with eigenvalue <span class="math notranslate nohighlight">\(\sigma_i^2\)</span></strong>.</p>
+<p>The proof for this is very simple:</p>
+<div class="proof admonition" id="proof">
+<p>Proof. <span class="math notranslate nohighlight">\(X^TX = (U \Sigma V^T)^T(U \Sigma V^T) = V^T \Sigma U^TU \Sigma V^T = V \Sigma^2 V^T\)</span></p>
+<p>Since <span class="math notranslate nohighlight">\(V \Sigma^2V^T\)</span> is an eigendecomposition of <span class="math notranslate nohighlight">\(X^TX\)</span>, we know that <span class="math notranslate nohighlight">\(v_i\)</span> is an eigenvector, and <span class="math notranslate nohighlight">\(\sigma_i^2\)</span> is the corresponding eigenvalue.</p>
+</div>
+<p>So now we know how to get eigenvalues + eigenvectors of <span class="math notranslate nohighlight">\(X^TX\)</span> from an SVD! Rows of <span class="math notranslate nohighlight">\(V^T\)</span>, and squared elements of <span class="math notranslate nohighlight">\(S\)</span>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Calculating the SVD is more numerically stable than calculating <span class="math notranslate nohighlight">\(X^TX\)</span>: ratios between singular values <span class="math notranslate nohighlight">\(&lt;\)</span> ratios between eigenvalues.
+If <span class="math notranslate nohighlight">\(n &lt; d\)</span>, <span class="math notranslate nohighlight">\(V\)</span> won’t have contain eigenvectors with eigenvalue 0, but those are useless for PCA anyway.</p>
+</div>
+<p>So what about the time speedup we were supposed to get from SVD? We can calculate the SVD in <span class="math notranslate nohighlight">\(O(ndk)\)</span> time, which means we can calculate our <span class="math notranslate nohighlight">\(k\)</span> largest singular values/vectors in <span class="math notranslate nohighlight">\(O(ndk)\)</span> time. This means that unlike when calculating <span class="math notranslate nohighlight">\(X^TX\)</span>, we <em>don’t need to compute all singular values/vectors</em>: only the ones we need.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Even faster algorithms have been found for calculating SVDs: some up to <span class="math notranslate nohighlight">\(O(nd\log k)\)</span> runtime!</p>
+</div>
+<p>The SVD also gives us a way to calculate the <strong>principal coordinates</strong> of a sample point, or the coordinates of <span class="math notranslate nohighlight">\(X_i\)</span> in PC-space:</p>
+<div class="proof theorem admonition" id="theorem-1">
+<p class="admonition-title"><span class="caption-number">Theorem 17 </span> (SVD Principal Coordinates)</p>
+<div class="theorem-content section" id="proof-content">
+<p>Row <span class="math notranslate nohighlight">\(i\)</span> of <span class="math notranslate nohighlight">\(U \Sigma\)</span> gives the principal coordinates of sample point <span class="math notranslate nohighlight">\(X_i\)</span>. In other words, <span class="math notranslate nohighlight">\(X_i \cdot v_j = \sigma_j U_{ij}\)</span> for all <span class="math notranslate nohighlight">\(j\)</span>.</p>
+</div>
+</div><p>On the other hand, column <span class="math notranslate nohighlight">\(i\)</span> of <span class="math notranslate nohighlight">\(U \Sigma\)</span> is the <span class="math notranslate nohighlight">\(i\)</span>-th principal component. So unlike standard PCA where we have to explicitly calculate <span class="math notranslate nohighlight">\(X_i \cdot v_j\)</span> for all <span class="math notranslate nohighlight">\(j\)</span> (all eigenvectors) explicitly, we no longer have to do so with SVD! The SVD has already done it for us. In essence, <span class="math notranslate nohighlight">\(XV = U\Sigma\)</span>. Try to prove this yourself: it’s not a hard proof at all.</p>
+</div>
+<div class="section" id="clustering">
+<h2>Clustering<a class="headerlink" href="#clustering" title="Permalink to this headline">¶</a></h2>
+<p>In <strong>clustering</strong>, we want to partition data into groups, or <em>clusters</em>, such that points in a cluster are more similar to each other than points in other clusters.</p>
+<p>Clustering has <em>many</em> practical applications:</p>
+<ul class="simple">
+<li><p>Discovery: Netflix + Spotify recommendations</p></li>
+<li><p>Hierarchy: Given a set of genes from various species, find a good taxonomy</p></li>
+<li><p>Quantization: Data compression through reducing choices</p></li>
+<li><p>Graph Partitioning: image segmentation, finding groups in social networks</p></li>
+</ul>
+<p>There exist many algorithms for clustering a dataset. Let’s run through some.</p>
+<div class="section" id="k-means">
+<h3>K-Means<a class="headerlink" href="#k-means" title="Permalink to this headline">¶</a></h3>
+<p>Let’s begin with the k-means algorithm. Given <span class="math notranslate nohighlight">\(n\)</span> points, the big idea is to partition those points into <span class="math notranslate nohighlight">\(k\)</span> distinct clusters. Formally, we are assign each datapoint <span class="math notranslate nohighlight">\(X_i\)</span> a cluster label <span class="math notranslate nohighlight">\(y_i \in [1,k]\)</span>.</p>
+<p>For each iteration, we want to calculate the <em>cluster mean</em> <span class="math notranslate nohighlight">\(\mu_i\)</span> as simply the mean of all points in that cluster.</p>
+<p>Now here’s the objective function. We want to find cluster label assignments <span class="math notranslate nohighlight">\(y\)</span> such that</p>
+<div class="math notranslate nohighlight">
+\[
+\sum_{i=1}^{k}\sum_{y_j = i}||X_j - \mu_i||^2
+\]</div>
+<p>In other words, we want to minimize the sum of squared distances from points to their cluster means.</p>
+<p>This is an NP-hard problem. We can simply try every partition: in this case, we can solve in <span class="math notranslate nohighlight">\(O(nk^n)\)</span> time. But this is way too slow. So instead, we try a heuristic called <strong>k-means</strong>. In k-means, we are doing <em>alternating minimization</em>: minimizing our objective function by changing means <span class="math notranslate nohighlight">\(\mu_i\)</span> AND changing the <span class="math notranslate nohighlight">\(y\)</span> at each iteration.</p>
+<p>At each iteration:</p>
+<ol class="simple">
+<li><p><span class="math notranslate nohighlight">\(y_j\)</span>’s are fixed. We update <span class="math notranslate nohighlight">\(\mu_i\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(mu_i\)</span>’s are fixed. We update <span class="math notranslate nohighlight">\(y_j\)</span>.</p></li>
+<li><p>Repeat until <span class="math notranslate nohighlight">\(y\)</span> no longer changes after each iteration.</p></li>
+</ol>
+<p>Given a fixed assignment <span class="math notranslate nohighlight">\(y\)</span>, we can use calculus to show the optimal <span class="math notranslate nohighlight">\(\mu_i\)</span> is simply <span class="math notranslate nohighlight">\(\mu_i = \frac{1}{n_i}\sum_{y_j = i}X_j\)</span>: the average of all points in cluster <span class="math notranslate nohighlight">\(i\)</span>. On the other hand, given a fixed set of cluster means <span class="math notranslate nohighlight">\(\mu\)</span>, we simply assign each sample point to the (new) nearest cluster mean. In the case where a point has equal distance to multiple cluster means, the default rule is to stay in the current cluster it’s already in (or pick arbitrarily if new).</p>
+<p>Unfortunately, this algorithm does <em>not</em> guarantee a convergence to the optimal <span class="math notranslate nohighlight">\((\mu, y)\)</span>.</p>
+<p>Note that both steps 1, 2 will <em>always decrease</em> the objective function, unless nothing changes (then we halt). This means that our algorithm will never revert to a previous state assignment. Since there are only a finite number of clustering assignments, we know the k-means algorithm <em>must terminate</em>. The k-means algorithm is usually very fast in practice, but also finds a local, not global, minimum.</p>
+<p>How does the k-means algorithm initialize, though? There are multiple ways:</p>
+<ol class="simple">
+<li><p>Forgy method: choose <span class="math notranslate nohighlight">\(k\)</span> random sample points as starting <span class="math notranslate nohighlight">\(\mu_i\)</span>’s</p></li>
+<li><p>Random Partition: assign each sample point a random cluster label</p></li>
+<li><p>k-means++: Some other advanced shit</p></li>
+</ol>
+<p>The outcome of k-means is actually heavily dependent on the initialization. So to get the best results, it is best to run k-means multiple times with different random starts.</p>
+<p>It turns out that minimizing the objective function is equivalent to finding <span class="math notranslate nohighlight">\(y\)</span> that minimizes the <strong>within-cluster variation</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+\sum_{i=1}^{k}\frac{1}{n_i}\sum_{y_j=i}\sum_{y_m=i}||X_i - X_m||^2  
+\]</div>
+<p>So for each cluster, we calculate the total pairwise distance between points in that cluster and sum them all up, then divide by the number of points in that cluster. We sum this total for each cluster.</p>
+<p>The important part about within-cluster variance is that now the objective function’s inputs are simply data points and their cluster label assignments.</p>
+<p>Do we normalize the data before applying k-means? Like PCA, it is dependent on whether features have different units of measurement.</p>
+</div>
+<div class="section" id="k-medioids">
+<h3>K-Medioids<a class="headerlink" href="#k-medioids" title="Permalink to this headline">¶</a></h3>
+<p>What if we have points where we <em>don’t</em> want to use the Euclidean norm (Euclidean distance) and means?</p>
+<p>Another alternative algorithm for clustering is the <strong>k-medioids algorithm</strong>. This will allow us to use other distance metrics <span class="math notranslate nohighlight">\(d(x,y)\)</span>- called the <em>dissimilarity function</em>. There are a lot of options for what you can choose for <span class="math notranslate nohighlight">\(d\)</span>, but ideally, they satisfy the <em>triangle inequality</em> <span class="math notranslate nohighlight">\(d(x,y) \le d(x,z) + d(z,y)\)</span>.</p>
+<p>When would we not want Euclidean distance as a measure of dissimilarity? Suppose you run a store, and have a database that tells you how many of each product each customer bought. You want to cluster together customers who buy similar products and do market analysis on these clusters. However, Euclidean distance won’t be good here: we will get a massive cluster of customers who only bought one thing. Instead, it makes more sense to <em>treat each customer as a vector</em>, and use the <em>angle between customers</em> as a dissimilarity function. If this angle is large, there is a large dissimilarity.</p>
+<p>So how does this change the algorithm? Instead of calculating cluster means, we are now calculating cluster <em>medians</em>, which will always be one of the data points in that cluster. And now instead of choosing a cluster for a point based on the closest cluster mean, we now choose based on the closest cluster median.</p>
+</div>
+<div class="section" id="hierarchical-clustering">
+<h3>Hierarchical Clustering<a class="headerlink" href="#hierarchical-clustering" title="Permalink to this headline">¶</a></h3>
+<p>One issue with k-means and k-medioids is we must choose <span class="math notranslate nohighlight">\(k\)</span> <em>beforehand</em>, and there isn’t really a reliable mathematical way to do this other than eyeball it. This next method, <strong>hierarchical clustering</strong>, is one of many clustering algorithms that tries to do this for you.</p>
+<p>Essentially, in hierarchical clustering, what we do is create a tree of all datapoints, where every subtree represents a cluster. So some clusters will contain smaller clusters.</p>
+<p>There are two ways of doing this:</p>
+<ul class="simple">
+<li><p><strong>Agglomerative clustering</strong>: bottom-up clustering. We start with each point in a cluster, and at each iteration fuse 2 clusters into one.</p></li>
+<li><p><strong>Divisive clustering</strong>: top-down clustering. We start with all points in a giant cluster, and repeatedly split at each iteration.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When the input is a point set, agglomerative clustering is more. But when the input is a graph, divisive clustering is more common.</p>
+</div>
+<p>So now, instead of measuring distance between two points, we are measuring distance between two <em>clusters</em>. There are four options for this:</p>
+<ul class="simple">
+<li><p>Complete Linkage: <span class="math notranslate nohighlight">\(d(A, B) = \max\{d(w, x) : w \in A, x \in B\}\)</span></p></li>
+<li><p>Single Linkage: <span class="math notranslate nohighlight">\(d(A, B) = \min\{d(w, x) : w \in A, x \in B\}\)</span></p></li>
+<li><p>Average Linkage: <span class="math notranslate nohighlight">\(d(A, B) = \frac{1}{|A||B|}\sum_{w \in A}\sum_{x \in b}d(w,x)\)</span></p></li>
+<li><p>Centroid Linkage: <span class="math notranslate nohighlight">\(d(A,B) = d(\mu_A, \mu_B)\)</span></p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Note complete, single, and average linkage will work for any pointwise distance function <span class="math notranslate nohighlight">\(d\)</span>, while centroid linkage really only makes sense for Euclidean distance. There does exist a variation of the centroid linkage that uses the medoids instead of the means, and
+medoids are defined for any distance function. Moreover, medoids are more robust to outliers than means.</p>
+</div>
+<p>So in <em>greedy agglomerative clustering</em>, we are just repeatedly fusing the two clusters that minimize <span class="math notranslate nohighlight">\(d(A,B)\)</span>. Naively, we would search through every cluster pair at each iteration, which would take <span class="math notranslate nohighlight">\(O(n^3)\)</span> time.</p>
+<p>A <strong>dendogram</strong> is a diagram of the tree in a cluster hierarchy in which the vertical axis encodes all linkage distances <span class="math notranslate nohighlight">\(d(A,B)\)</span>. Take a look at the example dendogram below:</p>
+<a class="reference internal image-reference" href="../_images/dendogram.png"><img alt="../_images/dendogram.png" class="align-center" src="../_images/dendogram.png" style="width: 600px;" /></a>
+<p>You can see by making a horizontal line, we can split our dendogram into an arbitrary number of clusters. The lower the line, the more (finely-cut) clusters we get.</p>
+<p>In most applications, we probably want to use average or complete linkage. Some things to note:</p>
+<ul class="simple">
+<li><p>Single linkage is very sensitive to outliers, and tends to give a very unbalanced tree</p></li>
+<li><p>Complete linkage tends to be the best-balanced: as a cluster gets large, the furthest point in the cluster is already far away. So large clusters are more resistant to grow more than smaller ones.</p></li>
+</ul>
+<p>Note that all these clustering algorithms we’ve gone over are <em>unstable</em>: deleting a few input points can sometimes give very di↵erent results. Despite this, these are still very commonly used in practice today. And it’s not clear to me whether a truly stable clustering algorithm is even possible.</p>
+</div>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
@@ -395,6 +605,7 @@
         <div class='prev-next-bottom'>
             
     <a class='left-prev' id="prev-link" href="../Ch16/intro.html" title="previous page">Unsupervised Learning and PCA</a>
+    <a class='right-next' id="next-link" href="../Ch18/intro.html" title="next page">Spectral Graph Clustering</a>
 
         </div>
         
@@ -406,7 +617,7 @@
         
           By Kevin Moy<br/>
         
-            &copy; Copyright 2020.<br/>
+            &copy; Copyright 2021.<br/>
       </p>
     </div>
   </footer>

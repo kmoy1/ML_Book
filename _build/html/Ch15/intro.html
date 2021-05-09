@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Neurobiology and Variations on Neural Networks &#8212; Machine Learning</title>
+    <title>Improving Neural Network Training &#8212; Machine Learning</title>
     
   <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
@@ -54,11 +54,13 @@
         const thebe_selector_output = ".output"
     </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Unsupervised Learning and PCA" href="../Ch16/intro.html" />
-    <link rel="prev" title="Neural Network Backpropagation: An Example" href="../Ch14/NNexample.html" />
+    <link rel="prev" title="Neural Network Variations" href="../Ch14/intro2.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -254,8 +256,8 @@
   </a>
   <ul class="collapse-ul">
    <li class="toctree-l2">
-    <a class="reference internal" href="../Ch14/NNexample.html">
-     Neural Network Backpropagation: An Example
+    <a class="reference internal" href="../Ch14/intro2.html">
+     Neural Network Variations
     </a>
    </li>
   </ul>
@@ -264,7 +266,7 @@
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Chapter 15: Neurobiology and Variations on Neural Networks
+   Chapter 15: Improving Neural Network Training
   </a>
  </li>
  <li class="toctree-l1">
@@ -275,6 +277,31 @@
  <li class="toctree-l1">
   <a class="reference internal" href="../Ch17/intro.html">
    Chapter 17: Singular Value Decomposition and Clustering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch18/intro.html">
+   Chapter 18: Spectral Graph Clustering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch19/intro.html">
+   Chapter 19: Multiple Eigenvectors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch20/intro.html">
+   Chapter 20: AdaBoost
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch21/intro.html">
+   Chapter 21: Nearest Neighbors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch22/intro.html">
+   Chapter 22: Optomizing k-NN
   </a>
  </li>
 </ul>
@@ -358,6 +385,53 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show">
             
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i>
+            Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#heuristics-for-faster-training">
+   Heuristics for Faster Training
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#heuristics-for-avoiding-bad-local-minima">
+   Heuristics for Avoiding Bad Local Minima
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#heuristics-to-avoid-overfitting">
+   Heuristics to Avoid Overfitting
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ensembling">
+     Ensembling
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#weight-decay">
+     Weight Decay
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#dropout">
+     Dropout
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#number-of-hidden-units">
+     Number of Hidden Units
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+        </nav>
+        
         </div>
     </div>
 </div>
@@ -366,9 +440,85 @@
         
               <div>
                 
-  <div class="section" id="neurobiology-and-variations-on-neural-networks">
-<h1>Neurobiology and Variations on Neural Networks<a class="headerlink" href="#neurobiology-and-variations-on-neural-networks" title="Permalink to this headline">¶</a></h1>
-<p>AAAA</p>
+  <div class="section" id="improving-neural-network-training">
+<h1>Improving Neural Network Training<a class="headerlink" href="#improving-neural-network-training" title="Permalink to this headline">¶</a></h1>
+<p>So now we know the basics of neural networks, how they work, and how they are trained. Now, let’s cover some well-known heuristics that</p>
+<ul class="simple">
+<li><p>make training (gradient descent) faster</p></li>
+<li><p>allow NNs to find better local minima</p></li>
+<li><p>mitigate overfitting</p></li>
+</ul>
+<div class="section" id="heuristics-for-faster-training">
+<h2>Heuristics for Faster Training<a class="headerlink" href="#heuristics-for-faster-training" title="Permalink to this headline">¶</a></h2>
+<p>Neural nets are one of the slowest ML algorithms to train out there. Fortunately, nerds have come up with ways to speed them up. Unfortunately, depending on the application, some experimentation with algorithms and hyperparameter tuning is needed here.</p>
+<p>First, let’s review the difference between batch and stochastic gradient descent. Stochastic GD is generally just faster than batch GD when we have a large dataset with redundant data. In datasets where each point is important, however, batch GD is better. Let’s take the MNIST dataset as an example: lots of redundant images, and SGD will learn this redundant information much more quickly.</p>
+<p>An <strong>epoch</strong> is an iteration that presents every training point once. For batch GD, every iteration looks at the entire training set, so one batch GD iteration is an epoch. On the other hand, in SGD, we shuffle our training points and go through each of them one by one. Thus it can actually take less than one epoch for SGD to converge.</p>
+<p>Normalizing our data is another way to speed up training. This means centering features and scaling them to have variance 1:  <span class="math notranslate nohighlight">\(\frac{X-\mu}{\sigma}\)</span>. Let’s look at an visual example of how normalization (or standardization) affects our data:</p>
+<a class="reference internal image-reference" href="../_images/normalize.png"><img alt="../_images/normalize.png" class="align-center" src="../_images/normalize.png" style="width: 500px;" /></a>
+<p>Centering data seems to make it easier for hidden units to get into a good operating region of the sigmoid or ReLU. Scaling for unit variance makes the objective function better conditioned, so gradient descent converges faster.</p>
+<!-- TODO: Explain zigzag diagram -->
+<p>We can also “center” the hidden units as well. The sigmoid function has an operating region centered at <span class="math notranslate nohighlight">\(s(\gamma) = 0.5\)</span>. So the sigmoid output has a mean of 0.5- which can affect neurons in further layers and push them out of the ideal operating region. We prefer means centered at 0. So we can replace the sigmoid with one that passes through the origin: we can instead use the <span class="math notranslate nohighlight">\(\tanh\)</span> activation function:</p>
+<center>
+  <script src="https://www.desmos.com/api/v1.6/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+  <div id="calculator" style="width: 300px; height: 300px; text-align: center;"></div>
+  <script>
+    var elt = document.getElementById('calculator');
+    var calculator = Desmos.GraphingCalculator(elt, {expressions:false});
+    calculator.setExpression({ id: 'graph1', latex: 'y = \\tanh x' });
+  </script>
+</center>
+<p><span class="math notranslate nohighlight">\(\tanh(x) = \frac{e^x - e^{-x}}{e^x+e^{-x}}\)</span>. It can also be reached by a few stretches of the sigmoid function: <span class="math notranslate nohighlight">\(\tanh(x) = 2s(2x)-1\)</span>. Now, instead of the range being <span class="math notranslate nohighlight">\([0,1]\)</span> as with sigmoid, the range is now <span class="math notranslate nohighlight">\([-1,1]\)</span>. This keeps things centered, and downstream neurons are more likely to be centered as well. Of course, we have to replace <span class="math notranslate nohighlight">\(s'\)</span> with the derivative of <span class="math notranslate nohighlight">\(\tanh(x)\)</span> (<span class="math notranslate nohighlight">\(1-\tanh(x)^2\)</span>) in backpropagation as well. Of course, if we want to use <span class="math notranslate nohighlight">\(\tanh\)</span>, our target values must allow negatives as well.</p>
+<p>Another trick we can use is to apply different learning rates to weights in different layers in your neural network. It is important to understand that <strong>earlier layers tend to have smaller loss gradients</strong>. So earlier layers might need larger learning rates to keep up with later ones.</p>
+<p>Another technique to speed up training is called <strong>emphasizing schemes</strong>. More redundant examples in training data are learned much more quickly than rarer, more unique ones. So we can “emphasize” the rare examples. We would want to present the rare examples more often, OR simply present them with a larger learning rate. Alternatively, we can take an idea from perceptrons and present misclassified points more frequently. However, take caution with emphasizing schemes when you have bad data or really noticeable outliers.</p>
+<p>Another technique we can use is second-order optimization. This means looking at Hessians. However, with too many weights, the Hessian becomes far too expensive to compute very quickly. There are some “cheaper” second-order approximations, such as the nonlinear conjugate gradient method, which works well for small datasets and neural networks. It is inherently a batch GD method <em>only</em>, so it probably won’t work well with lots of redundant data. Another is called Stochastic Levenberg Marquardt, which approximates a diagonal Hessian.</p>
+</div>
+<div class="section" id="heuristics-for-avoiding-bad-local-minima">
+<h2>Heuristics for Avoiding Bad Local Minima<a class="headerlink" href="#heuristics-for-avoiding-bad-local-minima" title="Permalink to this headline">¶</a></h2>
+<p>Unfortunately, neural networks almost never have convex cost functions. So we can have <em>many</em> local minima, as well as plateaus (flat regions). There are things we can try to avoid this problem.</p>
+<p>First, we can fix the vanishing gradient problem, which helps weights “move” more in successive iterations.</p>
+<p>Stochastic gradient descent has a slight advantage to batch GD in terms of avoiding bad local minima, as it induces random motion, which gives it a chance to “get out” of a bad local minima should it get there.</p>
+<p><strong>Momentum</strong> is the idea of doing gradient descent on a <em>velocity</em> <span class="math notranslate nohighlight">\(\delta W\)</span>. The velocity isn’t allowed to change too quickly, even if the gradient does. Sometimes this is enough to let us get out of a bad local minima. Here’s the algorithm:</p>
+<div class="proof algorithm admonition" id="algorithm-0">
+<p class="admonition-title"><span class="caption-number">Algorithm 10 </span> (Gradient Descent, Momentum)</p>
+<div class="algorithm-content section" id="proof-content">
+<ol class="simple">
+<li><p>Initialize velocity <span class="math notranslate nohighlight">\(\delta w = -\epsilon \nabla J(w)\)</span></p></li>
+<li><p>Repeat</p>
+<ol class="simple">
+<li><p><span class="math notranslate nohighlight">\(w \leftarrow w + \delta w\)</span></p></li>
+<li><p>Update velocity with preserving momentum from previous iteration: <span class="math notranslate nohighlight">\(\delta w \leftarrow -\epsilon \nabla J(w) + \beta \delta w\)</span>. <span class="math notranslate nohighlight">\(\beta &lt; 1\)</span> tells us how much momentum is preserved.</p></li>
+</ol>
+</li>
+</ol>
+</div>
+</div><p>The concept for momentum can be used for both batch and stochastic GD.</p>
+</div>
+<div class="section" id="heuristics-to-avoid-overfitting">
+<h2>Heuristics to Avoid Overfitting<a class="headerlink" href="#heuristics-to-avoid-overfitting" title="Permalink to this headline">¶</a></h2>
+<p>Finally, let’s run through some concepts that can help us avoid overfitting.</p>
+<div class="section" id="ensembling">
+<h3>Ensembling<a class="headerlink" href="#ensembling" title="Permalink to this headline">¶</a></h3>
+<p>Ensembling generally reduce overfitting, and we can try ensembling neural networks. We’d use a bagging classifier, and each base NN would be set with random initial weights. Unfortunately, this would take a pretty long time to train, so these aren’t as popular.</p>
+</div>
+<div class="section" id="weight-decay">
+<h3>Weight Decay<a class="headerlink" href="#weight-decay" title="Permalink to this headline">¶</a></h3>
+<p>We can also apply L2 regularization to NNs, also known as <strong>weight decay</strong>. We simply add <span class="math notranslate nohighlight">\(\lambda||w||^2\)</span> to the cost function (or loss function if SGD), where <span class="math notranslate nohighlight">\(w\)</span> is a vector of all the NN weights. Now, calculating <span class="math notranslate nohighlight">\(-\epsilon \frac{\partial J}{\partial w_i}\)</span> has an extra term <span class="math notranslate nohighlight">\(-2\epsilon \lambda w_i\)</span>. Now, the weight <span class="math notranslate nohighlight">\(w_i\)</span> will <em>decay</em> by a factor <span class="math notranslate nohighlight">\(1-2\epsilon \lambda\)</span> if that weight’s value is not reinforced by training. So regularization with GD causes weight decay, but training will restore the weights to higher values.</p>
+<p>Let’s see an example with weight decay:</p>
+<a class="reference internal image-reference" href="../_images/weightdecay.png"><img alt="../_images/weightdecay.png" class="align-center" src="../_images/weightdecay.png" style="width: 600px;" /></a>
+<p>Note the right image, which displays the boundary from training with weight decay, better approximates the Bayes optimal decision boundary.</p>
+</div>
+<div class="section" id="dropout">
+<h3>Dropout<a class="headerlink" href="#dropout" title="Permalink to this headline">¶</a></h3>
+<p><strong>Dropout</strong> emulates a NN ensemble in a single neural network. It works by <em>temporarily disabling a random subset of the NN units</em>: their input and output edges are simply not used. We disable the hidden units with probability 0.5, and input units with a smaller probability. After doing SGD for a set iteration/amount of time, we then re-enable and disable a different subset.</p>
+<a class="reference internal image-reference" href="../_images/dropout.png"><img alt="../_images/dropout.png" class="align-center" src="../_images/dropout.png" style="width: 500px;" /></a>
+<p>This technique essentially “forces” the network to remember things such that it is not dependent on a single neuron. The inventors of dropout claim that this method gives even better generalization than L2. It also has some ensemble advantages, but is much faster to train.</p>
+</div>
+<div class="section" id="number-of-hidden-units">
+<h3>Number of Hidden Units<a class="headerlink" href="#number-of-hidden-units" title="Permalink to this headline">¶</a></h3>
+<p>The number of hidden units in our neural network is a hyperparameter that affects neural network speed. Of course, this is tunable: too few could mean high bias, while too many could mean overfit.</p>
+<div id="Question1" class="MCQ">
+</div></div>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
@@ -396,7 +546,7 @@
         
         <div class='prev-next-bottom'>
             
-    <a class='left-prev' id="prev-link" href="../Ch14/NNexample.html" title="previous page">Neural Network Backpropagation: An Example</a>
+    <a class='left-prev' id="prev-link" href="../Ch14/intro2.html" title="previous page">Neural Network Variations</a>
     <a class='right-next' id="next-link" href="../Ch16/intro.html" title="next page">Unsupervised Learning and PCA</a>
 
         </div>
@@ -409,7 +559,7 @@
         
           By Kevin Moy<br/>
         
-            &copy; Copyright 2020.<br/>
+            &copy; Copyright 2021.<br/>
       </p>
     </div>
   </footer>

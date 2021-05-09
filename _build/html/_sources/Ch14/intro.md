@@ -11,7 +11,7 @@ Neural networks are a culmination of the topics we've discussed in this book so 
 - Logistic Regression
 - Ensemble Learning
 - Stochastic Gradient Descent
-- Lifting sample points to a higher-dimensional feature space
+- Higher-dimensional feature vector lifting
 
 Let's go back a few chapters: all the way back to perceptrons. Remember that perceptrons were basically machines that came up with a linear decision boundary. Of course, there are inherent limitations to what a perceptron can do, particularly XOR:
 
@@ -25,7 +25,7 @@ The fact that the perceptron showed such limitations on even "simple" problems l
 
 But there exist many simple solutions for this. One is  adding a quadratic feature $x_1x_2$- effectively lifting our points to 3-dimensional feature space. *Now*, XOR is linearly separable.
 
-But what about another way? Say we want to calculate $X$ XOR $Y$. We know that perceptrons output a linear combination of its inputs. What if we *_chained_* multiple perceptrons together like this, for inputs $X$ and $Y$. Can $Z$ be the XOR of $X$ and $Y$? 
+But what about another way? Say we want to calculate $X$ XOR $Y$. We know that perceptrons output a linear combination of its inputs. What if we _chained_ multiple perceptrons together like this, for inputs $X$ and $Y$. Can $Z$ be the XOR of $X$ and $Y$? 
 
 <img src="C:\Users\Kevin\AppData\Roaming\Typora\typora-user-images\image-20210418153907912.png" alt="image-20210418153907912" style="zoom:50%;" />
 
@@ -43,7 +43,7 @@ Can an algorithm learn a function like this?
 
 ## Neural Networks with 1 Hidden Layer
 
-Remember with our bias term, our inputs layer has $d+1$ units. Then, we have a **hidden layer** of perceptrons- again, accounting for the bias term, we have $m+1$ units. Finally, our output layer will have $k$ units- the number that $k$ represents is application-dependent. 
+Remember with our bias term, our inputs layer has $d+1$ units. Then, we have a **hidden layer** of perceptrons- again, accounting for the bias term, we have $m+1$ units. Finally, our output layer will have $k$ units- the number that $k$ represents is application-dependent. For example, if we want to classify digits, then we might want $k=10$ output units, where each output represents a posterior probability that the classification is a certain digit. 
 
 Each layer's weights can be represented by a matrix with each row representing a node in the _next_ layer, and each column representing a node in the *current* layer. Therefore, for our first layer, we will have a $m \times (d + 1)$ sized matrix $V$, with each element representing a connection weight between nodes in the input layer and hidden layer. Similarly, the weight matrix connecting the hidden layer to the output layer has size $k \times (m+1)$. We will denote this matrix $W$. 
 

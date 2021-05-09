@@ -56,7 +56,7 @@ Let's start simple: let's say we have a $k=1$-dimensional subspace. Specifically
 ```{prf:definition} Orthogonal Projection
 :label: orthproj
 
-An __orthogonal projection__ of a vector $x$ onto a subspace $W$ is the vector $x_W$ in $W$ that is as close as possible to $x$. 
+An __orthogonal projection__ of a vector $x$ onto a subspace $W$ (made of orthogonal basis vectors) is the vector $x_W$ in $W$ that is as close as possible to $x$. 
 ```
 
 Of course, if we project from, say, 100 dimensions to 1 dimension, we're going to lose a LOT of information. Thankfully, we can project to several dimensions: this just means we must pick several different orthogonal direction vectors. We're still going to orthogonally project points onto this subspace: just now, our subspace is defined by multiple orthogonal basis vectors instead of just one. 
@@ -110,11 +110,6 @@ Now, let's sketch out the actual PCA algorithm.
 One thing to remember: we centered the training data _beforehand_. We need to apply the same thing to test data. However, there is an alternative: we can un-center the training data _before_ we project them onto PC space. 
 
 Let's see an example that shows the difference normalizing data could make in PCA:
-
-```{image} pictures/normalizePCA.png
-:width: 600px
-:align: center
-```
 
 So in this example, our $X$ consists of a bunch of 4-dimensional points, one for each metropolitan region. For each point, we measure urban population and 3 crime rates per capita. We want to project this down into 2D space. On the left, we have projected data which is scaled by normalization, and on the right we don't do this. Notice the large difference in the projected points! The reason that they look so different is the fact that rape and murder are far less common as assault. This means if we don't normalize the data, such datapoints won't have as much influence on PCA projections. Note that in the unscaled case, assault and urban population numbers are much larger, so they get much bigger contributions to the PCA directions than rape and murder. But when we scale, they all are about the same size.
 

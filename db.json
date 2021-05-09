@@ -3,17 +3,17 @@
         {
             "name": "Question1",
             "type": "MCQ",
-            "qtext": "1+1 = ?",
-            "choices": ["1", "2", "3", "4"], 
-            "answerlabels": ["A", "B", "C", "D"],
-            "correctlabel": "B",
-            "correctanswer": "2",
-            "explanation": "1 + 1 = 2"
+            "qtext": "True or False: k-NN can be used for both classification and regression.",
+            "choices": ["True", "False"], 
+            "answerlabels": ["A", "B"],
+            "correctlabel": "A",
+            "correctanswer": "True",
+            "explanation": "In k-NN, we take the $k$ closest neighbors of a given point. If we are doing classification, we take the majority class of those k neighbors. For regression, we average the target feature for those $k$ neighbors."
         },
         {
             "name": "Question2",
             "type": "MCQ",
-            "qtext": "True or False: Solving a non linear separation problem with a hard margin Kernelized SVM (Gaussian RBF Kernel) might lead to overfitting.",
+            "qtext": "True or False: Solving a non linear separation problem with a hard-margin kernelized SVM (Gaussian RBF Kernel) might lead to overfitting.",
             "choices": ["True", "False"], 
             "answerlabels": ["A", "B"],
             "correctlabel": "A",

@@ -46,13 +46,23 @@
 - file: Ch14/intro
   title: "Chapter 14: Neural Networks"
   sections:
-    - file: Ch14/NNexample.ipynb
+    - file: Ch14/intro2
 - file: Ch15/intro
-  title: "Chapter 15: Neurobiology and Variations on Neural Networks"
+  title: "Chapter 15: Improving Neural Network Training"
 - file: Ch16/intro
   title: "Chapter 16: Unsupervised Learning and PCA"
 - file: Ch17/intro
   title: "Chapter 17: Singular Value Decomposition and Clustering"
+- file: Ch18/intro
+  title: "Chapter 18: Spectral Graph Clustering"
+- file: Ch19/intro
+  title: "Chapter 19: Multiple Eigenvectors"
+- file: Ch20/intro
+  title: "Chapter 20: AdaBoost"
+- file: Ch21/intro
+  title: "Chapter 21: Nearest Neighbors"
+- file: Ch22/intro
+  title: "Chapter 22: Optomizing k-NN"
 
 
     
