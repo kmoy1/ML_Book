@@ -45,6 +45,8 @@
     <script src="../_static/togglebutton.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
+    <script src="../_static/mathjax.js"></script>
+    <script src="../_static/quiz.js"></script>
     <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
     <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
@@ -458,7 +460,7 @@
 <p>Centering data seems to make it easier for hidden units to get into a good operating region of the sigmoid or ReLU. Scaling for unit variance makes the objective function better conditioned, so gradient descent converges faster.</p>
 <!-- TODO: Explain zigzag diagram -->
 <p>We can also “center” the hidden units as well. The sigmoid function has an operating region centered at <span class="math notranslate nohighlight">\(s(\gamma) = 0.5\)</span>. So the sigmoid output has a mean of 0.5- which can affect neurons in further layers and push them out of the ideal operating region. We prefer means centered at 0. So we can replace the sigmoid with one that passes through the origin: we can instead use the <span class="math notranslate nohighlight">\(\tanh\)</span> activation function:</p>
-<center>
+<!-- <center>
   <script src="https://www.desmos.com/api/v1.6/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
   <div id="calculator" style="width: 300px; height: 300px; text-align: center;"></div>
   <script>
@@ -466,7 +468,7 @@
     var calculator = Desmos.GraphingCalculator(elt, {expressions:false});
     calculator.setExpression({ id: 'graph1', latex: 'y = \\tanh x' });
   </script>
-</center>
+</center> -->
 <p><span class="math notranslate nohighlight">\(\tanh(x) = \frac{e^x - e^{-x}}{e^x+e^{-x}}\)</span>. It can also be reached by a few stretches of the sigmoid function: <span class="math notranslate nohighlight">\(\tanh(x) = 2s(2x)-1\)</span>. Now, instead of the range being <span class="math notranslate nohighlight">\([0,1]\)</span> as with sigmoid, the range is now <span class="math notranslate nohighlight">\([-1,1]\)</span>. This keeps things centered, and downstream neurons are more likely to be centered as well. Of course, we have to replace <span class="math notranslate nohighlight">\(s'\)</span> with the derivative of <span class="math notranslate nohighlight">\(\tanh(x)\)</span> (<span class="math notranslate nohighlight">\(1-\tanh(x)^2\)</span>) in backpropagation as well. Of course, if we want to use <span class="math notranslate nohighlight">\(\tanh\)</span>, our target values must allow negatives as well.</p>
 <p>Another trick we can use is to apply different learning rates to weights in different layers in your neural network. It is important to understand that <strong>earlier layers tend to have smaller loss gradients</strong>. So earlier layers might need larger learning rates to keep up with later ones.</p>
 <p>Another technique to speed up training is called <strong>emphasizing schemes</strong>. More redundant examples in training data are learned much more quickly than rarer, more unique ones. So we can “emphasize” the rare examples. We would want to present the rare examples more often, OR simply present them with a larger learning rate. Alternatively, we can take an idea from perceptrons and present misclassified points more frequently. However, take caution with emphasizing schemes when you have bad data or really noticeable outliers.</p>
@@ -516,8 +518,7 @@
 <div class="section" id="number-of-hidden-units">
 <h3>Number of Hidden Units<a class="headerlink" href="#number-of-hidden-units" title="Permalink to this headline">¶</a></h3>
 <p>The number of hidden units in our neural network is a hyperparameter that affects neural network speed. Of course, this is tunable: too few could mean high bias, while too many could mean overfit.</p>
-<div id="Question1" class="MCQ">
-</div></div>
+</div>
 </div>
 </div>
 

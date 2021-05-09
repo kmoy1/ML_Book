@@ -1,0 +1,567 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unsupervised Learning and PCA &#8212; Machine Learning</title>
+    
+  <link rel="stylesheet" href="../../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/sphinx-book-theme.e7340bb3dbd8dde6db86f25597f54a1b.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/qstyle.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/mathjax.js"></script>
+    <script src="../../_static/quiz.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Singular Value Decomposition and Clustering" href="../Ch17/intro.html" />
+    <link rel="prev" title="Improving Neural Network Training" href="../Ch15/intro.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../../index.html">
+  
+  <img src="../../_static/ML_logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Machine Learning</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../intro.html">
+   Intro
+  </a>
+ </li>
+</ul>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../notation_note.html">
+   A Quick Note on Notation and Terminology
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch1/intro.html">
+   Chapter 1: Classification and ML Basics
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/trainingandtesting.html">
+     Training and Testing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/comparingmodels.html">
+     Comparing Classification Models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/MNIST.html">
+     The MNIST dataset
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/validation.html">
+     Validation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/supervisedlearn.html">
+     Supervised vs. Unsupervised Learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/summary.html">
+     Summary
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch2/intro.html">
+   Chapter 2: Linear Classifiers
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/hyperplanes.html">
+     Behind the Decision Boundary
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/linearseparability.html">
+     Linear Separability of Data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/centroid.html">
+     The Centroid Method
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptron.html">
+     The Perceptron Algorithm
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptronp2.html">
+     Perceptron Algorithm, Part 2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptronp3.html">
+     The Perceptron Algorithm, Part 3
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/maxmargin.html">
+     Maximum Margin Classfier
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch3/intro.html">
+   Chapter 3: Support Vector Machapters/Chines
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch4/intro.html">
+   Chapter 4: Optimization Problems
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch5/intro.html">
+   Chapter 5: Decision Theory
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch6/intro.html">
+   Chapter 6: Gaussian Discriminant Analysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch7/intro.html">
+   Chapter 7: Eigenvectors and Quadratic Forms
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch8/intro.html">
+   Chapter 8: Anisotropic Gaussians
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch9/intro.html">
+   Chapter 9: Regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch10/intro.html">
+   Chapter 10: Statistical Justifications for Regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch11/intro.html">
+   Chapter 11: Regularization
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch12/intro.html">
+   Chapter 12: Decision Trees
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch12/intro2.html">
+     Lecture 15: Decision Trees Cont.
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch13/intro.html">
+   Chapter 13: Kernels
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch14/intro.html">
+   Chapter 14: Neural Networks
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch14/intro2.html">
+     Neural Network Variations
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch15/intro.html">
+   Chapter 15: Improving Neural Network Training
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Chapter 16: Unsupervised Learning and PCA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch17/intro.html">
+   Chapter 17: Singular Value Decomposition and Clustering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch18/intro.html">
+   Chapter 18: Spectral Graph Clustering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch19/intro.html">
+   Chapter 19: Multiple Eigenvectors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch20/intro.html">
+   Chapter 20: AdaBoost
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch21/intro.html">
+   Chapter 21: Nearest Neighbors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch22/intro.html">
+   Chapter 22: Optomizing k-NN
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../../_sources/chapters/Ch16/intro.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/kmoy1/ML_Book.git"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/kmoy1/ML_Book.git/issues/new?title=Issue%20on%20page%20%2Fchapters/Ch16/intro.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                    title="Fullscreen mode"><i
+                        class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i>
+            Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#principal-component-analysis-pca">
+   Principal Component Analysis (PCA)
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="unsupervised-learning-and-pca">
+<h1>Unsupervised Learning and PCA<a class="headerlink" href="#unsupervised-learning-and-pca" title="Permalink to this headline">¶</a></h1>
+<p>Up until this point, our studies in regression and classification have only looked at <em>supervised learning</em>: where the labels are known. In <em>unsupervised learning</em>, well, we don’t have these labels anymore.</p>
+<div class="proof definition admonition" id="unsup">
+<p class="admonition-title"><span class="caption-number">Definition 11 </span> (Unsupervised Learning)</p>
+<div class="definition-content section" id="proof-content">
+<p><strong>Unsupervised learning</strong> is machine learning on unlabelled data: no classes, no y-values. Instead of a human “supervising” the model, the model figures out patterns from data <em>by itself</em>.</p>
+</div>
+</div><p>Unsupervised learning tries to find some sort of structure in data. The three most common kinds of unsupervised learning:</p>
+<ul class="simple">
+<li><p>Clustering: Partitioning data into groups, where each group has similar data points.</p></li>
+<li><p>Dimensionality Reduction: High-dimensional data actually lies near a low-dimensional subspace or manifold. In other words, a lot of the features in the high-dimensional data are unnecessary.</p></li>
+<li><p>Density Estimation: fitting a continuous distribution to discrete data. For example, using MLE to fit Gaussians to sample points.</p></li>
+</ul>
+<p>Note the difference between clustering and dimensionality reduction is that clustering groups similar data points together, while dimensionality reduction is more focused on identifying a <em>continuous variation</em> from sample point to sample point.</p>
+<p>Let’s talk about dimensionality reduction: specifically, <strong>principal component analysis</strong>.</p>
+<div class="section" id="principal-component-analysis-pca">
+<h2>Principal Component Analysis (PCA)<a class="headerlink" href="#principal-component-analysis-pca" title="Permalink to this headline">¶</a></h2>
+<p><strong>Principal Component Analysis (PCA)</strong> is a very famous example of dimensionality reduction. You are given <span class="math notranslate nohighlight">\(n\)</span> sample points in <span class="math notranslate nohighlight">\(\mathbb{R}^d\)</span>, and our goal is to find a <span class="math notranslate nohighlight">\(k\)</span>-dimensional subspace that captures most of the variation. To find this subspace, we find <span class="math notranslate nohighlight">\(k\)</span> orthogonal directions that capture this variation.</p>
+<p>Let’s take a look at PCA, visually.</p>
+<a class="reference internal image-reference" href="../../_images/PCAviz.png"><img alt="../../_images/PCAviz.png" class="align-center" src="../../_images/PCAviz.png" style="width: 600px;" /></a>
+<p>First, we see a bunch of points in 3D on the left. Imagine they are raindrops, frozen in time, hovering over a sheet of paper. Now, after time starts again: they’ll fall to the paper and make splotches corresponding to where they were in the air. In other words, we are <em>reducing our raindrops/data points from 3 dimensions (air) to 2 dimensions (paper)</em>. How can we do this? Note the left diagram is showing us how: we pick a <span class="math notranslate nohighlight">\(k\)</span>-dimensional subspace, in this case a 2-dimensional <em>plane</em>, and project all our data points orthogonally to that subspace. This will give us the image on the right.</p>
+<p>So how do we choose such a subspace? We want the subspace such that when we project to the lower dimension, we can still tell the separation between the points. Formally, we want to choose <span class="math notranslate nohighlight">\(k\)</span> direction vectors, or <strong>principal components</strong> that <strong>maximize variance between the data points</strong>.</p>
+<div class="proof definition admonition" id="pcacomps">
+<p class="admonition-title"><span class="caption-number">Definition 12 </span> (Unsupervised Learning)</p>
+<div class="definition-content section" id="proof-content">
+<p><strong>Principal Components</strong> are the <span class="math notranslate nohighlight">\(k\)</span> mutually orthogonal direction vectors that maximize variance among our dataset. They form the subspace that we project our high-dimensional data onto to make it low-dimensional.</p>
+</div>
+</div><!-- TODO: Find another PCA example with better separation. MNIST? -->
+<p>Why do we do PCA- or dimensionality reduction in general?</p>
+<p>Dimensionality reduction is very often used in preprocessing! Reducing the number of dimensions makes some computations much cheaper (faster), and such computations might include regression and classification. So if our original data had 784 dimensions, like MNIST, perhaps we could find a way to map it down to something less.</p>
+<p>Additionally, dimensionality reduction can be used as a form of regularization: when we remove irrelevant dimensions, we reduce overfitting. Dimensionality reduction is similar to feature subset selection in this sense. However, there is a key difference: in the latter we simply remove features, while in DR we remove <em>directions</em>. In other words, the new PCA “features” are no longer aligned with the feature axes, since they are now <em>linear combinations</em> of input features.</p>
+<p>Finally, we also just might want to find a small basis that represents the variance in our data. We’ll see examples in this note: utilizing DR to detect variation in human faces as well as in human genetics.</p>
+<p>Let <span class="math notranslate nohighlight">\(X\)</span> be our <span class="math notranslate nohighlight">\(n \times d\)</span> design matrix, with no fictitious dimension. Assume <span class="math notranslate nohighlight">\(X\)</span> is centered: the mean of all sample points <span class="math notranslate nohighlight">\(\mu_X = 0\)</span>. To understand PCA, we first must understand projecting a point onto a <span class="math notranslate nohighlight">\(k\)</span>-dimensional subspace.</p>
+<p>Let’s start simple: let’s say we have a <span class="math notranslate nohighlight">\(k=1\)</span>-dimensional subspace. Specifically, let this single vector be <span class="math notranslate nohighlight">\(w\)</span>. Then, the <strong>orthogonal projection</strong> of a point <span class="math notranslate nohighlight">\(x\)</span> onto vector <span class="math notranslate nohighlight">\(w\)</span> is equal to <span class="math notranslate nohighlight">\(\tilde{x} = \frac{x \cdot w}{||w||^2} w\)</span>. Note that if <span class="math notranslate nohighlight">\(w\)</span> is a unit vector, then  <span class="math notranslate nohighlight">\(\tilde{x} = (x \cdot w)w\)</span>.</p>
+<div class="proof definition admonition" id="orthproj">
+<p class="admonition-title"><span class="caption-number">Definition 13 </span> (Orthogonal Projection)</p>
+<div class="definition-content section" id="proof-content">
+<p>An <strong>orthogonal projection</strong> of a vector <span class="math notranslate nohighlight">\(x\)</span> onto a subspace <span class="math notranslate nohighlight">\(W\)</span> (made of orthogonal basis vectors) is the vector <span class="math notranslate nohighlight">\(x_W\)</span> in <span class="math notranslate nohighlight">\(W\)</span> that is as close as possible to <span class="math notranslate nohighlight">\(x\)</span>.</p>
+</div>
+</div><p>Of course, if we project from, say, 100 dimensions to 1 dimension, we’re going to lose a LOT of information. Thankfully, we can project to several dimensions: this just means we must pick several different orthogonal direction vectors. We’re still going to orthogonally project points onto this subspace: just now, our subspace is defined by multiple orthogonal basis vectors instead of just one.</p>
+<div class="proof definition admonition" id="orthprojformula">
+<p class="admonition-title"><span class="caption-number">Definition 14 </span> (Orthogonal Projection Formula)</p>
+<div class="definition-content section" id="proof-content">
+<p>For a <span class="math notranslate nohighlight">\(k\)</span>-dimensional subspace <span class="math notranslate nohighlight">\(W\)</span> characterized by <span class="math notranslate nohighlight">\(k\)</span> basis vectors <span class="math notranslate nohighlight">\(v_1,...,v_k\)</span>, the orthogonal projection of a vector <span class="math notranslate nohighlight">\(x\)</span> on subspace <span class="math notranslate nohighlight">\(W\)</span> is <span class="math notranslate nohighlight">\(\tilde{x} = \sum_{i=1}^{k}(x \cdot v_i)v_i\)</span>.</p>
+</div>
+</div><p>So a 3D point being projected onto a 2D space would look like this:</p>
+<img alt="../../_images/3dto2d.png" class="align-center" src="../../_images/3dto2d.png" />
+<p>Practically, though, we more often just want the just the <span class="math notranslate nohighlight">\(k\)</span> <strong>principal coordinates</strong> <span class="math notranslate nohighlight">\(x \cdot v_i\)</span> in principal component space, not <span class="math notranslate nohighlight">\(\tilde{x}\)</span>.</p>
+<p>Design matrix <span class="math notranslate nohighlight">\(X\)</span> plays a large role in determining the principal component directions <span class="math notranslate nohighlight">\(v_i\)</span>. Assuming <span class="math notranslate nohighlight">\(X\)</span> is centered, <span class="math notranslate nohighlight">\(X^TX\)</span> is a square, symmetric, positive semidefinite <span class="math notranslate nohighlight">\(d \times d\)</span> matrix. Since it is symmetric and real, we know that it has <span class="math notranslate nohighlight">\(d\)</span> real eigenvalues <span class="math notranslate nohighlight">\(\lambda_1, ..., \lambda_d\)</span>, and its <span class="math notranslate nohighlight">\(d\)</span> corresponding eigenvectors <span class="math notranslate nohighlight">\(v_1,...,v_d\)</span> are all mututally orthogonal.</p>
+<p>Now let’s sort our eigenvalues, and now let <span class="math notranslate nohighlight">\(\lambda_1\)</span> = smallest eigenvalue, <span class="math notranslate nohighlight">\(\lambda_d\)</span> = largest. We will sort our UNIT eigenvectors as <span class="math notranslate nohighlight">\(v_1,...v_d\)</span> to correspond with these eigenvalues. <strong>These eigenvectors are the principal components.</strong> The most important eigenvectors- i.e. the ones that take up the most variance in the dataset- are the eigenvectors with the largest eigenvalues.</p>
+<p>Why are the eigenvectors of <span class="math notranslate nohighlight">\(X^TX\)</span> our principal components?</p>
+<p>One way to see this is using MLE to fit a Gaussian to our data <span class="math notranslate nohighlight">\(X\)</span>. We can learn a lot about the data from this Gaussian’s isocontours. From this MLE-chosen Gaussian, we choose the <span class="math notranslate nohighlight">\(k\)</span> Gaussian axes with the greatest variance.</p>
+<p>For example, say we have fit this Gaussian (in blue) to the sample points (red X’s):</p>
+<a class="reference internal image-reference" href="../../_images/Gaussianfit.png"><img alt="../../_images/Gaussianfit.png" class="align-center" src="../../_images/Gaussianfit.png" style="width: 400px;" /></a>
+<p>Note this Gaussian’s isocontours will be concentric ovals with the same shape as the border shown. Remember that we take the eigenvectors (the ellipse axes shown) and eigenvalues (the magnitudes of the vectors) of the sample covariance matrix <span class="math notranslate nohighlight">\(\Sigma\)</span>. Remember that MLE gives a covariance matrix as <span class="math notranslate nohighlight">\(\hat{\Sigma} = \frac{1}{n}X^TX\)</span>.</p>
+<p>Now, let’s sketch out the actual PCA algorithm.</p>
+<div class="proof algorithm admonition" id="PCA-Alg">
+<p class="admonition-title"><span class="caption-number">Algorithm 15 </span> (PCA)</p>
+<div class="algorithm-content section" id="proof-content">
+<p><strong>Inputs</strong> <span class="math notranslate nohighlight">\(d\)</span>-dimensional dataset <span class="math notranslate nohighlight">\(X\)</span></p>
+<p><strong>Output</strong> Compute principal coordinates <span class="math notranslate nohighlight">\(x \cdot v_i\)</span> determined by</p>
+<ol class="simple">
+<li><p>Center <span class="math notranslate nohighlight">\(X\)</span>. Sometimes, we want to normalize <span class="math notranslate nohighlight">\(X\)</span>, but only when different features have different measurement units.</p></li>
+<li><p>Compute unit eigenvectors and eigenvalues of <span class="math notranslate nohighlight">\(X^TX\)</span>. From these, we can usually choose <span class="math notranslate nohighlight">\(k\)</span> based on eigenvalue sizes.</p></li>
+<li><p>Pick the best <span class="math notranslate nohighlight">\(k\)</span> eigenvectors as the ones with the <span class="math notranslate nohighlight">\(k\)</span> largest eigenvalues: this forms our <span class="math notranslate nohighlight">\(k\)</span>-dimensional subspace <span class="math notranslate nohighlight">\(W\)</span>.</p></li>
+<li><p>Compute principal coordinates <span class="math notranslate nohighlight">\(x \cdot v_i\)</span> for each point in the training data, and each subspace eigenvector <span class="math notranslate nohighlight">\(v_i\)</span>. These give us coordinates of each <span class="math notranslate nohighlight">\(x\)</span> in principal component space.</p></li>
+</ol>
+</div>
+</div><p>One thing to remember: we centered the training data <em>beforehand</em>. We need to apply the same thing to test data. However, there is an alternative: we can un-center the training data <em>before</em> we project them onto PC space.</p>
+<p>Let’s see an example that shows the difference normalizing data could make in PCA:</p>
+<p>So in this example, our <span class="math notranslate nohighlight">\(X\)</span> consists of a bunch of 4-dimensional points, one for each metropolitan region. For each point, we measure urban population and 3 crime rates per capita. We want to project this down into 2D space. On the left, we have projected data which is scaled by normalization, and on the right we don’t do this. Notice the large difference in the projected points! The reason that they look so different is the fact that rape and murder are far less common as assault. This means if we don’t normalize the data, such datapoints won’t have as much influence on PCA projections. Note that in the unscaled case, assault and urban population numbers are much larger, so they get much bigger contributions to the PCA directions than rape and murder. But when we scale, they all are about the same size.</p>
+<p>When do we choose if we want to scale or not? Totally application-dependent. Should low-frequency events like murder and rape have a disproportionate (bigger) influence on PCA axes? If yes, then you probably want to scale.</p>
+<p>Of course, with more eigenvectors and eigenvalues (more dimensions), we get more variance captured from the original dataset. We can calculate the percent of variance we capture by dividing the sum of our eigenvalues used by all the eigenvalues of <span class="math notranslate nohighlight">\(X^TX\)</span>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If using PCA for preprocessing in supervised learning, then like always, using (cross) validation is a better way to choose <span class="math notranslate nohighlight">\(k\)</span>.</p>
+</div>
+<p>We can also think of PCA as finding the optimal directions that keep most of our sample variance after we project our data down. In other words, after projection, we want to keep our points as spread out as possible, as indicated in the original high dimensions.</p>
+<a class="reference internal image-reference" href="../../_images/maxvariance.png"><img alt="../../_images/maxvariance.png" class="align-center" src="../../_images/maxvariance.png" style="width: 400px;" /></a>
+<p>So here, we are projecting white points in 2D onto 1D (the green line) as blue points. We want to maximize sample variance between those two points. We need to choose an orientation of this green line (choose our direction vector) that does this. Mathematically, our goal can be represented as:</p>
+<div class="math notranslate nohighlight">
+\[
+\underset{w}{\arg\max} \text{Var}(\{\tilde{X_1}, \tilde{X_2},..., \tilde{X_n}\}) = \frac{1}{n}\sum_{i=1}^{n}(X_i \cdot \frac{w}{||w||})^2
+\]</div>
+<p>We can simplify this down further as:</p>
+<div class="math notranslate nohighlight">
+\[
+= \frac{1}{n}\frac{||Xw||^2}{||w||^2} = \frac{1}{n}\frac{w^TX^TXw}{w^Tw}
+\]</div>
+<p>The fraction <span class="math notranslate nohighlight">\(\frac{w^TX^TXw}{w^Tw}\)</span> is a well-known construction called the <em>Rayleigh quotient</em>. So how can we find the <span class="math notranslate nohighlight">\(w\)</span> that maximizes it?</p>
+<p>First, note that if <span class="math notranslate nohighlight">\(w = v_i\)</span> for some eigenvector <span class="math notranslate nohighlight">\(v_i\)</span> of <span class="math notranslate nohighlight">\(X^TX\)</span>, then our Rayleigh quotient is the corresponding eigenvalue <span class="math notranslate nohighlight">\(\lambda_i\)</span>. So out of all eigenvectors, the one with the largest eigenvalue <span class="math notranslate nohighlight">\(v_d\)</span> achieves maximal variance <span class="math notranslate nohighlight">\(\frac{\lambda_d}{n}\)</span>. In fact, it beats <em>all</em> vectors: <span class="math notranslate nohighlight">\(\underset{w}{\arg\max} \text{Var}(\{\tilde{X_1}, \tilde{X_2},..., \tilde{X_n}\}) = v_d\)</span>. We won’t prove this here.</p>
+<p>Typically we want <span class="math notranslate nohighlight">\(k\)</span> directions in our subspace <span class="math notranslate nohighlight">\(W\)</span>. So now, after we’ve picked
+one direction, then we have to pick a direction that’s orthogonal to the best direction. So we are repeating the process of finding a direction that maximizes variance, <em>with the constraint that the direction must be orthogonal to your already picked directions.</em> But good news: it turns out that with constraint of orthogonality to <span class="math notranslate nohighlight">\(v_d\)</span>, <span class="math notranslate nohighlight">\(v_{d-1}\)</span> is the next optimal direction. Then, <span class="math notranslate nohighlight">\(v_{d-2}\)</span>. And so on. As we know.</p>
+<p>Yet another way to think about PCA is finding <span class="math notranslate nohighlight">\(w\)</span> that minimizes the <em>mean squared projection distance</em>. It is very similar to least-squares linear regression, with one important difference: instead of measuring the error in a fixed vertical direction, we’re measuring the error in a direction orthogonal to the principal component direction we choose. Sp for each point, error is now measured by the distance from the point to the <em>closest</em> point on the line. Note this visually, with LSLR on the left and PCA on the right:</p>
+<a class="reference internal image-reference" href="../../_images/PCAvsLSLR.png"><img alt="../../_images/PCAvsLSLR.png" class="align-center" src="../../_images/PCAvsLSLR.png" style="width: 400px;" /></a>
+<p>In both methods, though, we are still minimizing the sum of the squares of the projection distances for each point. This is equivalent to maximizing variance.</p>
+<!-- TODO: Finish Eurogenetics + Eigenfaces, start at 1:12:31 --></div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./chapters/Ch16"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="../Ch15/intro.html" title="previous page">Improving Neural Network Training</a>
+    <a class='right-next' id="next-link" href="../Ch17/intro.html" title="next page">Singular Value Decomposition and Clustering</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Kevin Moy<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>

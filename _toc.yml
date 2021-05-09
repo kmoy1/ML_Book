@@ -1,67 +1,67 @@
 - file: intro
 - file: notation_note
-- file: Ch1/intro
+- file: chapters/Ch1/intro
   title: "Chapter 1: Classification and ML Basics"
   sections:
-    - file: Ch1/trainingandtesting
-    - file: Ch1/comparingmodels
-    - file: Ch1/MNIST
-    - file: Ch1/validation
-    - file: Ch1/supervisedlearn
-    - file: Ch1/summary
-- file: Ch2/intro
+    - file: chapters/Ch1/trainingandtesting
+    - file: chapters/Ch1/comparingmodels
+    - file: chapters/Ch1/MNIST
+    - file: chapters/Ch1/validation
+    - file: chapters/Ch1/supervisedlearn
+    - file: chapters/Ch1/summary
+- file: chapters/Ch2/intro
   title: "Chapter 2: Linear Classifiers"
   sections:
-    - file: Ch2/hyperplanes
-    - file: Ch2/linearseparability
-    - file: Ch2/centroid
-    - file: Ch2/perceptron
-    - file: Ch2/perceptronp2
-    - file: Ch2/perceptronp3
-    - file: Ch2/maxmargin
-- file: Ch3/intro
-  title: "Chapter 3: Support Vector Machines"
-- file: Ch4/intro
+    - file: chapters/Ch2/hyperplanes
+    - file: chapters/Ch2/linearseparability
+    - file: chapters/Ch2/centroid
+    - file: chapters/Ch2/perceptron
+    - file: chapters/Ch2/perceptronp2
+    - file: chapters/Ch2/perceptronp3
+    - file: chapters/Ch2/maxmargin
+- file: chapters/Ch3/intro
+  title: "Chapter 3: Support Vector Machapters/Chines"
+- file: chapters/Ch4/intro
   title: "Chapter 4: Optimization Problems"
-- file: Ch5/intro
+- file: chapters/Ch5/intro
   title: "Chapter 5: Decision Theory"
-- file: Ch6/intro
+- file: chapters/Ch6/intro
   title: "Chapter 6: Gaussian Discriminant Analysis"
-- file: Ch7/intro
+- file: chapters/Ch7/intro
   title: "Chapter 7: Eigenvectors and Quadratic Forms"
-- file: Ch8/intro
+- file: chapters/Ch8/intro
   title: "Chapter 8: Anisotropic Gaussians"
-- file: Ch9/intro
+- file: chapters/Ch9/intro
   title: "Chapter 9: Regression"
-- file: Ch10/intro
+- file: chapters/Ch10/intro
   title: "Chapter 10: Statistical Justifications for Regression"
-- file: Ch11/intro
+- file: chapters/Ch11/intro
   title: "Chapter 11: Regularization"
-- file: Ch12/intro
+- file: chapters/Ch12/intro
   title: "Chapter 12: Decision Trees"
   sections:
-    - file: Ch12/intro2
-- file: Ch13/intro
+    - file: chapters/Ch12/intro2
+- file: chapters/Ch13/intro
   title: "Chapter 13: Kernels"
-- file: Ch14/intro
+- file: chapters/Ch14/intro
   title: "Chapter 14: Neural Networks"
   sections:
-    - file: Ch14/intro2
-- file: Ch15/intro
+    - file: chapters/Ch14/intro2
+- file: chapters/Ch15/intro
   title: "Chapter 15: Improving Neural Network Training"
-- file: Ch16/intro
+- file: chapters/Ch16/intro
   title: "Chapter 16: Unsupervised Learning and PCA"
-- file: Ch17/intro
+- file: chapters/Ch17/intro
   title: "Chapter 17: Singular Value Decomposition and Clustering"
-- file: Ch18/intro
+- file: chapters/Ch18/intro
   title: "Chapter 18: Spectral Graph Clustering"
-- file: Ch19/intro
+- file: chapters/Ch19/intro
   title: "Chapter 19: Multiple Eigenvectors"
-- file: Ch20/intro
+- file: chapters/Ch20/intro
   title: "Chapter 20: AdaBoost"
-- file: Ch21/intro
+- file: chapters/Ch21/intro
   title: "Chapter 21: Nearest Neighbors"
-- file: Ch22/intro
+- file: chapters/Ch22/intro
   title: "Chapter 22: Optomizing k-NN"
 
 

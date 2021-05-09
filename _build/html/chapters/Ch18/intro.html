@@ -1,0 +1,623 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spectral Graph Clustering &#8212; Machine Learning</title>
+    
+  <link rel="stylesheet" href="../../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/sphinx-book-theme.e7340bb3dbd8dde6db86f25597f54a1b.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/qstyle.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/mathjax.js"></script>
+    <script src="../../_static/quiz.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Multiple Eigenvectors and Random Projection" href="../Ch19/intro.html" />
+    <link rel="prev" title="Singular Value Decomposition and Clustering" href="../Ch17/intro.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../../index.html">
+  
+  <img src="../../_static/ML_logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Machine Learning</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../intro.html">
+   Intro
+  </a>
+ </li>
+</ul>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../notation_note.html">
+   A Quick Note on Notation and Terminology
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch1/intro.html">
+   Chapter 1: Classification and ML Basics
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/trainingandtesting.html">
+     Training and Testing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/comparingmodels.html">
+     Comparing Classification Models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/MNIST.html">
+     The MNIST dataset
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/validation.html">
+     Validation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/supervisedlearn.html">
+     Supervised vs. Unsupervised Learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/summary.html">
+     Summary
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch2/intro.html">
+   Chapter 2: Linear Classifiers
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/hyperplanes.html">
+     Behind the Decision Boundary
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/linearseparability.html">
+     Linear Separability of Data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/centroid.html">
+     The Centroid Method
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptron.html">
+     The Perceptron Algorithm
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptronp2.html">
+     Perceptron Algorithm, Part 2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptronp3.html">
+     The Perceptron Algorithm, Part 3
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/maxmargin.html">
+     Maximum Margin Classfier
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch3/intro.html">
+   Chapter 3: Support Vector Machapters/Chines
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch4/intro.html">
+   Chapter 4: Optimization Problems
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch5/intro.html">
+   Chapter 5: Decision Theory
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch6/intro.html">
+   Chapter 6: Gaussian Discriminant Analysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch7/intro.html">
+   Chapter 7: Eigenvectors and Quadratic Forms
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch8/intro.html">
+   Chapter 8: Anisotropic Gaussians
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch9/intro.html">
+   Chapter 9: Regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch10/intro.html">
+   Chapter 10: Statistical Justifications for Regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch11/intro.html">
+   Chapter 11: Regularization
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch12/intro.html">
+   Chapter 12: Decision Trees
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch12/intro2.html">
+     Lecture 15: Decision Trees Cont.
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch13/intro.html">
+   Chapter 13: Kernels
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch14/intro.html">
+   Chapter 14: Neural Networks
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch14/intro2.html">
+     Neural Network Variations
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch15/intro.html">
+   Chapter 15: Improving Neural Network Training
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch16/intro.html">
+   Chapter 16: Unsupervised Learning and PCA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch17/intro.html">
+   Chapter 17: Singular Value Decomposition and Clustering
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Chapter 18: Spectral Graph Clustering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch19/intro.html">
+   Chapter 19: Multiple Eigenvectors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch20/intro.html">
+   Chapter 20: AdaBoost
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch21/intro.html">
+   Chapter 21: Nearest Neighbors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch22/intro.html">
+   Chapter 22: Optomizing k-NN
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../../_sources/chapters/Ch18/intro.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/kmoy1/ML_Book.git"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/kmoy1/ML_Book.git/issues/new?title=Issue%20on%20page%20%2Fchapters/Ch18/intro.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                    title="Fullscreen mode"><i
+                        class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i>
+            Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bisection">
+   Bisection
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#spectral-partitioning-algorithm">
+   Spectral Partitioning Algorithm
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#vertex-masses">
+   Vertex Masses
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#greedy-divisive-clustering">
+   Greedy Divisive Clustering
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#normalized-cut">
+   Normalized Cut
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="spectral-graph-clustering">
+<h1>Spectral Graph Clustering<a class="headerlink" href="#spectral-graph-clustering" title="Permalink to this headline">¶</a></h1>
+<p>So we’ve gone over ways to cluster points. Now let’s go over an algorithm that clusters nodes in a graph.</p>
+<p>Input: Weighted, undirected graph <span class="math notranslate nohighlight">\(G = (V,E)\)</span>. No self-edges. <span class="math notranslate nohighlight">\(w_{ij}\)</span> is the weight of the edge connecting vertex <span class="math notranslate nohighlight">\(i\)</span> to vertex <span class="math notranslate nohighlight">\(j\)</span>.</p>
+<p>We can think of the edge weight in our graph as the similarity measure between two points <span class="math notranslate nohighlight">\(i, j\)</span>. If the weight is large, the vertices (points) are more similar, and want to be in the same cluster. Note this is the opposite of the dissimilarity function (Euclidean distance) we covered last chapter.</p>
+<p>The goal: Cut <span class="math notranslate nohighlight">\(G\)</span> into 2+ <em>subgraphs</em> <span class="math notranslate nohighlight">\(G_i\)</span> with similar sizes, but do not cut too many edges with large weights. So there’s going to be a tradeoff. One rule that can be used to implement this goal is to <strong>minimize the sparsity of the cut</strong>:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\text{Cut}(G_1, G_2)}{\text{Mass}(G_1)\text{Mass}(G_2)}
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\text{Cut}(G_1, G_2)\)</span> is the total weight of cut edges, and <span class="math notranslate nohighlight">\(\text{Mass}(G_1), \text{Mass}(G_2)\)</span> refer to the number of vertices in subgraphs <span class="math notranslate nohighlight">\(G_1\)</span>, <span class="math notranslate nohighlight">\(G_2\)</span> that result from the cut. We want to find cuts that have <span class="math notranslate nohighlight">\(\text{Mass}(G_1)\)</span> as close to <span class="math notranslate nohighlight">\(\text{Mass}(G_2)\)</span> as possible. The constraint occurs when some vertices are given a larger “mass” than others.</p>
+<p>If we have a balanced cut, then <span class="math notranslate nohighlight">\(\text{Mass}(G_1), \text{Mass}(G_2) = \frac{n^2}{4}\)</span>, where <span class="math notranslate nohighlight">\(n\)</span> is the number of vertices in <span class="math notranslate nohighlight">\(G\)</span>. The balanced cut maximizes this product, and thus minimizes sparsity. More unbalanced cuts means larger sparsity.</p>
+<p>Let’s look at four different ways to cut a graph.</p>
+<a class="reference internal image-reference" href="../../_images/graphcuts.png"><img alt="../../_images/graphcuts.png" class="align-center" src="../../_images/graphcuts.png" style="width: 500px;" /></a>
+<p>Let’s analyze each of these four cut types:</p>
+<ul class="simple">
+<li><p><strong>Minimum bisection</strong>:</p></li>
+<li><p><strong>Minimum cut</strong>:</p></li>
+<li><p><strong>Sparsest cut</strong>:</p></li>
+<li><p><strong>Maximum cut</strong>:</p></li>
+</ul>
+<p>Finding the sparsest cut, the minimum bisection, and the maximum cut are <em>all</em> NP-hard problems. Let’s look for an approximate solution to the sparsest cut problem. First, let’s formalize everything in notation:</p>
+<ul class="simple">
+<li><p>let <span class="math notranslate nohighlight">\(n = |V|\)</span></p></li>
+<li><p>let <span class="math notranslate nohighlight">\(y \in \mathbb{R}^n\)</span>, which acts as an <em>indicator vector</em>: for vertex <span class="math notranslate nohighlight">\(i\)</span>, <span class="math notranslate nohighlight">\(y_i = 1\)</span> if the vertex is in <span class="math notranslate nohighlight">\(G_1\)</span>, and <span class="math notranslate nohighlight">\(y_i = -1\)</span> if the vertex is in <span class="math notranslate nohighlight">\(G_2\)</span>.
+The go
+Setting up the indicator vector allows for this little beauty here:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+w_{ij}\frac{(y_i - y_j)^2}{4} = 
+    \begin{cases} 
+      w_{ij} &amp; (i,j)\text{ is cut} \\
+      0 &amp; (i,j)\text{ is not cut} \\  
+   \end{cases}
+\end{split}\]</div>
+<p>which basically states that if vertices <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span> are both in the same subgraph (<span class="math notranslate nohighlight">\(G_1\)</span> or <span class="math notranslate nohighlight">\(G_2\)</span>), we get 0. If they are separated by the cutting edge, the weight of that edge is the output. So we now have a way to indicate weights of cut edges.</p>
+<p>This term also makes calculating the total weight of cut edges easy:</p>
+<div class="math notranslate nohighlight">
+\[
+\text{Cut}(G_1, G_2) = \sum_{(i,j) \in E}w_{ij}\frac{(y_i-y_j)^2}{4} 
+\]</div>
+<p>Note this is quadratic: let’s try to write it out with a matrix.</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}\begin{split}
+\text{Cut}(G_1, G_2) = \frac{1}{4}\sum_{(i,j) \in E}(w_{ij}y_i^2 - 2w_{ij}y_iy_j + w_{ij}y_j^2) \\ \end{split}\\\begin{split}= \frac{1}{4}\sum_{(i,j) \in E}-2w_{ij}y_iy_j + \sum_{i=1}^{n}y_i^2\sum_{k \neq i} w_{ik} \\\end{split}\\=  \frac{y^TLy}{4}
+\end{aligned}\end{align} \]</div>
+<p>where <span class="math notranslate nohighlight">\(L_{ij} = 
+    \begin{cases} 
+      -w_{ij} &amp; i \neq j \\
+      \sum_{k \neq i} w_{ik} &amp; i = j \\  
+   \end{cases}
+\)</span>.</p>
+<p>Note that <span class="math notranslate nohighlight">\(L\)</span> is a symmetric, <span class="math notranslate nohighlight">\(n \times n\)</span> <strong>Laplacian matrix</strong> that is effectively a matrix representation of any graph <span class="math notranslate nohighlight">\(G\)</span>. Let’s look at an example.</p>
+<a class="reference internal image-reference" href="../../_images/graph.png"><img alt="../../_images/graph.png" class="align-center" src="../../_images/graph.png" style="width: 300px;" /></a>
+<p>Our graph matrix would be <span class="math notranslate nohighlight">\(L = \begin{bmatrix}
+4 &amp; -1 &amp; -3\\
+-1 &amp; 6 &amp; -5\\
+-3 &amp; -5 &amp; 8
+\end{bmatrix}\)</span></p>
+<p>Since weights generally aren’t ever negative, we know <span class="math notranslate nohighlight">\(\text{Cut}(G_1, G_2)\)</span> can never be negative, and thus safely assume that <span class="math notranslate nohighlight">\(L\)</span> is positive semidefinite.</p>
+<p>We can also see that a length-<span class="math notranslate nohighlight">\(n\)</span> vector of <span class="math notranslate nohighlight">\(1\)</span>s is an eigenvector of <span class="math notranslate nohighlight">\(L\)</span> with eigenvalue 0: <span class="math notranslate nohighlight">\(L\cdot 1 = 0\)</span>. If <span class="math notranslate nohighlight">\(G\)</span> is a connected graph with positive edge weights, then this is the only zero eigenvalue. But if <span class="math notranslate nohighlight">\(G\)</span> is not connected, <span class="math notranslate nohighlight">\(L\)</span> has one zero eigenvalue for each <em>connected component</em> of <span class="math notranslate nohighlight">\(G\)</span>.</p>
+<div class="section" id="bisection">
+<h2>Bisection<a class="headerlink" href="#bisection" title="Permalink to this headline">¶</a></h2>
+<p>In a <strong>bisection</strong>, exactly <span class="math notranslate nohighlight">\(\frac{n}{2}\)</span> vertices are in <span class="math notranslate nohighlight">\(G_1\)</span> and in <span class="math notranslate nohighlight">\(G_2\)</span>: the nodes are split evenly. Equivalently, we can represent this as a constraint: <span class="math notranslate nohighlight">\(1^Ty = 0\)</span>. Remember <span class="math notranslate nohighlight">\(y_i = 1\)</span> for every vertex in <span class="math notranslate nohighlight">\(G_1\)</span>, and <span class="math notranslate nohighlight">\(y_i=-1\)</span> for every vertex in <span class="math notranslate nohighlight">\(G_2\)</span>: so with a bisection, there should be an equal number of 1’s and -1’s in <span class="math notranslate nohighlight">\(y\)</span>.</p>
+<p>So we have reduced graph bisection to a constrained optomization problem:</p>
+<div class="proof definition admonition" id="graphbi">
+<p class="admonition-title"><span class="caption-number">Definition 18 </span> (Graph Bisection, Hard Constraint)</p>
+<div class="definition-content section" id="proof-content">
+<p>In finding the <strong>minimum graph bisection</strong> we want to find <span class="math notranslate nohighlight">\(y\)</span> that minimizes <span class="math notranslate nohighlight">\(y^TLy\)</span> subject to two constraints:</p>
+<ol class="simple">
+<li><p><span class="math notranslate nohighlight">\(y_i=1\)</span> or <span class="math notranslate nohighlight">\(y_i = -1\)</span> for all <span class="math notranslate nohighlight">\(i\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(1^Ty = 0\)</span></p></li>
+</ol>
+</div>
+</div><p>We shall call constraint 1 the <em>binary constraint</em> and constraint 2 the <em>balance constraint</em>, for convenience.</p>
+<p>Note that this problem is still NP-hard. We will relax the binary constraint a bit so we can solve the problem in polynomial time. This means <span class="math notranslate nohighlight">\(y_i\)</span> can be whatever in <span class="math notranslate nohighlight">\([-1, 1]\)</span>: This allows for fractional vertices. At the end, we round this fraction to -1 or 1. This approach of relaxing discrete problems into continuous ones is very common.</p>
+<p>We can represent this new constraint as: <span class="math notranslate nohighlight">\(y\)</span> must lie on a hypersphere of radius <span class="math notranslate nohighlight">\(\sqrt{n}\)</span>, centered at the origin. This means we can relax our minimum bisection problem</p>
+<div class="proof definition admonition" id="graphbirelaxed">
+<p class="admonition-title"><span class="caption-number">Definition 19 </span> (Graph Bisection, Hard Constraint)</p>
+<div class="definition-content section" id="proof-content">
+<p>In finding the relaxed minimum graph bisection we want to find <span class="math notranslate nohighlight">\(y\)</span> that minimizes <span class="math notranslate nohighlight">\(y^TLy\)</span> subject to two constraints:</p>
+<ol class="simple">
+<li><p><span class="math notranslate nohighlight">\(y^Ty = n\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(1^Ty = 0\)</span></p></li>
+</ol>
+<p>And afterwards, we round fractional elements of <span class="math notranslate nohighlight">\(y\)</span> to -1 or 1 appropriately.</p>
+</div>
+</div><p>Since we assume that <span class="math notranslate nohighlight">\(y^TLy\)</span> is a constant, minimizing <span class="math notranslate nohighlight">\(y^TLy\)</span> is equivalent to minimizing <span class="math notranslate nohighlight">\(\frac{y^TLy}{y^Ty}\)</span>. Remember from last chapter this is the Rayleigh quotient of <span class="math notranslate nohighlight">\(L\)</span> and <span class="math notranslate nohighlight">\(y\)</span>! The constraints are the same; only the objective function is changed to something more familiar here.</p>
+<p>Of course, in any problem involving the Rayleigh quotient, you should always think of eigenvectors.</p>
+<p>Let’s see the visualization of the above (relaxed) problem graphically:</p>
+<a class="reference internal image-reference" href="../../_images/relaxed.png"><img alt="../../_images/relaxed.png" class="align-center" src="../../_images/relaxed.png" style="width: 500px;" /></a>
+<p>Note the isocontours of <span class="math notranslate nohighlight">\(y^TLy\)</span> as concentric ellipses in the shaded region, that extends forever in the direction of the <span class="math notranslate nohighlight">\(1\)</span> eigenvector (vector of all 1s). Also note the balance constraint: our vector <span class="math notranslate nohighlight">\(y\)</span> must be _orthogonal to the vector <span class="math notranslate nohighlight">\(1\)</span>. So we want a solution <span class="math notranslate nohighlight">\(y\)</span> on the shaded elliptical plane. The intersection between the relaxed balance constraint and an isocontour of <span class="math notranslate nohighlight">\(y^TLy\)</span> gives us our solution(s). For example:</p>
+<a class="reference internal image-reference" href="../../_images/solution.png"><img alt="../../_images/solution.png" class="align-center" src="../../_images/solution.png" style="width: 500px;" /></a>
+<p>Remember from the PCA chapter that to minimize the Rayleigh quotient, we want to take the eigenvector with the smallest eigenvalue. Unfortunately, this eigenvector is <span class="math notranslate nohighlight">\(1\)</span>, and we obviously can’t choose that. So we need the eigenvector with the <em>second</em> smallest eigenvalue. Let <span class="math notranslate nohighlight">\(\lambda_2\)</span> be the second-smallest eigenvalue. The associated eigenvector <span class="math notranslate nohighlight">\(v_2\)</span> is called the <strong>Fiedler vector</strong>. <span class="math notranslate nohighlight">\(v_2\)</span> is the relaxed problem solution. To get the hard-balance-constraint (1 and -1) solution, we simply round components to 1 or -1: if positive, round to +1, if negative, -1.</p>
+</div>
+<div class="section" id="spectral-partitioning-algorithm">
+<h2>Spectral Partitioning Algorithm<a class="headerlink" href="#spectral-partitioning-algorithm" title="Permalink to this headline">¶</a></h2>
+<p>The way we round <span class="math notranslate nohighlight">\(v_2\)</span> to our hard-balance-constraint solution <span class="math notranslate nohighlight">\(y\)</span> is via a <strong>sweep cut</strong>:</p>
+<ul class="simple">
+<li><p>Sort components of <span class="math notranslate nohighlight">\(v_2\)</span> (sorting vertices of the graph)</p></li>
+<li><p>Try all <span class="math notranslate nohighlight">\(n-1\)</span> cuts between successful vertex pairs, effectively creating cut vector <span class="math notranslate nohighlight">\(y\)</span>.</p></li>
+<li><p>Compute minimum sparsity from all of those cuts.</p></li>
+</ul>
+<p>Let’s look at a visual example.</p>
+<a class="reference internal image-reference" href="../../_images/specgraphvector.png"><img alt="../../_images/specgraphvector.png" class="align-center" src="../../_images/specgraphvector.png" style="width: 500px;" /></a>
+<p>On the right, we see a graph that represents the sorted components of <span class="math notranslate nohighlight">\(v_2\)</span>: y-axis is the component value, x-axis is the ascending-order index. The sweep cut in this case would be trying every vertical cut in between adjacent points, and choose whichever one minimizes sparsity. On the right, we see the corresponding graph and the resulting cut: the dashed edges are the cut edges, and the solid edges are ones that remain in each subgraph <span class="math notranslate nohighlight">\(G_1\)</span> and <span class="math notranslate nohighlight">\(G_2\)</span>.</p>
+<p>Notice that this is technically NOT a bisection: there are 12 blue dots and 8 red dots. This is a result of the relaxed constraint: even though the algorithm <em>tries</em>. It turns out the relaxed problem is better at approximating the min-sparsity cut and not so good at min-bisection. So the tradeoff for not having a perfect bisection is that you can often greatly decrease the number of edges you have to cut.</p>
+</div>
+<div class="section" id="vertex-masses">
+<h2>Vertex Masses<a class="headerlink" href="#vertex-masses" title="Permalink to this headline">¶</a></h2>
+<p>What if vertices are not equal? Some vertices might be more “important” in others. For example, in computation graphs, vertices represent computations- some which take much longer to run than others. So we can weight computation vertices by runtime.</p>
+<p>To account for this, we can add a diagonal matrix <span class="math notranslate nohighlight">\(M\)</span> where each diagonal element represents a vertex mass.</p>
+<p>Now, we need to balance the total mass, and instead of our constraint being <span class="math notranslate nohighlight">\(1^Ty=0\)</span>, we have <span class="math notranslate nohighlight">\(1^TMy=0\)</span>: we are no longer balancing number of vertices, but <em>mass</em> of these vertices. So ideally, subgraphs <span class="math notranslate nohighlight">\(G_1, G_2\)</span> would have the same total mass. This new mass constraint is easier to solve if we relax the hypersphere constraint: our constraint goes from <span class="math notranslate nohighlight">\(y^Ty=n\)</span> to <span class="math notranslate nohighlight">\(y^TMy = \text{Mass}(G) = \sum_{i}M_{ii}\)</span>: the sum of all vertex masses in <span class="math notranslate nohighlight">\(G\)</span>. Graphically, instead of a sphere, now we constrain y to lie on an axis-aligned ellipsoid:</p>
+<a class="reference internal image-reference" href="../../_images/ellipsoid.png"><img alt="../../_images/ellipsoid.png" class="align-center" src="../../_images/ellipsoid.png" style="width: 500px;" /></a>
+<p>Now, the Fielder vector we want is the solution to a <strong>generalized eigensystem</strong> <span class="math notranslate nohighlight">\(Lv = \lambda Mv\)</span>.</p>
+<p>Now let’s take a look at the most important theorem in spectral graph partitioning.</p>
+<div class="proof definition admonition" id="cheeger">
+<p class="admonition-title"><span class="caption-number">Definition 20 </span> (Cheeger’s Inequality)</p>
+<div class="definition-content section" id="proof-content">
+<p>The sweep cut is guaranteed to find a cut with sparsity <span class="math notranslate nohighlight">\(\le \sqrt{2\lambda_2\max_i\frac{L_{ii}}{M_{ii}}}\)</span>.</p>
+</div>
+</div><p>From this, we can also prove that the optimal cut has a lower bound on sparsity: <span class="math notranslate nohighlight">\(\ge \frac{\lambda_2}{2}\)</span>. There cannot exist a cut with sparsity lower than this.</p>
+</div>
+<div class="section" id="greedy-divisive-clustering">
+<h2>Greedy Divisive Clustering<a class="headerlink" href="#greedy-divisive-clustering" title="Permalink to this headline">¶</a></h2>
+<p>So far, we’ve only talked about cutting into 2 subgraphs- but there are many cases where we want more. We can easily extend this by recursion: first, we partition <span class="math notranslate nohighlight">\(G\)</span> into <span class="math notranslate nohighlight">\(G_1,G_2\)</span>, then recursively partition one of <span class="math notranslate nohighlight">\(G_1\)</span> or <span class="math notranslate nohighlight">\(G_2\)</span> however, many times until we have the right number of clusters.</p>
+<p>Sparsity is a good criterion for graph clustering. We want to use <span class="math notranslate nohighlight">\(G\)</span>’s sparsest cut to divide it into two subgraphs,
+then recursively cut them. You can stop when you have the right number of clusters. Alternatively, you can make a finer tree and then prune it back.</p>
+</div>
+<div class="section" id="normalized-cut">
+<h2>Normalized Cut<a class="headerlink" href="#normalized-cut" title="Permalink to this headline">¶</a></h2>
+<p>The normalized cut is very popular in image analysis. We set vertex <span class="math notranslate nohighlight">\(i\)</span>’s mass <span class="math notranslate nohighlight">\(M_{ii} = L_{ii}\)</span>. Conceptually, the mass of a vertex is equal to the sum of all edge weights connected to that vertex.</p>
+<!-- TODO: Explain image segmentation --></div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./chapters/Ch18"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="../Ch17/intro.html" title="previous page">Singular Value Decomposition and Clustering</a>
+    <a class='right-next' id="next-link" href="../Ch19/intro.html" title="next page">Multiple Eigenvectors and Random Projection</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Kevin Moy<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>

@@ -1,0 +1,541 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Decision Trees &#8212; Machine Learning</title>
+    
+  <link rel="stylesheet" href="../../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/sphinx-book-theme.e7340bb3dbd8dde6db86f25597f54a1b.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/qstyle.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/mathjax.js"></script>
+    <script src="../../_static/quiz.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Lecture 15: Decision Trees Cont." href="intro2.html" />
+    <link rel="prev" title="Regularization" href="../Ch11/intro.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../../index.html">
+  
+  <img src="../../_static/ML_logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Machine Learning</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../intro.html">
+   Intro
+  </a>
+ </li>
+</ul>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../notation_note.html">
+   A Quick Note on Notation and Terminology
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch1/intro.html">
+   Chapter 1: Classification and ML Basics
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/trainingandtesting.html">
+     Training and Testing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/comparingmodels.html">
+     Comparing Classification Models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/MNIST.html">
+     The MNIST dataset
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/validation.html">
+     Validation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/supervisedlearn.html">
+     Supervised vs. Unsupervised Learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/summary.html">
+     Summary
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch2/intro.html">
+   Chapter 2: Linear Classifiers
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/hyperplanes.html">
+     Behind the Decision Boundary
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/linearseparability.html">
+     Linear Separability of Data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/centroid.html">
+     The Centroid Method
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptron.html">
+     The Perceptron Algorithm
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptronp2.html">
+     Perceptron Algorithm, Part 2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptronp3.html">
+     The Perceptron Algorithm, Part 3
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/maxmargin.html">
+     Maximum Margin Classfier
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch3/intro.html">
+   Chapter 3: Support Vector Machapters/Chines
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch4/intro.html">
+   Chapter 4: Optimization Problems
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch5/intro.html">
+   Chapter 5: Decision Theory
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch6/intro.html">
+   Chapter 6: Gaussian Discriminant Analysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch7/intro.html">
+   Chapter 7: Eigenvectors and Quadratic Forms
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch8/intro.html">
+   Chapter 8: Anisotropic Gaussians
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch9/intro.html">
+   Chapter 9: Regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch10/intro.html">
+   Chapter 10: Statistical Justifications for Regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch11/intro.html">
+   Chapter 11: Regularization
+  </a>
+ </li>
+ <li class="toctree-l1 current active collapsible-parent">
+  <a class="current reference internal" href="#">
+   Chapter 12: Decision Trees
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="intro2.html">
+     Lecture 15: Decision Trees Cont.
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch13/intro.html">
+   Chapter 13: Kernels
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch14/intro.html">
+   Chapter 14: Neural Networks
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch14/intro2.html">
+     Neural Network Variations
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch15/intro.html">
+   Chapter 15: Improving Neural Network Training
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch16/intro.html">
+   Chapter 16: Unsupervised Learning and PCA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch17/intro.html">
+   Chapter 17: Singular Value Decomposition and Clustering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch18/intro.html">
+   Chapter 18: Spectral Graph Clustering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch19/intro.html">
+   Chapter 19: Multiple Eigenvectors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch20/intro.html">
+   Chapter 20: AdaBoost
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch21/intro.html">
+   Chapter 21: Nearest Neighbors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch22/intro.html">
+   Chapter 22: Optomizing k-NN
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../../_sources/chapters/Ch12/intro.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/kmoy1/ML_Book.git"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/kmoy1/ML_Book.git/issues/new?title=Issue%20on%20page%20%2Fchapters/Ch12/intro.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                    title="Fullscreen mode"><i
+                        class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i>
+            Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#decision-tree-algorithm">
+   Decision Tree Algorithm
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="decision-trees">
+<h1>Decision Trees<a class="headerlink" href="#decision-trees" title="Permalink to this headline">¶</a></h1>
+<p>Let’s talk about classification in the form of <strong>decision trees</strong>.</p>
+<p>It is more similar to k-NN classifiers than other ML methods we’ve learned about. The basic idea: we carve up space into rectangles. Decision trees are <strong>nonlinear</strong>: their decision boundaries can be very nonlinear. Decision trees are mostly used for classification, but can be used for regression too.</p>
+<p>Decision trees, like regular trees, have two types of nodes: <em>internal nodes</em>, which represent decision points as you walk down the tree, and <em>leaf nodes</em>, which specify reaching a certain final classification/hypothesis for a given data point . Decisions at internal nodes are determined by looking at some subset of features (usually one).</p>
+<p>Let’s say we have a decision tree to decide whether or not to go for a picnic today. First, we look at an outlook feature <span class="math notranslate nohighlight">\(x_1\)</span> that tells us weather: sunny, overcast, or raining. Based on that feature, we jump to the branch that represents sunny/overcast/raining. If overcast, predict YES. If sunny, check humidity as a feature <span class="math notranslate nohighlight">\(x_2\)</span>. If it’s greater than 75% humidity, then predict NO. If less, predict YES. Now let’s look at the raining subtree. If it’s raining, the next thing to do is check a wind feature <span class="math notranslate nohighlight">\(x_3\)</span>. If wind is &gt; 20 mph, then predict NO (too windy). If <span class="math notranslate nohighlight">\(\leq 20\)</span>, predict YES.</p>
+<p>Here’s this visually:
+<img src="C:\Users\Kevin\AppData\Roaming\Typora\typora-user-images\image-20210325001626685.png" alt="image-20210325001626685" style="zoom:33%;" /></p>
+<p>We can also look at the tree in terms of its features. We have three features: <span class="math notranslate nohighlight">\(x_1, x_2, x_3\)</span>. We can these features and plot areas where YES/NO is predicted. For example, the feature split plot for <span class="math notranslate nohighlight">\(x_1, x_2\)</span> (outlook as <span class="math notranslate nohighlight">\(x_1\)</span>, humidity as <span class="math notranslate nohighlight">\(x_2\)</span>) is this, where each “block” represents a hypothesis/leaf node.</p>
+<img src="C:\Users\Kevin\AppData\Roaming\Typora\typora-user-images\image-20210325001821624.png" alt="image-20210325001821624" style="zoom:33%;" />
+<p>We take our <em>feature space</em> (x-space) and cutting it into rectangular cells, each representing a leaf node. This works well with <em>categorical features</em> (sunny/overcast/rainy) as well as <em>quantitative features.</em></p>
+<p>Another reason why decision trees are popular is that they give an interpretable result. They’re good for inference: often decision trees present an idea of <em>why</em> you’re making the decisions you’re making.</p>
+<p>The decision boundary for decision trees can be very complicated. For example, look at the figure below of various decision boundaries:</p>
+<img src="C:\Users\Kevin\AppData\Roaming\Typora\typora-user-images\image-20210326132059605.png" alt="image-20210326132059605" style="zoom:50%;" />
+<p>Imagine we have a huge number of training points, and think of green as points in class (1) and yellow as points not in class (-1). The training points in the top two diagrams are ones that have a natural linear boundary, but are <em>not</em> (feature) axis-aligned. The bottom two diagrams show boundaries that are not very separating but are axis-aligned. There are many real-world problems where the right decision boundary does tend to align with feature axes.</p>
+<p>The two diagrams in the left half are actually SVMs: works really well with linearly separable data, but not when it isn’t. The two diagrams in the right half represent decision tree bounds: these are lines representing <em>feature</em> decision boundaries. Note that even though the boundary isn’t great in the top right diagram, we can just fine-tune the tree boundaries until we don’t get overlap.</p>
+<div class="section" id="decision-tree-algorithm">
+<h2>Decision Tree Algorithm<a class="headerlink" href="#decision-tree-algorithm" title="Permalink to this headline">¶</a></h2>
+<p>How can we build a decision tree for classification?</p>
+<p>First of all, decision trees easily extend from binary classification to multiclass, so there isn’t much simplicity gained by only having 2 classes. But we’ll assume binary classification for now.</p>
+<p>We use a <em>heuristic</em> to find a decision tree that fits to the input data. Finding the ideal decision tree is probably NP-hard. This is a top-down algorithm to build the tree one node at a time. First, at the top node, we’ll start with a set <span class="math notranslate nohighlight">\(S\)</span> that contains the indices of the <span class="math notranslate nohighlight">\(n\)</span> input sample points. As we go down the tree, the child nodes will have <em>subsets</em> of the nodes in the parent. Here’s the pseudocode:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">GrowTree</span><span class="p">(</span><span class="n">S</span><span class="p">):</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">y_i</span> <span class="o">=</span> <span class="n">c</span> <span class="k">for</span> <span class="nb">all</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">S</span> <span class="ow">and</span> <span class="n">some</span> <span class="k">class</span> <span class="nc">C</span><span class="p">):</span>
+		<span class="k">return</span> <span class="n">new</span> <span class="n">leaf</span><span class="p">(</span><span class="n">C</span><span class="p">)</span> <span class="c1">#called a PURE leaf- only one class. </span>
+	<span class="k">else</span><span class="p">:</span>
+		<span class="n">choose</span> <span class="n">best</span> <span class="n">SPLIT</span> <span class="n">FEATURE</span> <span class="n">j</span> <span class="n">AND</span> <span class="n">SPLIT</span> <span class="n">VALUE</span> <span class="n">beta</span> <span class="n">to</span> <span class="n">split</span> <span class="n">S</span> <span class="n">into</span> <span class="n">subsets</span> <span class="n">based</span> <span class="n">on</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">beta</span><span class="p">,</span> <span class="n">j</span> <span class="o">&gt;=</span> <span class="n">beta</span>
+		<span class="n">create</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span> <span class="n">child</span> <span class="n">S_l</span> <span class="ow">and</span> <span class="n">S_r</span> <span class="n">based</span> <span class="n">on</span> <span class="n">that</span> <span class="n">split</span>
+		<span class="k">return</span> <span class="n">new</span> <span class="n">node</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">GrowTree</span><span class="p">(</span><span class="n">S_l</span><span class="p">),</span> <span class="n">GrowTree</span><span class="p">(</span><span class="n">S_r</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Now that our algorithm is set, we reach the most important point: how do we choose the best split? Well, just try each possible split: try each feature, and every possible split point in that feature. We only try splits between successive data points (midpoint), so we’ll have only (at most) <span class="math notranslate nohighlight">\(n-1\)</span> data points.</p>
+<p>How do we evaluate these splits? Just like regression and all other ML methods, we utilize a cost function. For our set <span class="math notranslate nohighlight">\(S\)</span>, we assign cost <span class="math notranslate nohighlight">\(J(S)\)</span>. Once we’ve decided on a cost function <span class="math notranslate nohighlight">\(J\)</span>, we want the split that minimizes some cost <span class="math notranslate nohighlight">\(J(S_l) + J(S_r)\)</span>. Alternatively, we could compute a set-size-weighted average:</p>
+<div class="math notranslate nohighlight">
+\[\frac{|S_l|J(S_l) + |S_r|J(S_r)}{|S|}\]</div>
+<p>What is a good cost function <span class="math notranslate nohighlight">\(J\)</span>? Let’s look at a couple ideas. First, a bad one: take class <span class="math notranslate nohighlight">\(C\)</span> that has a majority of points in <span class="math notranslate nohighlight">\(S\)</span> and split on that. Then our cost function is just the number of points NOT in class <span class="math notranslate nohighlight">\(C\)</span>. Let’s say <span class="math notranslate nohighlight">\(S\)</span> has 20 sample points in class <span class="math notranslate nohighlight">\(C\)</span>, 10 in class <span class="math notranslate nohighlight">\(D\)</span>. This means our cost <span class="math notranslate nohighlight">\(J(S) = 10\)</span>. For all possible splits, the total cost as summed in the child node will remain the same: <span class="math notranslate nohighlight">\(J(S_l) + J(S_r) = J(S)\)</span>. This is an issue: all splits are equally bad with this perspective. We definitely don’t want to have similar ratios of class points in our child nodes: we want our ratios to be getting closer and closer to pure nodes as quickly as possible!</p>
+<p>Here’s a better cost function. This is one is based on information theory: how much we’re <em>increasing information at each split</em>. The idea is to measure the <strong>entropy</strong> of a set <span class="math notranslate nohighlight">\(S\)</span>. Let’s consider a random process that generates classes, and let <span class="math notranslate nohighlight">\(Y\)</span> be a random variable that takes on a class. Let <span class="math notranslate nohighlight">\(P(Y=C) = p_C\)</span>. The <strong>surprise</strong> of <span class="math notranslate nohighlight">\(Y\)</span> being class <span class="math notranslate nohighlight">\(C\)</span> (how surprised we are that <span class="math notranslate nohighlight">\(Y\)</span> is <span class="math notranslate nohighlight">\(C\)</span>) is defined as $<span class="math notranslate nohighlight">\(-\log_2p_c\)</span>$. For example, the surprise of an event with probability 1 is 0- this makes sense as it shouldn’t be any surprise of a certain event happening. However, an event with probability 0 has infinite surprise- which also should (sorta) make sense.</p>
+<p>When the surprise is equal to the <em>expected</em> number of bits of information, we must transmit which events happened, assuming we transmit to a recipient who knows what the events are. For example, for an event with 50% probability, we must transmit 1 bit: 0 for happened, 1 for didn’t. Note that low probability events can be transmitted with <em>fewer</em> than 1 bit- this doesn’t really make sense for single events, but more for results from the expectation of <em>many</em> events.</p>
+<p>The <strong>entropy</strong> of <span class="math notranslate nohighlight">\(S\)</span> is the <strong>average surprise</strong> of <span class="math notranslate nohighlight">\(S\)</span>. Mathematically, we denote the entropy of <span class="math notranslate nohighlight">\(S\)</span> as <span class="math notranslate nohighlight">\(H(S)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[H(S) = -\sum_{c}p_clog_2p_c\]</div>
+<p>where <span class="math notranslate nohighlight">\(p_c\)</span> is the <em>proportion of points in S that belong to class c</em>.</p>
+<p>Let’s say all points in <span class="math notranslate nohighlight">\(S\)</span> belong to class <span class="math notranslate nohighlight">\(C\)</span>. Then, <span class="math notranslate nohighlight">\(p_C = 1\)</span>, so entropy <span class="math notranslate nohighlight">\(H(S) = 0\)</span>. We can also think of entropy as a measure of <em>disorder</em>: since everything is 100% predictable, there’s no disorder here. What about half class C, half class D? In this case, <span class="math notranslate nohighlight">\(p_C = p_D = 0.5\)</span>, so <span class="math notranslate nohighlight">\(H(S) = -0.5\log_20.5 - 0.5\log_20.5 = 1\)</span>. This is maximal entropy for 2 classes.</p>
+<p>What about more than 2 classes? Specifically, what if we have <span class="math notranslate nohighlight">\(n\)</span> points, all different classes? Then our entropy is simply <span class="math notranslate nohighlight">\(H(S) = -\log_2\frac{1}{n} = \log_2n\)</span>. So notice the entropy is the <strong>number of bits to encode which class is predicted for a data point!</strong></p>
+<p>Let’s look at a plot of <span class="math notranslate nohighlight">\(H(S)\)</span> for two classes. The x axis is <span class="math notranslate nohighlight">\(p_C\)</span>, y axis is <span class="math notranslate nohighlight">\(H(p)\)</span>- the entropy. We notice that our cost function is <strong>strictly smooth and concave</strong>.</p>
+<img src="C:\Users\Kevin\AppData\Roaming\Typora\typora-user-images\image-20210326152739360.png" alt="image-20210326152739360" style="zoom:50%;" />
+<p>We prefer to use the <strong>weighted average of the entropy</strong> rather than just the sum of left and right entropies. We’ll denote this as</p>
+<div class="math notranslate nohighlight">
+\[H_{\text{after}} = \frac{|S_l|H(S_l) + |S_r|H(S_r)}{|S|}\]</div>
+<p>We want to choose the split that minimizes <span class="math notranslate nohighlight">\(H_{\text{after}}\)</span>. Alternatively, we want to <em>maximize our information gain</em> <span class="math notranslate nohighlight">\(H(S) - H_{\text{after}}\)</span>. Of course, <span class="math notranslate nohighlight">\(H(S)\)</span> is constant, so maximizing <span class="math notranslate nohighlight">\(-H_{\text{after}}\)</span> is of course minimizing <span class="math notranslate nohighlight">\(H_{\text{after}}\)</span>. Information gain gives you a measure of how much information your decision tree gives you about a split. It can never be negative- it can be 0, indicating a split gives you no information of getting a particular class.</p>
+<p>Let’s take one type of split into account. For <span class="math notranslate nohighlight">\(S\)</span> with 20 in class C and 10 in class D, we have <span class="math notranslate nohighlight">\(H(S) \approx 0.918\)</span>. Let’s say our split gives us a left node with 10 class C and 9 class D, and a right node with 10 C and 1 D. The left node is low-info (similar ratio) but our right node is high-info. The entropy of the left node is <span class="math notranslate nohighlight">\(H(S_l) = 0.998\)</span>: almost 1, which is pretty bad. However, <span class="math notranslate nohighlight">\(H(S_r) \approx 0.439\)</span>. Their weighted average <span class="math notranslate nohighlight">\(H_{\text{after}} = 0.793\)</span>, and we’ve gained some information. Specifically, our info gain is <span class="math notranslate nohighlight">\(0.918-0.793 = 0.125\)</span>.</p>
+<p>Now let’s do another split where the ratios in the child nodes are equal: 20 C and 10 D become 10 C 5 D, 10 C 5 D. Now, our info gain is 0: this split didn’t accomplish anything since the ratios are the same and no class is now more likely. This is generally the exception: we will have info gain of 0 when:</p>
+<ul class="simple">
+<li><p>One child node is empty with no data points (trivial, can just ignore).</p></li>
+<li><p>Ratio of classes is exactly the same in child nodes (as they do in parent!).</p></li>
+</ul>
+<p>Compared to percentage misclassified in each child node, why does info gain work better? Again, our graph is strictly concave. The <strong>weighted average</strong> <span class="math notranslate nohighlight">\(H_{\text{after}}\)</span> <strong>is always on a line connecting <span class="math notranslate nohighlight">\(H(S_l)\)</span> and <span class="math notranslate nohighlight">\(H(S_r)\)</span></strong>.</p>
+<img src="C:\Users\Kevin\AppData\Roaming\Typora\typora-user-images\image-20210326154502914.png" alt="image-20210326154502914" style="zoom:50%;" />
+<p>Important note: information gain is always positive as long as <span class="math notranslate nohighlight">\(p_c\)</span> for the <em>parent node</em> is strictly between the <span class="math notranslate nohighlight">\(p_c\)</span> for the left child and <span class="math notranslate nohighlight">\(p_c\)</span> for the right child.</p>
+<p>Now let’s look at the cost function where we just add percentages of misclassified points.</p>
+<img src="C:\Users\Kevin\AppData\Roaming\Typora\typora-user-images\image-20210326154724706.png" alt="image-20210326154724706" style="zoom:33%;" />
+<p>Now we see that <span class="math notranslate nohighlight">\(J(\text{parent}) = J_{\text{after}}\)</span>, no matter what split we choose, and there’s never any progress made.</p>
+<p>Let’s think about how we choose a split. If we have binary features <span class="math notranslate nohighlight">\(x_i\)</span>, we’ll have one child where <span class="math notranslate nohighlight">\(x_i = 0\)</span> and <span class="math notranslate nohighlight">\(x_i = 1\)</span>. What about 3+ values though? Sometimes we want a 3-way split. Sometimes we want a sequence of binary splits. Choice is application-dependent.</p>
+<p>What if <span class="math notranslate nohighlight">\(x_i\)</span> is quantitative? We want to sort <span class="math notranslate nohighlight">\(x_i\)</span> values in <span class="math notranslate nohighlight">\(S\)</span> on feature <span class="math notranslate nohighlight">\(x_i\)</span>. Then, we take a <em>set</em> of the feature values so we don’t have any repeats, and only unique values of <span class="math notranslate nohighlight">\(x_i\)</span>. Let’s consider sorting <span class="math notranslate nohighlight">\(S\)</span> as linear time (radix sort or whatever). Now we try all midpoints as splits. <strong>As we scan through this sorted list from left to right, we can update entropy in <span class="math notranslate nohighlight">\(O(1)\)</span> time per point.</strong> The general idea is this: at the very first split, we calculate total number of class C to the left/right, as well as total number of class D to the left/right. This takes <span class="math notranslate nohighlight">\(O(n)\)</span> time. With this knowledge stored, though, calculating entropies at further split points takes <span class="math notranslate nohighlight">\(O(1)\)</span> time. This is because counts as we move left/right only change by a max of 1.</p>
+<p>What are the algorithms for building and searching our decision tree (classifying a test point)? Let’s start with classification of our test point. This is the same exact thing as (binary) tree search. We walk down our tree until we hit a leaf: the rectangular block of feature space that our test point belongs to. The worst-case time for doing this is (usually) the depth of the tree, since level checking takes constant time. Note that if we have purely binary features then our depth cannot exceed the number of features. However, if we have many numerical features where we split on one feature many times, our depth can get bad. In practice, tree depths generally are upper bounded by <span class="math notranslate nohighlight">\(O(n)\)</span>.</p>
+<p>Next, how long does it take to train/build a decision tree? Let’s start with binary features. We know there’s only <span class="math notranslate nohighlight">\(d\)</span> (number of features) splits we can try. So we try only <span class="math notranslate nohighlight">\(O(d)\)</span> splits at each node, then choose the best one. For quantitative features, we need to try <span class="math notranslate nohighlight">\(O(n'd)\)</span> splits, where <span class="math notranslate nohighlight">\(n'\)</span> is the number of points in that <em>particular</em> node. Interestingly, even though we need to try a lot more splits, <strong>runtime is the same as for binary features.</strong> The amount of time will always be <span class="math notranslate nohighlight">\(O(n'd)\)</span> at a node whether its a binary or quantitative feature, since we use the entropy scan trick discussed above.</p>
+<p>Each sample point only participates in <span class="math notranslate nohighlight">\(O(\text{tree depth})\)</span> nodes. Think about it: if each node’s time cost is <span class="math notranslate nohighlight">\(O(n'd)\)</span>, and the cost that a sample point brings to any node it participates in is <span class="math notranslate nohighlight">\(O(d)\)</span> time. Putting it all together, the running time to build our tree is</p>
+<div class="math notranslate nohighlight">
+\[O(nd*\text{tree depth})\]</div>
+<p>This is surprisingly good. A way to think about this: <span class="math notranslate nohighlight">\(nd\)</span> is our design matrix “size”, so it takes <span class="math notranslate nohighlight">\(O(nd)\)</span> time to read that. Depth is usually <span class="math notranslate nohighlight">\(\log n\)</span>, so basically we have input size * log(input size), or just <span class="math notranslate nohighlight">\(n\log n\)</span>.</p>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./chapters/Ch12"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="../Ch11/intro.html" title="previous page">Regularization</a>
+    <a class='right-next' id="next-link" href="intro2.html" title="next page">Lecture 15: Decision Trees Cont.</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Kevin Moy<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>

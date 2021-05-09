@@ -22,7 +22,7 @@
         },
         {
             "name": "Question3",
-            "type": "Blank",
+            "type": "MCQ-All",
             "qtext": "(4+3) * 2 = ?",
             "choices": ["True", "False"], 
             "answerlabels": ["A", "B"],

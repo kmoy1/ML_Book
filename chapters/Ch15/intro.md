@@ -27,7 +27,7 @@ Centering data seems to make it easier for hidden units to get into a good opera
 
 We can also "center" the hidden units as well. The sigmoid function has an operating region centered at $s(\gamma) = 0.5$. So the sigmoid output has a mean of 0.5- which can affect neurons in further layers and push them out of the ideal operating region. We prefer means centered at 0. So we can replace the sigmoid with one that passes through the origin: we can instead use the $\tanh$ activation function:
 
-<center>
+<!-- <center>
   <script src="https://www.desmos.com/api/v1.6/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
   <div id="calculator" style="width: 300px; height: 300px; text-align: center;"></div>
   <script>
@@ -35,7 +35,7 @@ We can also "center" the hidden units as well. The sigmoid function has an opera
     var calculator = Desmos.GraphingCalculator(elt, {expressions:false});
     calculator.setExpression({ id: 'graph1', latex: 'y = \\tanh x' });
   </script>
-</center>
+</center> -->
 
 $\tanh(x) = \frac{e^x - e^{-x}}{e^x+e^{-x}}$. It can also be reached by a few stretches of the sigmoid function: $\tanh(x) = 2s(2x)-1$. Now, instead of the range being $[0,1]$ as with sigmoid, the range is now $[-1,1]$. This keeps things centered, and downstream neurons are more likely to be centered as well. Of course, we have to replace $s'$ with the derivative of $\tanh(x)$ ($1-\tanh(x)^2$) in backpropagation as well. Of course, if we want to use $\tanh$, our target values must allow negatives as well.
 
@@ -98,7 +98,4 @@ This technique essentially "forces" the network to remember things such that it 
 
 ### Number of Hidden Units
 
-The number of hidden units in our neural network is a hyperparameter that affects neural network speed. Of course, this is tunable: too few could mean high bias, while too many could mean overfit. 
-
-<div id="Question1" class="MCQ">
-</div>
+The number of hidden units in our neural network is a hyperparameter that affects neural network speed. Of course, this is tunable: too few could mean high bias, while too many could mean overfit.

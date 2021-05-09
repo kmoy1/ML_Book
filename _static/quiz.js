@@ -1,8 +1,9 @@
-$.getJSON("https://raw.githubusercontent.com/kmoy1/web_quiz/master/db.json", function(data){
+$.getJSON("https://raw.githubusercontent.com/kmoy1/ML_book/master/db.json", function(data){
     q_bank = data["questions"]
     // Populate question text + choices. 
     q_bank.forEach(question =>{
-        if ($(`div#${question.name}`)){
+        if ($(`div#${question.name}`).length){
+            console.log("ADDING QUESTION.")
             q_div_block = $(`div#${question.name}`);
             q_type = $(`div#${question.name}`).attr('class')
             q_div_block.html(`<div class="q-text"></div>
@@ -17,7 +18,6 @@ $.getJSON("https://raw.githubusercontent.com/kmoy1/web_quiz/master/db.json", fun
             }
         }
     });
-    MathJax.typeset();
 });
 
 function populateBlankQ(question){

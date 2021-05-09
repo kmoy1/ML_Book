@@ -1,0 +1,568 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Regression &#8212; Machine Learning</title>
+    
+  <link rel="stylesheet" href="../../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/sphinx-book-theme.e7340bb3dbd8dde6db86f25597f54a1b.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/qstyle.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/mathjax.js"></script>
+    <script src="../../_static/quiz.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Statistical Justifications For Regression" href="../Ch10/intro.html" />
+    <link rel="prev" title="Anisotropic Gaussians" href="../Ch8/intro.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../../index.html">
+  
+  <img src="../../_static/ML_logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Machine Learning</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../intro.html">
+   Intro
+  </a>
+ </li>
+</ul>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../notation_note.html">
+   A Quick Note on Notation and Terminology
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch1/intro.html">
+   Chapter 1: Classification and ML Basics
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/trainingandtesting.html">
+     Training and Testing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/comparingmodels.html">
+     Comparing Classification Models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/MNIST.html">
+     The MNIST dataset
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/validation.html">
+     Validation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/supervisedlearn.html">
+     Supervised vs. Unsupervised Learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/summary.html">
+     Summary
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch2/intro.html">
+   Chapter 2: Linear Classifiers
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/hyperplanes.html">
+     Behind the Decision Boundary
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/linearseparability.html">
+     Linear Separability of Data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/centroid.html">
+     The Centroid Method
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptron.html">
+     The Perceptron Algorithm
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptronp2.html">
+     Perceptron Algorithm, Part 2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptronp3.html">
+     The Perceptron Algorithm, Part 3
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/maxmargin.html">
+     Maximum Margin Classfier
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch3/intro.html">
+   Chapter 3: Support Vector Machapters/Chines
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch4/intro.html">
+   Chapter 4: Optimization Problems
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch5/intro.html">
+   Chapter 5: Decision Theory
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch6/intro.html">
+   Chapter 6: Gaussian Discriminant Analysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch7/intro.html">
+   Chapter 7: Eigenvectors and Quadratic Forms
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch8/intro.html">
+   Chapter 8: Anisotropic Gaussians
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Chapter 9: Regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch10/intro.html">
+   Chapter 10: Statistical Justifications for Regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch11/intro.html">
+   Chapter 11: Regularization
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch12/intro.html">
+   Chapter 12: Decision Trees
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch12/intro2.html">
+     Lecture 15: Decision Trees Cont.
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch13/intro.html">
+   Chapter 13: Kernels
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch14/intro.html">
+   Chapter 14: Neural Networks
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch14/intro2.html">
+     Neural Network Variations
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch15/intro.html">
+   Chapter 15: Improving Neural Network Training
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch16/intro.html">
+   Chapter 16: Unsupervised Learning and PCA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch17/intro.html">
+   Chapter 17: Singular Value Decomposition and Clustering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch18/intro.html">
+   Chapter 18: Spectral Graph Clustering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch19/intro.html">
+   Chapter 19: Multiple Eigenvectors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch20/intro.html">
+   Chapter 20: AdaBoost
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch21/intro.html">
+   Chapter 21: Nearest Neighbors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch22/intro.html">
+   Chapter 22: Optomizing k-NN
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../../_sources/chapters/Ch9/intro.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/kmoy1/ML_Book.git"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/kmoy1/ML_Book.git/issues/new?title=Issue%20on%20page%20%2Fchapters/Ch9/intro.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                    title="Fullscreen mode"><i
+                        class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i>
+            Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#least-squares-linear-regression">
+   Least-Squares Linear Regression
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#advantages-of-least-squares-regression-vs-other-regressions">
+     Advantages of Least-Squares Regression (vs. Other Regressions)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#disadvantages-of-least-squares-regression">
+     Disadvantages of Least-Squares Regression
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#logistic-regression">
+   Logistic Regression
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="regression">
+<h1>Regression<a class="headerlink" href="#regression" title="Permalink to this headline">¶</a></h1>
+<p><strong>Regression</strong> is the second kind of prediction: we are predicting a numerical value. In GDA/LDA, we get posterior probabilities too- so they are technically doing regression as well as classification.</p>
+<p>The goal is to choose a regression function <span class="math notranslate nohighlight">\(h(x; p)\)</span>, called <span class="math notranslate nohighlight">\(h\)</span> for <em>hypothesis function</em>. It performs the same function as the decision function in classification, except our prediction serves a different purpose. We also need a <em>cost function</em> <span class="math notranslate nohighlight">\(J(w)\)</span> to optomize. There are many choices for regression and cost functions.</p>
+<div class="section" id="least-squares-linear-regression">
+<h2>Least-Squares Linear Regression<a class="headerlink" href="#least-squares-linear-regression" title="Permalink to this headline">¶</a></h2>
+<p>The goal in (linear) regression is finding <span class="math notranslate nohighlight">\(w\)</span> that minimizes <span class="math notranslate nohighlight">\(||Xw-y||^2 = \text{RSS}(w)\)</span>, aka <strong>residual sum of squares</strong>, which can be done by calculus. We apply calculus to find the critical point.</p>
+<p>There exist several ways to compute <span class="math notranslate nohighlight">\(\nabla_w ||Xw-y||^2\)</span>. First, expanding <span class="math notranslate nohighlight">\(||Xw-y||^2\)</span> gives us</p>
+<div class="math notranslate nohighlight">
+\[w^TX^TXw - 2y^TXw + y^Ty\]</div>
+<p>Now, taking the gradient of this with respect to <span class="math notranslate nohighlight">\(w\)</span> gives us</p>
+<div class="math notranslate nohighlight">
+\[2X^TXw-2X^Ty\]</div>
+<p>When we set this equal to 0, we can reduce this further to give us <strong>normal equations</strong></p>
+<div class="math notranslate nohighlight">
+\[X^TXw = X^Ty\]</div>
+<p>Here, <span class="math notranslate nohighlight">\(X^TX\)</span> is a <span class="math notranslate nohighlight">\((d+1) \times (d+1)\)</span> matrix (accounting for the bias term), and <span class="math notranslate nohighlight">\(w\)</span> and <span class="math notranslate nohighlight">\(X^Ty\)</span> are length-<span class="math notranslate nohighlight">\(d+1\)</span> vectors. So we have a system of equations here to solve. Where we know that <span class="math notranslate nohighlight">\(X^TX\)</span> is positive semidefinite.</p>
+<p>If <span class="math notranslate nohighlight">\(X^TX\)</span> is singular, then we know all our sample points lie on a common hyperplane in <span class="math notranslate nohighlight">\(d+1\)</span>-dimensional space. In this case, the normal equations are <strong>underconstrained</strong>. This gives us a situation where <span class="math notranslate nohighlight">\(X^TX\)</span> might not be positive definite, and may have some 0 eigenvalues. When this occurs, we know <span class="math notranslate nohighlight">\(w\)</span> has more than one solution; in fact, infinite solutions However, there will always be at least one solution for <span class="math notranslate nohighlight">\(w\)</span>.</p>
+<p>For now, suppose that <span class="math notranslate nohighlight">\(X^TX\)</span> is invertible and positive definite. Then, there will be a unique solution <span class="math notranslate nohighlight">\(w^*\)</span>. We use a <strong>linear solver</strong> to find <span class="math notranslate nohighlight">\(w^* = (X^TX)^{-1}X^Ty\)</span>. Note: don’t actually compute the inverse of <span class="math notranslate nohighlight">\(X^TX\)</span>! We don’t need to.</p>
+<p>Note that <span class="math notranslate nohighlight">\((X^TX)^{-1}X^T\)</span> is a linear transformation that maps a length-<span class="math notranslate nohighlight">\(d+1\)</span> <span class="math notranslate nohighlight">\(y\)</span> to a length-<span class="math notranslate nohighlight">\(d+1\)</span> weight vector <span class="math notranslate nohighlight">\(w\)</span>. This matrix is called <strong>pseudoinverse</strong> of <span class="math notranslate nohighlight">\(X\)</span>, labeled <span class="math notranslate nohighlight">\(X^+\)</span> for convenience. Every matrix <span class="math notranslate nohighlight">\(X\)</span> has a pseudoinverse <span class="math notranslate nohighlight">\(X^+\)</span>. Note that it is a d+1 x n matrix (whereas <span class="math notranslate nohighlight">\(X\)</span> is an n x d+1 matrix). In an ideal world, if the points <span class="math notranslate nohighlight">\(y\)</span> did actually lie on a hyperplane, then <span class="math notranslate nohighlight">\(y = Xw\)</span>. So it’s only natural that we take the inverse of <span class="math notranslate nohighlight">\(X\)</span> to get <span class="math notranslate nohighlight">\(w\)</span>.</p>
+<p>If <span class="math notranslate nohighlight">\(X^TX\)</span> is invertible, then <span class="math notranslate nohighlight">\(X^+\)</span> is a <strong>left inverse</strong> of <span class="math notranslate nohighlight">\(X\)</span>. Note: <span class="math notranslate nohighlight">\(X^+X = (X^TX)^{-1}X^T = I\)</span>, so we can see that it is indeed an inverse of <span class="math notranslate nohighlight">\(X^TX\)</span> if multiplied on the left. Note that <span class="math notranslate nohighlight">\(XX^+\)</span> is generally NOT equal to <span class="math notranslate nohighlight">\(I\)</span>.</p>
+<p>Once we do the regression, we can go back and look at our predictions for our sample points using the regression function. A prediction for sample point <span class="math notranslate nohighlight">\(X_i\)</span> will give us <span class="math notranslate nohighlight">\(\hat{y}_i = w \cdot X_i\)</span>. Doing it all at once gives <span class="math notranslate nohighlight">\(\hat{y} = Xw = XX^+y = Hy\)</span>, where <span class="math notranslate nohighlight">\(H = XX^+\)</span>. <span class="math notranslate nohighlight">\(H\)</span> is called the <strong>hat matrix</strong>, which is an <span class="math notranslate nohighlight">\(n \times n\)</span> matrix, since it is a linear transformation that puts a hat on <span class="math notranslate nohighlight">\(y\)</span>.</p>
+<p>So <span class="math notranslate nohighlight">\(y\)</span> is the real set of labels, <span class="math notranslate nohighlight">\(\hat{y}\)</span> is our predictions.</p>
+<div class="section" id="advantages-of-least-squares-regression-vs-other-regressions">
+<h3>Advantages of Least-Squares Regression (vs. Other Regressions)<a class="headerlink" href="#advantages-of-least-squares-regression-vs-other-regressions" title="Permalink to this headline">¶</a></h3>
+<p>Why is least squares regression so popular? There are a couple of reasons.</p>
+<ul class="simple">
+<li><p>Least squares regression is easy to compute for <span class="math notranslate nohighlight">\(w\)</span>, since we’re just solving a linear system.</p></li>
+<li><p>It also gives a unique solution <span class="math notranslate nohighlight">\(\hat{w}\)</span>, unless underconstrained- and even this can be dealt with fairly easily (more on this later).</p></li>
+<li><p><span class="math notranslate nohighlight">\(\hat{w}\)</span> is generally considered a  <strong>stable solution</strong> as well: small changes to the data <span class="math notranslate nohighlight">\(X\)</span> will not likely change it. So it’s resistant to overfitting.</p></li>
+</ul>
+</div>
+<div class="section" id="disadvantages-of-least-squares-regression">
+<h3>Disadvantages of Least-Squares Regression<a class="headerlink" href="#disadvantages-of-least-squares-regression" title="Permalink to this headline">¶</a></h3>
+<p>However, there are some disadvantages as well:</p>
+<ul class="simple">
+<li><p>Least-squares is very sensitive to outliers, since errors are squared.</p></li>
+<li><p>If <span class="math notranslate nohighlight">\(X^TX\)</span> is singular, then it won’t have a unique solution. Again, in this case our problem is underconstrained and we need another way.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="logistic-regression">
+<h2>Logistic Regression<a class="headerlink" href="#logistic-regression" title="Permalink to this headline">¶</a></h2>
+<p>Probably the second most popular kind of regression is logistic regression. In <strong>logistic regression</strong>, we utilize the logistic regression function, whose outputs can only be <em>probabilities</em>- thus between 0 and 1. Additionally, we now use logistic loss instead of the squared loss we are so familiar with. The main application for logistic regression is classification- specifically, binary classification.</p>
+<p>Remember that <strong>generative models</strong> build a full probability model of all probabilities involved, i.e. class-conditional distributions. These include LDA and QDA. On the other hand, <strong>discriminative models</strong> try to interpolate and model the posterior <em>directly</em>. <strong>Posterior probabilities are often well-modeled by the logistic function.</strong></p>
+<p>So in logistic regression, the goal is to find <span class="math notranslate nohighlight">\(w\)</span> that minimizes</p>
+<div class="math notranslate nohighlight">
+\[J(w) = \sum_{i=1}^{n}L(X_i \cdot w_i, y_i)\]</div>
+<p>where <span class="math notranslate nohighlight">\(L\)</span> is the <strong>logistic loss function</strong>. Plugging that in, we get:</p>
+<div class="math notranslate nohighlight">
+\[J(w) = \sum_{i=1}^{n}-y_i\ln s(X_i\cdot w) + (1-y_i)\ln (1-s(X_i \cdot w))\]</div>
+<p>Let’s take a look at what exactly we’re minimizing. For truth value <span class="math notranslate nohighlight">\(y=0\)</span>, the logistic loss for a prediction <span class="math notranslate nohighlight">\(z\)</span> looks like:</p>
+<a class="reference internal image-reference" href="../../_images/logloss1.png"><img alt="../../_images/logloss1.png" class="align-center" src="../../_images/logloss1.png" style="width: 500px;" /></a>
+<p>In the left example, we have logistic loss for truth value <span class="math notranslate nohighlight">\(y=0\)</span>. Note loss goes to infinity when prediction goes further away to 1. Obviously, loss gets smaller the closer the prediction gets to the truth. On the right, we have it when the truth value is <span class="math notranslate nohighlight">\(y=0.7\)</span>.</p>
+<p>The <strong>logistic cost function is smooth and convex</strong>. While there doesn’t exist a closed-form solution for maximal <span class="math notranslate nohighlight">\(w\)</span> (unlike with least squares), there are many ways to solve it, including gradient descent and Newton’s method. Let’s first try gradient descent.</p>
+<p>To do gradient descent, we need to compute the gradient of <span class="math notranslate nohighlight">\(J(w)\)</span> with respect to <span class="math notranslate nohighlight">\(w\)</span>.</p>
+<p>First, we know that the derivative of the sigmoid function <span class="math notranslate nohighlight">\(s(\gamma)\)</span> is <span class="math notranslate nohighlight">\(s'(\gamma) = s(\gamma)(1-s(\gamma))\)</span>. We can see that the derivative is maximized at 0: this shouldn’t be surprising, considering the sigmoid function’s slope is also maximized at <span class="math notranslate nohighlight">\(\gamma = 0\)</span>.</p>
+<p>Now let <span class="math notranslate nohighlight">\(s_i = s(X_i \cdot w)\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\nabla_wJ(w) = -\sum_{i}(\frac{y_i}{s_i}\nabla s_i - \frac{1-y_i}{1-s_i}\nabla s_i)\]</div>
+<p>We know that <span class="math notranslate nohighlight">\(\nabla s_i\)</span> is basically the derivative of sigmoid, so we can reduce this to</p>
+<div class="math notranslate nohighlight">
+\[\nabla_wJ(w) = -\sum_{i}(\frac{y_i}{s_i} \frac{1-y_i}{1-s_i})s_i(1-s_i)X_i\]</div>
+<div class="math notranslate nohighlight">
+\[= -\sum_{i}(y_i - s_i)X_i\]</div>
+<div class="math notranslate nohighlight">
+\[= -X^T(y-s(Xw))\]</div>
+<p>where <span class="math notranslate nohighlight">\(s\)</span> applies the sigmoid function element-wise on <span class="math notranslate nohighlight">\(Xw\)</span>.</p>
+<p>So now that we’ve found <span class="math notranslate nohighlight">\(\nabla_w J\)</span>, we can write out our gradient descent rule:</p>
+<div class="math notranslate nohighlight">
+\[w^{(t+1)} = w^{(t)} + \epsilon X^T(y-s(Xw))\]</div>
+<p>We can also write out the stochastic gradient descent rule, which is just element-wise instead of everything:</p>
+<div class="math notranslate nohighlight">
+\[w^{(t+1)} = w^{(t)} + \epsilon (y_i-s(X_iw))X_i\]</div>
+<p>The stochastic gradient descent algorithm for logistic regression works best if we shuffle the points randomly, then process one by one. For large <span class="math notranslate nohighlight">\(n\)</span>, it is common that SGD converges before we process all the points.</p>
+<p>Notice the algorithm’s similarity to the perceptron learning rule:</p>
+<div class="math notranslate nohighlight">
+\[w^{(t+1)} = w^{(t)} + \epsilon(y_i)X_i\]</div>
+<p>The only difference is that the <span class="math notranslate nohighlight">\(s_i\)</span> sigmoid term is new, and we’re not actively looking for misclassified points.</p>
+<p>Now here’s the cool part about gradient descent with logistic loss: <strong>starting point <span class="math notranslate nohighlight">\(w = 0\)</span> will always converge</strong>.</p>
+<p>If our training points are linearly separable, then applying logistic regression will always find a complete separator. Let’s say we have a complete linear separator <span class="math notranslate nohighlight">\(w \cdot x = 0\)</span>. Now scaling our weight vector <span class="math notranslate nohighlight">\(w\)</span> to have infinite length will cause <span class="math notranslate nohighlight">\(s(X_i \cdot w) \to 1\)</span> for points in class C, while <span class="math notranslate nohighlight">\(s(X_i \cdot w) \to 0\)</span> for points not in class C (correct prediction probabilities maximized). It is easy to verify this yourself: take the limit of <span class="math notranslate nohighlight">\(s(Xw)\)</span> as <span class="math notranslate nohighlight">\(||w|| \to \infty\)</span>. As a result, <span class="math notranslate nohighlight">\(J(w) \to 0\)</span>. Therefore, logistic regression always finds a linear separator, and it will be this exact weight-scaled separator with minimal <span class="math notranslate nohighlight">\(J(w)\)</span>.</p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./chapters/Ch9"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="../Ch8/intro.html" title="previous page">Anisotropic Gaussians</a>
+    <a class='right-next' id="next-link" href="../Ch10/intro.html" title="next page">Statistical Justifications For Regression</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Kevin Moy<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>

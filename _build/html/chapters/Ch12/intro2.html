@@ -1,0 +1,577 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lecture 15: Decision Trees Cont. &#8212; Machine Learning</title>
+    
+  <link rel="stylesheet" href="../../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/sphinx-book-theme.e7340bb3dbd8dde6db86f25597f54a1b.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/qstyle.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/mathjax.js"></script>
+    <script src="../../_static/quiz.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Kernels" href="../Ch13/intro.html" />
+    <link rel="prev" title="Decision Trees" href="intro.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../../index.html">
+  
+  <img src="../../_static/ML_logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Machine Learning</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../intro.html">
+   Intro
+  </a>
+ </li>
+</ul>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../notation_note.html">
+   A Quick Note on Notation and Terminology
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch1/intro.html">
+   Chapter 1: Classification and ML Basics
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/trainingandtesting.html">
+     Training and Testing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/comparingmodels.html">
+     Comparing Classification Models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/MNIST.html">
+     The MNIST dataset
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/validation.html">
+     Validation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/supervisedlearn.html">
+     Supervised vs. Unsupervised Learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/summary.html">
+     Summary
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch2/intro.html">
+   Chapter 2: Linear Classifiers
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/hyperplanes.html">
+     Behind the Decision Boundary
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/linearseparability.html">
+     Linear Separability of Data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/centroid.html">
+     The Centroid Method
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptron.html">
+     The Perceptron Algorithm
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptronp2.html">
+     Perceptron Algorithm, Part 2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptronp3.html">
+     The Perceptron Algorithm, Part 3
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/maxmargin.html">
+     Maximum Margin Classfier
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch3/intro.html">
+   Chapter 3: Support Vector Machapters/Chines
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch4/intro.html">
+   Chapter 4: Optimization Problems
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch5/intro.html">
+   Chapter 5: Decision Theory
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch6/intro.html">
+   Chapter 6: Gaussian Discriminant Analysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch7/intro.html">
+   Chapter 7: Eigenvectors and Quadratic Forms
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch8/intro.html">
+   Chapter 8: Anisotropic Gaussians
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch9/intro.html">
+   Chapter 9: Regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch10/intro.html">
+   Chapter 10: Statistical Justifications for Regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch11/intro.html">
+   Chapter 11: Regularization
+  </a>
+ </li>
+ <li class="toctree-l1 current active collapsible-parent">
+  <a class="reference internal" href="intro.html">
+   Chapter 12: Decision Trees
+  </a>
+  <ul class="current collapse-ul">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Lecture 15: Decision Trees Cont.
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch13/intro.html">
+   Chapter 13: Kernels
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch14/intro.html">
+   Chapter 14: Neural Networks
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch14/intro2.html">
+     Neural Network Variations
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch15/intro.html">
+   Chapter 15: Improving Neural Network Training
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch16/intro.html">
+   Chapter 16: Unsupervised Learning and PCA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch17/intro.html">
+   Chapter 17: Singular Value Decomposition and Clustering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch18/intro.html">
+   Chapter 18: Spectral Graph Clustering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch19/intro.html">
+   Chapter 19: Multiple Eigenvectors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch20/intro.html">
+   Chapter 20: AdaBoost
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch21/intro.html">
+   Chapter 21: Nearest Neighbors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch22/intro.html">
+   Chapter 22: Optomizing k-NN
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../../_sources/chapters/Ch12/intro2.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/kmoy1/ML_Book.git"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/kmoy1/ML_Book.git/issues/new?title=Issue%20on%20page%20%2Fchapters/Ch12/intro2.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                    title="Fullscreen mode"><i
+                        class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i>
+            Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#decision-tree-variations">
+   Decision Tree Variations
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#decision-trees-in-regression">
+   Decision Trees in Regression
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#pruning">
+   Pruning
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#pruning-cont">
+   Pruning, Cont.
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ensemble-learning">
+   Ensemble Learning
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bagging">
+   Bagging
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#random-forests">
+   Random Forests
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="lecture-15-decision-trees-cont">
+<h1>Lecture 15: Decision Trees Cont.<a class="headerlink" href="#lecture-15-decision-trees-cont" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="decision-tree-variations">
+<h2>Decision Tree Variations<a class="headerlink" href="#decision-tree-variations" title="Permalink to this headline">¶</a></h2>
+<p>There’s almost limitless ways to vary a decision tree.</p>
+<p>First, we can utilize <strong>multivariate splits</strong>. In normal decision trees, each node splits on ONE feature. However, we can split on multiple if necessary. In another way, we find <em>non-axis-aligned splits</em> (where axes are features in feature space), instead we choose some other split. We can utilize other classification algorithms like SVMs or GDA to find such decision boundaries. We could even generate a bunch of random splits and pick the best one.</p>
+<p>First, let’s visualize a standard decision tree which splits only on one feature at each node:</p>
+<img src="C:\Users\Kevin\AppData\Roaming\Typora\typora-user-images\image-20210326164607386.png" alt="image-20210326164607386" style="zoom: 50%;" />
+<p>Of course, a better split exists:</p>
+<img src="C:\Users\Kevin\AppData\Roaming\Typora\typora-user-images\image-20210326164727718.png" alt="image-20210326164727718" style="zoom:50%;" />
+<p>Note that this tree only has TWO child nodes, but now we’re considering two features.</p>
+<p>There is a tradeoff, though, to multivariate splits. First, you might gain better generalization of test data, but there might be worse interpretability (than splitting one feature at a time). You might also lose a lot of speed, especially with a very large feature space. Think if you had 10000 features: then, if you use an SVM-created split, a single node must look at ALL 10000 features, and this will of course add up over all nodes and test points.</p>
+<p>So what we can do is compromise: we can just limit the number of features we split on. How can we choose this limit? Forward stepwise selection, or even Lasso, can work to find optimal subset of features.</p>
+</div>
+<div class="section" id="decision-trees-in-regression">
+<h2>Decision Trees in Regression<a class="headerlink" href="#decision-trees-in-regression" title="Permalink to this headline">¶</a></h2>
+<p>How can we do regression with decision trees? We can use a <strong>decision tree to define a piecewise constant regression function.</strong></p>
+<img src="C:\Users\Kevin\AppData\Roaming\Typora\typora-user-images\image-20210326165401252.png" alt="image-20210326165401252" style="zoom:50%;" />
+<p>Above is the function we might get if we apply piecewise constant regression with some training data. We assign “boxes” of our piecewise function as the average of the sample points they contain.</p>
+<p>We also need rules for creating splits in our decision tree. Recall a cost function (entropy) and chose the split that minimized the weighted average cost. We can do the same thing with regression, but with a slightly different cost function. Our entropy function now needs to be extended to quantitative features and continuous data. So now our cost function <span class="math notranslate nohighlight">\(J\)</span> will just be mean squared error. Given <span class="math notranslate nohighlight">\(S\)</span>, we calculate <span class="math notranslate nohighlight">\(J(S) = \frac{1}{|S|}\sum_{i \in S}(y_i - \mu_s)^2\)</span> where <span class="math notranslate nohighlight">\(\mu_s\)</span> is the mean for sample points in <span class="math notranslate nohighlight">\(S\)</span>. So we look at all possible splits (<span class="math notranslate nohighlight">\(i\)</span>) and use the split that minimizes <span class="math notranslate nohighlight">\(J(S)\)</span>.</p>
+</div>
+<div class="section" id="pruning">
+<h2>Pruning<a class="headerlink" href="#pruning" title="Permalink to this headline">¶</a></h2>
+<p>Another important thing to think about is <strong>stopping early</strong>, or <strong>pruning</strong>. Last lecture, we went over the basic top-down tree construction algorithm. However, there might be a time where we want to STOP construction of nodes early: i.e. we might stop before pure leaf nodes are made. There are many reasons to do this:</p>
+<ul class="simple">
+<li><p>Limiting tree depth, for speed</p></li>
+<li><p>Limit tree size for speed (esp. with a ton of sample points)</p></li>
+<li><p>Complete tree might overfit data a lot.</p></li>
+<li><p>Given noise, with fewer leaves outliers are given greater emphasis to sway classification.</p></li>
+<li><p>Overlapping distributions: for example in GDA, we had class C’s gaussian overlap with class D’s gaussian. In regions of overlap, you might just want a majority vote instead of further nodes. Specifically, it might just be better to estimate posterior probabilities with non-pure leaves.</p></li>
+</ul>
+<p>Below is a visualization of the last point:</p>
+<img src="C:\Users\Kevin\AppData\Roaming\Typora\typora-user-images\image-20210329131235413.png" alt="image-20210329131235413" style="zoom:50%;" />
+<p>On the left, the cuts represent our decision boundaries, and also indicate our tree has exactly three leaf nodes. Let’s look at the rightmost leaf node (with green points). Notice the overlap: a few red points and a blue point along with all the green. On the right is a histogram showing these counts, which indicate posterior probabilities. Of course, we want our leaves to have an adequate number of sample points for this.</p>
+<p>So those are the reasons to prune. Let’s now focus on an algorithm to do so. We have to ask: what specific <em>stop conditions</em> do we need to apply in tree building? Specifically, when do we stop splitting? We can decide to not split if that split doesn’t decrease cost- i.e. doesn’t reduce (weighted) entropy or error. This is dangerous, though- there are situations where using this rule can cause you to stop too early. Another stopping condition we might try: we stop when <em>most of</em>  the sample points in a node have the same class- say, above 95%. Outliers in these nodes are just considered anomalies and ignored. Another stopping condition: stop when a node has very few sample points- say, less than 10. Another way is to look at the size of the cell’s edges. Another way is to limit depth of the tree itself, but this is risky if you wind up with a super-mixed node at that depth and thus dubious classification. Finally, we can just validation: we can just try out different splits and see if it improves validation error. Of course, validation is the slowest since we’re building new trees each time, but there are ways to make it not-that-slow.</p>
+<p>Again, the reason we prune is because we are worried about overfitting. Validation is a <em>great</em> way to determine the degree of overfit. But the grow-too-large, then prune strategy is great here to combat overfitting.</p>
+<p>In the case of classification, we have two options. In the case of classification, we have two options. We can return a majority vote, OR we can return the class with the highest posterior probability. If we are doing regression, we just return the average of all points in that leaf node.</p>
+</div>
+<div class="section" id="pruning-cont">
+<h2>Pruning, Cont.<a class="headerlink" href="#pruning-cont" title="Permalink to this headline">¶</a></h2>
+<p>Pruning is used when overfit. Instead of stopping early, though, we overgrow the tree but then greedily prune it back, removing some of the splits we made IF the removal improves validation performance (or keeps it the same- smaller tree is generally better). This is much easier and more reliable than trying to guess in advance whether to split or not.</p>
+<p>We are constantly checking leaf nodes and removing BOTH the leaf node and sibling node if validation isn’t improved by having that split. We cannot prune nodes that have children, so we need to go bottom-up.</p>
+<p>Isn’t validation expensive though? It is, but there is a shortcut. For each leaf node, make a list of all training points included in that node. This way, we don’t have to look at <em>all</em> validation points at pruning: we only have to look at the points included by the sibling nodes. If pruning is decided, the two lists would merge into the parent node. We must ask ourselves how validation accuracy would change after this pruning. Thus it is quite fast to decide whether/not to prune a pair of sibling leaf nodes.</p>
+<p>It is quite common that a split that didn’t make much progress is followed by a split that <em>does</em> make a lot of progress, because the first split <em>enabled</em> the second big-info split to happen.</p>
+<p>Let’s look at an example: predicting the salaries of baseball players.</p>
+<img src="C:\Users\Kevin\AppData\Roaming\Typora\typora-user-images\image-20210329134811672.png" alt="image-20210329134811672" style="zoom:50%;" />
+<p>The two features that had the most predictive power of salary was longevity and hitting average of each baseball player. Note that on the left graph, “tree size” actually refers to the number of tree leaf nodes, which is representative of tree complexity. Naturally, training accuracy gets better as we refine the tree, but validation accuracy isn’t as good. The graph seems to show that 3 leaf nodes was optimal.</p>
+</div>
+<div class="section" id="ensemble-learning">
+<h2>Ensemble Learning<a class="headerlink" href="#ensemble-learning" title="Permalink to this headline">¶</a></h2>
+<p>Decision trees have a lot of pros: fast, conceptually simple and human-interpretable, invariant under translation and scaling, and <strong>quite robust to irrelevant features:</strong> if we have useless features, the decision tree just ignores them (doesn’t split on them).</p>
+<p>However, the tree’s biggest weakness is that they just aren’t the best at prediction. This is because <strong>decision trees tend to have high variance</strong> (but can have very low bias). For example, suppose you have a training set which you split into half, then train a decision tree on each half. It is not uncommon for these two trees to be <em>very</em> different. How can we fix this?</p>
+<p>Let’s take a crude analogy. Suppose we are generating random numbers from a distribution. ONE sample might have very high variance. But generating <span class="math notranslate nohighlight">\(n\)</span> random numbers all from the same distribution, then we have a much better estimate for the mean of the distribution itself. We can do the same thing with classifiers- more classifications from different sources could be much better for accuracy!</p>
+<p>We call a learning algorithm a <em>weak learner</em> if it does only just better than guessing randomly. Combining, or <em>ensembling</em>,  many weak learners can result in a strong learner. There are many ways we can do ensembling. We can take the average of the learners’ predictions. We can use completely different learning algorithms as the base learners. But this might take a lot of code/runtime, so another idea is to use the same learning algorithm, just trained on different training sets. This method can work well IF we have a lot of data to work with.</p>
+<p>What about if we <em>don’t</em> have that much data? The first idea is <strong>bagging</strong>: same learning algorithm on many <em>random subsamples</em> of the single training dataset. Another idea is called <strong>random forest</strong>: it includes bagging with many different decision trees, but also force each decision tree to be further randomized (parameters) during construction.</p>
+<p>Once we have the output, how can we take the average? For regression, can either take the mean/median of all outputs- which is decided by validation. For classification, we can take a majority vote, OR if the base learners output posterior probabilities, we can average those and classify based on that.</p>
+<p>First, we want to try and use learners that have low bias. For example, deep decision trees. It is okay if these base learners have high variance- ensembling inherently reduces variance by averaging! Each base learner overfits in its own unique way- but this disappears upon averaging.</p>
+<p>You cannot count on averaging reducing bias. Sometimes it does, sometimes it doesn’t. <strong>Averaging a bunch of linear classifiers results in a nonlinear decision boundary.</strong></p>
+<p>Another thing to think about: hyperparameter settings for base learners are generally different from the ensemble. This is because the hyperparameters have a big influence on bias-variance tradeoff. So generally, we tune hyperparameters to lower bias (and higher variance). Note the number of trees itself is a hyperparameter.</p>
+</div>
+<div class="section" id="bagging">
+<h2>Bagging<a class="headerlink" href="#bagging" title="Permalink to this headline">¶</a></h2>
+<p>Bagging is actually short for Bootstrap Aggregating. We create many base learners, same algorithm, with a single training set. Most commonly used with decision trees as base learners, but can be others too.</p>
+<p>The idea of bagging: given a training set of length <span class="math notranslate nohighlight">\(n\)</span>, generate a bunch of random subsamples with size <span class="math notranslate nohighlight">\(n'\)</span> (usually equal to <span class="math notranslate nohighlight">\(n\)</span>), <strong>sampling with replacement</strong>. This means we can have duplicates of points in our subsamples! The purpose of this is to increase variety along our base learners, so we don’t have identical ones. Points chosen multiple times will be given extra weight- specifically, j times as much weight as a point chosen once. Of course, some points won’t be chosen at all.</p>
+<p>Specifically, for decision trees, a point sampled <span class="math notranslate nohighlight">\(j\)</span> times will be given <span class="math notranslate nohighlight">\(j\)</span> times its weight in entropy. For SVMs, a point sampled <span class="math notranslate nohighlight">\(j\)</span> times incurs <span class="math notranslate nohighlight">\(j\)</span> times as big a penalty in the SVM objective function (if it violates the margin). For regression, if a point got chosen <span class="math notranslate nohighlight">\(j\)</span> times, then it incurs <span class="math notranslate nohighlight">\(j\)</span> times as much loss.</p>
+<p>So we train <span class="math notranslate nohighlight">\(T\)</span> learners to form a <strong>metalearner</strong>: the learner that combines the base learner predictions on a test point in some way- average or majority, depending on the purpose.</p>
+</div>
+<div class="section" id="random-forests">
+<h2>Random Forests<a class="headerlink" href="#random-forests" title="Permalink to this headline">¶</a></h2>
+<p>Random forests are bagging with decision trees, and the extra randomization of these decision trees. The idea: random sampling with replacement isn’t random enough for our purposes. We want to reduce the chance further that no two base learners overfit in the same way and thus resemble each other. Sometimes, we just have predictors that are just really strong- this results in the same features split at the top of every tree. For example, in 1990, more than half of all spam emails concerned Viagra. Thus even with random sampling, our dataset will still have way too much Viagra, so that’ll be the split feature at the top node of each tree. So averaging doesn’t reduce variance much.</p>
+<p>So what we want to do is <em>force</em> more variation into trees so that when we take the average we end up with less variance. At <em>each</em> tree node, we take a <strong>random sample of <span class="math notranslate nohighlight">\(m\)</span> of our <span class="math notranslate nohighlight">\(d\)</span> features.</strong>  Then only consider those <span class="math notranslate nohighlight">\(m\)</span> features as a possible split feature. We must do a different feature sample at EACH tree node. <span class="math notranslate nohighlight">\(m \approx \sqrt{d}\)</span> works well for classification. This will give us definite variety for trees. For regression, however, we probably want more features to consider, so <span class="math notranslate nohighlight">\(m \approx \frac{d}{3}\)</span> might be better. Of course, <span class="math notranslate nohighlight">\(m\)</span> is a hyperparameter, so we find the best one with validation- but the given ones are good starting points. When <span class="math notranslate nohighlight">\(m\)</span> is smaller, we impose more randomness in trees, resulting in less correlated (less similar) base trees. However, smaller <span class="math notranslate nohighlight">\(m\)</span> means more bias; we can counter this by making the trees deeper.</p>
+<p>Note that through using this random subset selection, random forests inherently implement dimensionality reduction, as some features will probably end up not being used.</p>
+<p>How many decision trees to use? Again, another hyperparameter. Generally, though, as number of trees increase, test error generally tends to go down asymptotically. However, more trees means more expensiveness- will take much longer. Also, it really loses its interpretability.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A variation on random forests is to generate <span class="math notranslate nohighlight">\(m\)</span> random multivariate splits. This means <span class="math notranslate nohighlight">\(m\)</span> different oblique lines, or even quadratic boundaries. Then they look at, like, 50 of them, and choose the best split among them. We basically take the average of a bunch of different conic section boundaries.</p>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./chapters/Ch12"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="intro.html" title="previous page">Decision Trees</a>
+    <a class='right-next' id="next-link" href="../Ch13/intro.html" title="next page">Kernels</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Kevin Moy<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>
