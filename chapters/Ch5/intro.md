@@ -5,13 +5,13 @@ Decision Theory
 
 So far, we just covered classifiers that made a hard binary prediction: either a data point belonged in a class or it didn't. But there can be real-world noise and distortions in data that can seriously mess this up. For example, we can have duplicate points in different classes: imagine two people, both making 50K with 10K credit balance, but one defaults and the other doesn't. So we obviously won't be able to have a linear classifier that classifies with 100% accuracy. 
 
-But what if we could make a classifier that told us a little more; instead of just the prediction itself, what if we could give the _probability_ that a point belongs to a class? In other words, we would know the probability of a correct prediction for each data point! Such __probabilistic classifiers__ are deeply rooted in _decision theory_, and see many uses in real life, from spam detection to medical diagnosis. 
+So we can make a more conservative classifier; instead of just the prediction outright, we can get the _probability_ that a point belongs to a class. In other words, we would get the probability of a data point being classified correctly! Such __probabilistic classifiers__ are deeply rooted in _decision theory_, and see many uses in real life, from spam detection to medical diagnosis. 
 
 ## Example: Cancer Diagnosis
 
 A very common example to start with: say we want to build a probabilistic classifer that predicts whether someone has AIDS or not. Let's say 10% of the population has AIDS (and 90% doesn't). This is known as the __prior probability__: the probability of diagnosis _before_ any extra information is known. We'll denote the prior of having cancer as $P(Y=1)$. From this, the prior of having no cancer is $P(Y=0) = 1 - P(Y=1)$. 
 
-Now, let's say we want to predicting a person's probability of having AIDS _after_ receiving information. For simplicity, we'll keep it at one feature: calorie intake. Specifically, we want to calculate $P(Y=1|X)$: the probability a person has cancer _given_ some information $X$. This term $P(Y|X)$ often called the __likelihood__ of $Y$ (cancer)- this is technically incorrect
+Now, let's say we want to predicting a person's probability of having AIDS _after_ receiving information. For simplicity, we'll keep it at one feature: calorie intake. Specifically, we want to calculate $P(Y=1|X)$: the probability a person has cancer _given_ some information $X$. This term $P(Y|X)$ often called the __likelihood__ of $Y$ (cancer)- this is technically incorrect.
 
 ```{note}
 Obviously in real life a diagnosis would take into account many features, but the concept will extend from one to multiple features very easily anyway. 

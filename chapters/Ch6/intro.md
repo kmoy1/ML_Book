@@ -1,19 +1,15 @@
 Gaussian Discriminant Analysis
 ===============================
 
-In this chapter, we'll apply the decision theory we learned last chapter to fitting data that has Gaussian distributions. 
+**Gaussian Discriminant Analysis** is a way of doing decision analysis to create a classifier based on the fundamental assumption that **real world data tends to be normally distributed**. 
 
-**Gaussian Discriminant Analysis** is a way of doing decision analysis to create a classifier based on the fundamental assumption that **real world data tends to be normally distributed, or close enough**. 
-
-The **isotropic** multivariate Gaussian distribution is a distribution with mean vector $\mu$ and constant covariance $\sigma^2$. The PDF for the isotropic multivariate is below: 
+The **isotropic** multivariate Gaussian distribution is a distribution with mean vector $\mu \in \mathbb{R}^d$ and constant covariance $\sigma^2$. The isotropic multivariate Gaussian PDF: 
 
 $$f(x) = \frac{1}{(\sqrt{2\pi}\sigma)^d}\exp(-\frac{||x-u||^2}{2\sigma^2})$$
 
-With a constant covariance $\sigma^2$, the variance is the same in every direction. Note: $d$ is the dimension of our feature space. 
+With a constant covariance $\sigma^2$, the variance is the same in every direction (each of $d$ features is a "direction").
 
-Note the normalization term $\frac{1}{(\sqrt{2\pi}\sigma)^d}$: this ensures the volume under the PDF is exactly 1. However, this is not that interesting.
-
-The interesting part is the exponential of a NEGATIVE quadratic function of $x$- this will be the determining factor in prediction. Note that the term $||x-\mu||^2$ is the squared distance from point $x$ to the mean of the distribution. So we assume that all points in classes come from different isotropic normal distributions. 
+The interesting part of this PDF is the exponential of a NEGATIVE quadratic function of $x$- this will be the determining factor in prediction. Note that the term $||x-\mu||^2$ is the squared distance from point $x$ to the mean of the distribution. So we assume that all points in classes come from different isotropic normal distributions. 
 
 For each class C, suppose we estimate a mean for all data points in that class as $\mu_C$, as well as a variance $\sigma_C^2$ AND a prior $\pi_C = P(Y = C)$. So all these values are available to us beforehand. 	
 

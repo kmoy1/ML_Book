@@ -1,0 +1,1297 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Machine Learning Glossary &#8212; Machine Learning</title>
+    
+  <link rel="stylesheet" href="../../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/sphinx-book-theme.e7340bb3dbd8dde6db86f25597f54a1b.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/qstyle.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/quiz.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="Nearest-Neighbor Algorithms" href="../Ch22/intro.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../../index.html">
+  
+  <img src="../../_static/ML_logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Machine Learning</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../intro.html">
+   Intro
+  </a>
+ </li>
+</ul>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../notation_note.html">
+   A Quick Note on Notation and Terminology
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch1/intro.html">
+   Chapter 1: Classification and ML Basics
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/trainingandtesting.html">
+     Training and Testing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/comparingmodels.html">
+     Comparing Classification Models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/MNIST.html">
+     The MNIST dataset
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/validation.html">
+     Validation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/supervisedlearn.html">
+     Supervised vs. Unsupervised Learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/summary.html">
+     Summary
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch2/intro.html">
+   Chapter 2: Linear Classifiers
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/hyperplanes.html">
+     Behind the Decision Boundary
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/linearseparability.html">
+     Linear Separability of Data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/centroid.html">
+     The Centroid Method
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptron.html">
+     The Perceptron Algorithm
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptronp2.html">
+     Perceptron Algorithm, Part 2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptronp3.html">
+     The Perceptron Algorithm, Part 3
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/maxmargin.html">
+     Maximum Margin Classfier
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch3/intro.html">
+   Chapter 3: Support Vector Machines
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch4/intro.html">
+   Chapter 4: Optimization Problems
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch5/intro.html">
+   Chapter 5: Decision Theory
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch6/intro.html">
+   Chapter 6: Gaussian Discriminant Analysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch7/intro.html">
+   Chapter 7: Eigenvectors and Quadratic Forms
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch8/intro.html">
+   Chapter 8: Anisotropic Gaussians
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch9/intro.html">
+   Chapter 9: Regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch10/intro.html">
+   Chapter 10: Statistical Justifications for Regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch11/intro.html">
+   Chapter 11: Regularization
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch12/intro.html">
+   Chapter 12: Decision Trees
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch12/intro2.html">
+     Lecture 15: Decision Trees Cont.
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch13/intro.html">
+   Chapter 13: Kernels
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch14/intro.html">
+   Chapter 14: Neural Networks
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch14/intro2.html">
+     Neural Network Variations
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch15/intro.html">
+   Chapter 15: Improving Neural Network Training
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch16/intro.html">
+   Chapter 16: Unsupervised Learning and PCA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch17/intro.html">
+   Chapter 17: Singular Value Decomposition and Clustering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch18/intro.html">
+   Chapter 18: Spectral Graph Clustering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch19/intro.html">
+   Chapter 19: Multiple Eigenvectors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch20/intro.html">
+   Chapter 20: AdaBoost
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch21/intro.html">
+   Chapter 21: Nearest Neighbors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch22/intro.html">
+   Chapter 22: Optomizing k-NN
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Machine Learning Glossary
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../../_sources/chapters/ML_Glossary/intro.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/kmoy1/ML_Book.git"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/kmoy1/ML_Book.git/issues/new?title=Issue%20on%20page%20%2Fchapters/ML_Glossary/intro.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                    title="Fullscreen mode"><i
+                        class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i>
+            Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#adaboost">
+   AdaBoost
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#backpropagation">
+   Backpropagation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#gradient-descent">
+   Gradient Descent
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#batch-gd">
+     Batch GD
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#stochastic-gd">
+     Stochastic GD
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bias">
+   Bias
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#boosting">
+   Boosting
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-boosting-algorithm">
+     The Boosting Algorithm
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#centering">
+   Centering
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#decision-tree">
+   Decision Tree
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#entropy">
+     Entropy
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#information-gain">
+     Information Gain
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#multivariate-splits">
+     Multivariate Splits
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#fictitious-dimension">
+   Fictitious Dimension
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#class-conditional-distribution">
+   Class-Conditional Distribution
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#dimensionality-reduction">
+   Dimensionality Reduction
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#decision-stumps">
+   Decision Stumps
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#eigendecomposition">
+   Eigendecomposition
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#k-nearest-neighbors-k-nn">
+   K-Nearest Neighbors (k-NN)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#kernel-trick">
+   Kernel Trick
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#primal-weights">
+     Primal Weights
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#dual-weights">
+     Dual Weights
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#hierarchical-clustering">
+   Hierarchical Clustering
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#agglomerative-clustering">
+     Agglomerative Clustering
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#single-linkage-clustering">
+       Single-Linkage Clustering
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#complete-linkage-clustering">
+       Complete-Linkage Clustering
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#average-linkage-clustering">
+       Average-Linkage Clustering
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#centroid-linkage-clustering">
+       Centroid-Linkage Clustering
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#dendogram">
+   Dendogram
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#divisive-clustering">
+     Divisive Clustering
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#gaussian-kernel">
+   Gaussian Kernel
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#normalize">
+   Normalize
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#laplacian-matrix">
+   Laplacian Matrix
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#low-rank-approximation">
+   Low-Rank Approximation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#lifted-feature-vector">
+   Lifted Feature Vector
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#principal-component-analysis-pca">
+   Principal Component Analysis (PCA)
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pca-derivations">
+     PCA Derivations
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#pca-derivation-1">
+       PCA Derivation 1
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#pca-derivation-2">
+       PCA Derivation 2
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#pca-derivation-3">
+       PCA Derivation 3
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#principal-components">
+     Principal Components
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#singular-value-decomposition-svd">
+   Singular Value Decomposition (SVD)
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#singular-values">
+     Singular Values
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#spectral-clustering">
+   Spectral Clustering
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#sweep-cut">
+     Sweep Cut
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#spectral-clustering-vertex-masses">
+     Spectral Clustering (Vertex Masses)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#sparsest-cut">
+   Sparsest Cut
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#sparsity">
+     Sparsity
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#support-vector-machines-svm">
+   Support Vector Machines (SVM)
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#hard-margin-svm">
+     Hard-Margin SVM
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#discriminative-models">
+   Discriminative Models
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#generative-models">
+   Generative Models
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#neural-network">
+   Neural Network
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#activation-functions">
+     Activation Functions
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#linear">
+       Linear
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#relu">
+       ReLU
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#sigmoid">
+       Sigmoid
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#softmax">
+       Softmax
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#k-d-tree">
+   k-d Tree
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#linear-discriminant-analysis-lda">
+     Linear Discriminant Analysis (LDA)
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#quadratic-discriminant-analysis-qda">
+     Quadratic Discriminant Analysis (QDA)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#prior-probability">
+   Prior Probability
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#posterior-probability">
+   Posterior Probability
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#spectral-graph-clustering-multiple-eigenvectors">
+   Spectral Graph Clustering (Multiple Eigenvectors)
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#soft-margin-svm">
+     Soft-Margin SVM
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#random-forest">
+   Random Forest
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#regularization">
+   Regularization
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#ridge-regression">
+     Ridge Regression
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#lasso">
+     LASSO
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#variance">
+   Variance
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#vanishing-gradient-problem">
+   Vanishing Gradient Problem
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#saturation-neural-networks">
+   Saturation (Neural Networks)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#weak-classifier">
+   Weak Classifier
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="machine-learning-glossary">
+<h1>Machine Learning Glossary<a class="headerlink" href="#machine-learning-glossary" title="Permalink to this headline">¶</a></h1>
+<p>Below you’ll find a machine learning glossary for the plethora of terms in ML.</p>
+<div class="section" id="adaboost">
+<h2>AdaBoost<a class="headerlink" href="#adaboost" title="Permalink to this headline">¶</a></h2>
+<p><strong>AdaBoost</strong> is a popular <a class="reference external" href="#boosting">boosting</a> algorithm, and stands for “adaptive boosting”. The Big Idea: AdaBoost iteratively learns from the mistakes of <a class="reference external" href="#weak-classifier">weak classifiers</a> and turns them into strong ones.</p>
+<p>AdaBoost is generally used with a <a class="reference external" href="#random-forest">random forest</a> of <a class="reference external" href="#decision-stumps">decision stumps</a>. Sample points are weighted such that different points are given different degrees of importance to be correctly classified.</p>
+<p>Each base learner is also given a “voting power weight”- a weight that indicates what percent of the vote a base classifier should get. At the end, each classifier we learn will be weighted by how good it was on prediction, and our metalearner prediction is a weighted sum of base learner predictions.</p>
+<p>See the <a class="reference internal" href="../Ch20/intro.html"><span class="doc std std-doc">AdaBoost chapter</span></a> for details.</p>
+</div>
+<div class="section" id="backpropagation">
+<h2>Backpropagation<a class="headerlink" href="#backpropagation" title="Permalink to this headline">¶</a></h2>
+<p>Backpropagation is a dynamic programming algorithm for training neural networks (SGD) in runtime linear to the number of weights.</p>
+</div>
+<div class="section" id="gradient-descent">
+<h2>Gradient Descent<a class="headerlink" href="#gradient-descent" title="Permalink to this headline">¶</a></h2>
+<p>A way to find the optimal weight vector for an (ideally convex) cost function <span class="math notranslate nohighlight">\(J(w)\)</span> if a closed-form solution does not exist.</p>
+<div class="section" id="batch-gd">
+<h3>Batch GD<a class="headerlink" href="#batch-gd" title="Permalink to this headline">¶</a></h3>
+<p>Formula:</p>
+<div class="math notranslate nohighlight">
+\[
+w^{(t+1)} = w^{(t)} - \alpha \nabla_w J(w)
+\]</div>
+<p>We do this for some pre-specified number of epochs. We run through the entire dataset on each epoch.</p>
+</div>
+<div class="section" id="stochastic-gd">
+<h3>Stochastic GD<a class="headerlink" href="#stochastic-gd" title="Permalink to this headline">¶</a></h3>
+<p>Like batch GD, but we first shuffle the dataset, and run through the formula for each <em>sample point</em>. This way, it is possible to converge in less than an epoch.</p>
+</div>
+</div>
+<div class="section" id="bias">
+<h2>Bias<a class="headerlink" href="#bias" title="Permalink to this headline">¶</a></h2>
+<p>For a machine learning model, bias is error that results from a model simply being inherently wrong. Models with high bias will miss relevant relationships in a dataset. This will rear its head in both training and testing accuracy. A model with high bias is said to underfit.</p>
+<p>Generally, if a dataset has complex relationships but a model is just too simple, the chances are that the model will have high bias. For example, if a decision boundary should be quadratic but the model is linear, it just won’t be able to model the relationship well.</p>
+</div>
+<div class="section" id="boosting">
+<h2>Boosting<a class="headerlink" href="#boosting" title="Permalink to this headline">¶</a></h2>
+<p>The <strong>Boosting</strong> algorithm is a special type of ensemble learning algorithm that tries to build a strong model by correcting the mistakes of several weaker ones.</p>
+<div class="section" id="the-boosting-algorithm">
+<h3>The Boosting Algorithm<a class="headerlink" href="#the-boosting-algorithm" title="Permalink to this headline">¶</a></h3>
+<p>First, create an initial model, and try running it on training data. Error should be trash. On the next iteration, we create a second improved model by reducing errors from the previous one. We do this sequentially until the training data is predicted perfectly or we reach some arbitrary threshold.</p>
+</div>
+</div>
+<div class="section" id="centering">
+<h2>Centering<a class="headerlink" href="#centering" title="Permalink to this headline">¶</a></h2>
+<p>A centered data matrix has each of its features subtracted from its mean. Each centered feature now has mean 0. We represent a centered data matrix as <span class="math notranslate nohighlight">\(\dot{X}\)</span>. Centering is applied to data in cases where features are not all on the same scale (measurement units).</p>
+<p>Centering changes the intercept, but will not change regression weights for features. Graphically, it is just a translation of data points such that the origin is in the middle.</p>
+</div>
+<div class="section" id="decision-tree">
+<h2>Decision Tree<a class="headerlink" href="#decision-tree" title="Permalink to this headline">¶</a></h2>
+<p>Decision trees are ML models that predicts the value of a target variable based on several input variables. In classification, it splits the feature space into axis-aligned boxes, where regions correspond to 1 or 0.</p>
+<p>Tree construction algorithms are usually top-down: at each step, we choose a split feature and corresponding split point (in that feature) that best splits the set of points we have left. The “best” split point is measured by minimum Gini Index or maximum Information Gain.</p>
+<p>Running Times:</p>
+<ul class="simple">
+<li><p>Classifying a test point takes <span class="math notranslate nohighlight">\(O(\text{tree depth})\)</span>. This is <em>usually</em> <span class="math notranslate nohighlight">\(O(\log n)\)</span>, but not always.</p></li>
+<li><p>For binary features, each node tests <span class="math notranslate nohighlight">\(O(d)\)</span> splits. For quantitative features, we must try <span class="math notranslate nohighlight">\(O(n'd)\)</span> possible splits, where <span class="math notranslate nohighlight">\(n'\)</span> is the points <em>remaining</em> in that node.</p></li>
+<li><p>The runtime for building a tree is <span class="math notranslate nohighlight">\(O(nd \cdot \text{tree depth})\)</span>.</p></li>
+</ul>
+<div class="section" id="entropy">
+<h3>Entropy<a class="headerlink" href="#entropy" title="Permalink to this headline">¶</a></h3>
+<p>Entropy refers to the uncertainty/disorder in a set of points’ possible outcomes. Given a set <span class="math notranslate nohighlight">\(S\)</span> of training points with <span class="math notranslate nohighlight">\(k\)</span> unique classes, the entropy of <span class="math notranslate nohighlight">\(S\)</span> is given by:</p>
+<div class="math notranslate nohighlight">
+\[H(S) = -\sum_{i=1}^{k}p_i \log_2 p_i\]</div>
+<p>where <span class="math notranslate nohighlight">\(p_i\)</span> is the fraction of items in <span class="math notranslate nohighlight">\(S\)</span> that belong to class <span class="math notranslate nohighlight">\(i\)</span>.</p>
+<p>Entropy is maximized when there’s an equal split between classes, and minimized when the split is skewed more towards one class.</p>
+</div>
+<div class="section" id="information-gain">
+<h3>Information Gain<a class="headerlink" href="#information-gain" title="Permalink to this headline">¶</a></h3>
+<p>In building a decision tree, we want the split that maximizes the information gain: entropy in parent node - weighted sum of entropy in child nodes. Conceptually, we want to decrease entropy as we move down the tree, so this is equivalent to choosing a split that minimizes entropy in child nodes. There will always exist a split with positive information gain UNLESS:</p>
+<ul class="simple">
+<li><p>(Trivial) a child node has no training points. The parent node becomes a leaf node anyway.</p></li>
+<li><p>Ratios of classes in the child node are equal.</p></li>
+</ul>
+</div>
+<div class="section" id="multivariate-splits">
+<h3>Multivariate Splits<a class="headerlink" href="#multivariate-splits" title="Permalink to this headline">¶</a></h3>
+<p>A multivariate decision tree has nodes with multivariate splits: they apply a function to some set of features (instead of just one) and compare splits. This allows for oblique decision boundaries: slanted ones.</p>
+</div>
+</div>
+<div class="section" id="fictitious-dimension">
+<h2>Fictitious Dimension<a class="headerlink" href="#fictitious-dimension" title="Permalink to this headline">¶</a></h2>
+<p>The fictitious dimension, or bias term, is a column of 1s added to a data matrix. Without it, all decision functions will be forced to pass through the origin. This can only increase bias, and it is rare to find examples of why you wouldn’t want to include a bias term. Generally, the bias term is an indicator of the value that datapoints are centered around.</p>
+<p>The inclusion of the fictitious dimension also ensures the residual vector <span class="math notranslate nohighlight">\(e\)</span> has mean 0.</p>
+<p>For neural networks, the bias term is a constant node added to each hidden layer input as well as the output layer input. The allows shifting the activation function to the left or right for each hidden layer node.</p>
+</div>
+<div class="section" id="class-conditional-distribution">
+<h2>Class-Conditional Distribution<a class="headerlink" href="#class-conditional-distribution" title="Permalink to this headline">¶</a></h2>
+<p>A class-conditional density models the distribution of observations <span class="math notranslate nohighlight">\(X\)</span> <em>conditioned on</em> the fact that it belongs in class <span class="math notranslate nohighlight">\(Y=k\)</span>. Commonly denoted as <span class="math notranslate nohighlight">\(f_k(x)\)</span> or <span class="math notranslate nohighlight">\(P(X=x|Y=k)\)</span>.</p>
+</div>
+<div class="section" id="dimensionality-reduction">
+<h2>Dimensionality Reduction<a class="headerlink" href="#dimensionality-reduction" title="Permalink to this headline">¶</a></h2>
+<p>Dimensionality reduction is the transformation of data from a high-dimensional space to a low-dimensional one. Ideally, we would reduce the dimensions to the minimal number of variables needed to represent the data (often called <em>instrinsic dimension</em>).</p>
+<p>DR can be used for feature selection, but is much more commonly used in feature projection, where we transform data into a lower-dimensional space. Common techniques for this include:</p>
+<ul class="simple">
+<li><p>Principal Component Analysis (PCA)</p></li>
+<li><p>Linear Discriminant Analysis (LDA)</p></li>
+<li><p>Generalized Discriminant Analysis (GDA)</p></li>
+</ul>
+</div>
+<div class="section" id="decision-stumps">
+<h2>Decision Stumps<a class="headerlink" href="#decision-stumps" title="Permalink to this headline">¶</a></h2>
+<p>Decision stumps are one-level decision trees. They consist of the root node connected to two leaves. In effect, stumps only consider a single input feature before making a prediction.</p>
+<p>A very popular type of boosting algorithm is <a class="reference external" href="#adaboost">AdaBoost</a>.</p>
+</div>
+<div class="section" id="eigendecomposition">
+<h2>Eigendecomposition<a class="headerlink" href="#eigendecomposition" title="Permalink to this headline">¶</a></h2>
+<p>The eigendecomposition (sometimes called spectral decomposition) is the factorization of a matrix <span class="math notranslate nohighlight">\(X\)</span> into matrices of its eigenvectors and eigenvalues. If <span class="math notranslate nohighlight">\(X\)</span> is a square <span class="math notranslate nohighlight">\(n \times n\)</span> matrix with <span class="math notranslate nohighlight">\(n\)</span> linearly independent eigenvectors (no zero eigenvalues), then <span class="math notranslate nohighlight">\(X = V \Lambda V^{-1}\)</span>, where columns <span class="math notranslate nohighlight">\(i\)</span> of <span class="math notranslate nohighlight">\(V\)</span> corresponds to eigenvector <span class="math notranslate nohighlight">\(i\)</span> of <span class="math notranslate nohighlight">\(X\)</span> (ordered), and <span class="math notranslate nohighlight">\(\Lambda\)</span> is a diagonal matrix with diagonal elements as corresponding eigenvalues.</p>
+<p>If <span class="math notranslate nohighlight">\(X\)</span> is real and symmetric square matrix, then it will have <span class="math notranslate nohighlight">\(n\)</span> real eigenvalues as well as <span class="math notranslate nohighlight">\(n\)</span> real orthonormal eigenvectors. Then we can represent <span class="math notranslate nohighlight">\(X = V\Lambda V^T\)</span>.</p>
+</div>
+<div class="section" id="k-nearest-neighbors-k-nn">
+<h2>K-Nearest Neighbors (k-NN)<a class="headerlink" href="#k-nearest-neighbors-k-nn" title="Permalink to this headline">¶</a></h2>
+<p>k-nearest neighbors is a prediction model where for a given input point, we look at the <span class="math notranslate nohighlight">\(k\)</span> closest training examples in the training set. If used for classification, we take the majority class of those neighbors. If regression, we average the target value of those neighbors.</p>
+<p>Since the algorithm relies on distance, normalizing features is generally a very good idea (if features have different units).</p>
+<p><span class="math notranslate nohighlight">\(k\)</span> is a hyperparameter that is tuned based on the data. Generally, larger <span class="math notranslate nohighlight">\(k\)</span> reduces <a class="reference external" href="#variance">variance</a>, and makes the decision boundary look smoother. However, larger <span class="math notranslate nohighlight">\(k\)</span> generally also increases <a class="reference external" href="#bias">bias</a> as it makes boundaries between classes less distinct. Accordingly, smaller <span class="math notranslate nohighlight">\(k\)</span> decreases bias but makes decision boundaries fit to tighter clusters of points, so variance increases.</p>
+</div>
+<div class="section" id="kernel-trick">
+<h2>Kernel Trick<a class="headerlink" href="#kernel-trick" title="Permalink to this headline">¶</a></h2>
+<p>We can use the kernel trick when we want to compute a solution in a higher dimensional polynomial space, but it is too expensive to calculate lifted feature vector <span class="math notranslate nohighlight">\(\Phi(x)\)</span>.</p>
+<p>A kernel function <span class="math notranslate nohighlight">\(k(x,y)\)</span> can represent high-dimensional (lifted) data <span class="math notranslate nohighlight">\(\Phi(x)\)</span> by only operating in the original (non-lifted) data dimensions. The big idea: we don’t compute <span class="math notranslate nohighlight">\(\Phi(x)\)</span> explicitly. Instead, we represent <span class="math notranslate nohighlight">\(X\)</span> as a <strong>kernel matrix</strong> <span class="math notranslate nohighlight">\(K\)</span> where <span class="math notranslate nohighlight">\(K_{ij} = k(X_i, X_j)\)</span>. The kernel function computes dot products of <em>lifted</em> feature vectors: <span class="math notranslate nohighlight">\(k(X_i, X_j) = \Phi(X_i)^T\Phi(X_j)\)</span>. For a kernel with <span class="math notranslate nohighlight">\(d\)</span> higher-dimensional features, we calculate kernel function as <span class="math notranslate nohighlight">\(k(x,y) = \Phi(x)^T\Phi(y) = (x^Ty + 1)^d\)</span>.</p>
+<p>To apply the kernel trick to a non-linearly-separable <span class="math notranslate nohighlight">\(X\)</span>, for a lift from <span class="math notranslate nohighlight">\(d\)</span> dimensions to <span class="math notranslate nohighlight">\(D &gt; d\)</span> dimensions, we solve the <em>dual problem</em>. If we <em>dualize</em> by setting <span class="math notranslate nohighlight">\(w\)</span> to a linear combination of sample points, i.e. <span class="math notranslate nohighlight">\(w = \Phi(X)^Ta\)</span>, where <span class="math notranslate nohighlight">\(a\)</span> is a length-<span class="math notranslate nohighlight">\(n\)</span> vector, then suddenly, <span class="math notranslate nohighlight">\(\Phi(X_i) \cdot w\)</span> becomes equivalent to <span class="math notranslate nohighlight">\((Ka)_i\)</span>. Now, we solve for the optimal <span class="math notranslate nohighlight">\(n\)</span> weights in <span class="math notranslate nohighlight">\(a\)</span> instead of optimal <span class="math notranslate nohighlight">\(d\)</span> weights in <span class="math notranslate nohighlight">\(w\)</span>. Optomizing <span class="math notranslate nohighlight">\(a\)</span>- specifically <span class="math notranslate nohighlight">\(a_i\)</span> (one weight of <span class="math notranslate nohighlight">\(a\)</span> at a time)- during gradient descent now takes <span class="math notranslate nohighlight">\(O(1)\)</span> time. Calculating test point predictions takes <span class="math notranslate nohighlight">\(O(nd)\)</span> time.</p>
+<p>Normally, computing <span class="math notranslate nohighlight">\(\Phi(x)^T\Phi(y)\)</span> via calculating <span class="math notranslate nohighlight">\(\Phi(x)\)</span> and <span class="math notranslate nohighlight">\(\Phi(y)\)</span> explcitly would take <span class="math notranslate nohighlight">\(O(d^p)\)</span> time, where <span class="math notranslate nohighlight">\(p\)</span> is the degree polynomial that <span class="math notranslate nohighlight">\(\Phi\)</span> lifts feature vectors up to. With the kernel function <span class="math notranslate nohighlight">\(k = (x^Ty+1)^p\)</span>, this only takes <span class="math notranslate nohighlight">\(O(d)\)</span> time.</p>
+<p>Now predictions are a linear combination of kernel outputs, coefficients determined by <span class="math notranslate nohighlight">\(a\)</span>.</p>
+<p>Note it is important to center data in <span class="math notranslate nohighlight">\(X\)</span> before applying kernelization.</p>
+<div class="section" id="primal-weights">
+<h3>Primal Weights<a class="headerlink" href="#primal-weights" title="Permalink to this headline">¶</a></h3>
+<p>In standard optomization, we find <span class="math notranslate nohighlight">\(d\)</span> primal weights for weight vector <span class="math notranslate nohighlight">\(w\)</span>. If we want to fit a degree-<span class="math notranslate nohighlight">\(p\)</span> polynomial, we will have to optomize <span class="math notranslate nohighlight">\(O(d^p)\)</span> weights. Predictions involve calculating <span class="math notranslate nohighlight">\(\Phi(X_i)^Tw\)</span>.</p>
+<p>We solve a <span class="math notranslate nohighlight">\(d \times d\)</span> linear system in the primal algorithm.</p>
+</div>
+<div class="section" id="dual-weights">
+<h3>Dual Weights<a class="headerlink" href="#dual-weights" title="Permalink to this headline">¶</a></h3>
+<p>In kernelized optomization, we find <span class="math notranslate nohighlight">\(n\)</span> dual weights for weight vector <span class="math notranslate nohighlight">\(a\)</span>. Predictions involve calculating a linear combination of kernel function outputs over all training points: <span class="math notranslate nohighlight">\(\sum_{j=1}^{n}a_jk(X_j, z)\)</span> for a test point <span class="math notranslate nohighlight">\(z\)</span>.</p>
+<p>We solve an <span class="math notranslate nohighlight">\(n \times n\)</span> linear system in the dual algorithm.</p>
+<p>For example, in ridge regression, we can find dual solution <span class="math notranslate nohighlight">\(a \in \mathbb{R}^n\)</span> that minimizes <span class="math notranslate nohighlight">\(||XX^Ta-y||^2 + \lambda||X^Ta||^2\)</span>.</p>
+</div>
+</div>
+<div class="section" id="hierarchical-clustering">
+<h2>Hierarchical Clustering<a class="headerlink" href="#hierarchical-clustering" title="Permalink to this headline">¶</a></h2>
+<p>Hierarchical clustering is a method of clustering where a hierarchy of clusters is built.</p>
+<div class="section" id="agglomerative-clustering">
+<h3>Agglomerative Clustering<a class="headerlink" href="#agglomerative-clustering" title="Permalink to this headline">¶</a></h3>
+<p>Also called “bottom-up” clustering. Every point starts in its own cluster, merge clusters recursively until we have a single cluster that encapsulates all points. The <em>linkage function</em> determines the distance between two clusters, and can be defined differently.</p>
+<div class="section" id="single-linkage-clustering">
+<h4>Single-Linkage Clustering<a class="headerlink" href="#single-linkage-clustering" title="Permalink to this headline">¶</a></h4>
+<p>The distance between clusters is the closest distance between two points in different clusters. This is also called <em>nearest-neighbor clustering</em>.</p>
+<p>Single-linkage tends to give unbalanced dendograms, as they are very sensitive to outliers (outliers tend not to get joined until the very end).</p>
+</div>
+<div class="section" id="complete-linkage-clustering">
+<h4>Complete-Linkage Clustering<a class="headerlink" href="#complete-linkage-clustering" title="Permalink to this headline">¶</a></h4>
+<p>The distance between clusters is the <em>furthest</em> distance between two points in different clusters. This is also called <em>farthest-neighbor clustering</em>.</p>
+<p>Using complete linkage tends to give the best-balanced dendogram; as more points go into a cluster, the representative furthest point becomes farther away.</p>
+</div>
+<div class="section" id="average-linkage-clustering">
+<h4>Average-Linkage Clustering<a class="headerlink" href="#average-linkage-clustering" title="Permalink to this headline">¶</a></h4>
+<p>The distance between clusters is the average pairwise distance between all pairs of points in the two different clusters. This actually has a name: UPGMA, short for Unweighted Pair Group Method with Arithmetic Mean.</p>
+</div>
+<div class="section" id="centroid-linkage-clustering">
+<h4>Centroid-Linkage Clustering<a class="headerlink" href="#centroid-linkage-clustering" title="Permalink to this headline">¶</a></h4>
+<p>The distance between clusters is the (Euclidean) distance between the two clusters’ centroid vectors.</p>
+</div>
+</div>
+</div>
+<div class="section" id="dendogram">
+<h2>Dendogram<a class="headerlink" href="#dendogram" title="Permalink to this headline">¶</a></h2>
+<p>A dendogram is a diagram of the cluster hierarchy in which the vertical axis encodes all the linkage distances. We can cut a dendrogram into clusters by a horizontal line according to number of clusters OR intercluster distance.</p>
+<div class="section" id="divisive-clustering">
+<h3>Divisive Clustering<a class="headerlink" href="#divisive-clustering" title="Permalink to this headline">¶</a></h3>
+<p>Also called “top-down” clustering. Every point starts in a single giant cluster, and splits are performed recursively.</p>
+</div>
+</div>
+<div class="section" id="gaussian-kernel">
+<h2>Gaussian Kernel<a class="headerlink" href="#gaussian-kernel" title="Permalink to this headline">¶</a></h2>
+<p>The Gaussian kernel is a kernel function <span class="math notranslate nohighlight">\(k(x, z) = \exp(-\frac{||x-z||^2}{2\sigma^2})\)</span>. It approximates the dot product <span class="math notranslate nohighlight">\(\Phi(x)^T\Phi(z)\)</span>, where  <span class="math notranslate nohighlight">\(\Phi(x)\)</span> is an infinite vector: <span class="math notranslate nohighlight">\(\Phi(x) = exp(-\frac{x^2}{2\sigma^2})\begin{bmatrix}1 &amp; \frac{x}{\sigma \sqrt{1!}} &amp;  \frac{x^2}{\sigma \sqrt{2!}} &amp; ... \end{bmatrix}^T\)</span>. <span class="math notranslate nohighlight">\(\sigma\)</span> is a hyperparameter that represents Gaussian width. Larger widths mean smoother <span class="math notranslate nohighlight">\(h\)</span> and more bias, less variance.</p>
+<p>A Gaussian kernelized problem computes hypothesis <span class="math notranslate nohighlight">\(h(z)\)</span> as a linear combination of Gaussians centered at sample points. It behaves like a smoothed-out <a class="reference external" href="#k-nearest-neighbors-k-nn">k-NN</a>.</p>
+<p>Gaussian kernels are popular because they tend to give smooth hypothesis functions.</p>
+</div>
+<div class="section" id="normalize">
+<h2>Normalize<a class="headerlink" href="#normalize" title="Permalink to this headline">¶</a></h2>
+<p>Normalizing data is centering features (subtract mean), and then dividing by the standard deviation. This effectively makes each feature have 0 mean and unit variance. This is done to ensure that a feature with a very broad range of values does not dominate other features in objective functions.</p>
+<p>It’s also important to normalize if regularization is used, so that coefficients are penalized appropriately.</p>
+</div>
+<div class="section" id="laplacian-matrix">
+<h2>Laplacian Matrix<a class="headerlink" href="#laplacian-matrix" title="Permalink to this headline">¶</a></h2>
+<p>A Laplacian matrix is a unique matrix representation of a graph. The sparsest cut of a graph can be approximated through the second smallest eigenvalue of its Laplacian by Cheeger’s inequality.</p>
+<p>Elements of <span class="math notranslate nohighlight">\(L\)</span> are given by:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+L_{ij} = \begin{cases}
+        \text{deg}(v_i) &amp; i=j \\
+        -1 &amp; i \neq j \text{ and } v_i \text{ is adjacent to } v_j \\
+        0 &amp; \text{else}  
+\end{cases}
+\end{split}\]</div>
+<p><span class="math notranslate nohighlight">\(L\)</span> is symmetric and positive-semidefinite. The number of connected components in <span class="math notranslate nohighlight">\(G\)</span> is the dimension of the nullspace of <span class="math notranslate nohighlight">\(L\)</span>: it is equal to the number of 0-eigenvalues in <span class="math notranslate nohighlight">\(L\)</span>. This number is also called the <em>algebraic multiplicity</em> of the 0 eigenvalue.</p>
+</div>
+<div class="section" id="low-rank-approximation">
+<h2>Low-Rank Approximation<a class="headerlink" href="#low-rank-approximation" title="Permalink to this headline">¶</a></h2>
+<p>Any matrix, utilizing its first <span class="math notranslate nohighlight">\(k\)</span> eigenvectors and the SVD, can be given a rank-k approximation.</p>
+</div>
+<div class="section" id="lifted-feature-vector">
+<h2>Lifted Feature Vector<a class="headerlink" href="#lifted-feature-vector" title="Permalink to this headline">¶</a></h2>
+<p>For a feature vector <span class="math notranslate nohighlight">\(x\)</span>, transformation <span class="math notranslate nohighlight">\(\Phi\)</span> results in <span class="math notranslate nohighlight">\(\Phi(x)\)</span>, a lifted feature vector with more dimensions than <span class="math notranslate nohighlight">\(x\)</span>. This is most commonly applied in kernelization to get raw non-linearly-separable data into higher dimensions such that it is linearly separable in that higher dimension. Each feature of <span class="math notranslate nohighlight">\(\Phi(x)\)</span> is just some function of features in <span class="math notranslate nohighlight">\(x\)</span>.</p>
+<p>Many such <span class="math notranslate nohighlight">\(\Phi\)</span> exist to make linearly separable data in higher dimensions, but not all of these functions are actually kernels.</p>
+</div>
+<div class="section" id="principal-component-analysis-pca">
+<h2>Principal Component Analysis (PCA)<a class="headerlink" href="#principal-component-analysis-pca" title="Permalink to this headline">¶</a></h2>
+<p>PCA is the process of computing the principal components and using them to project the data to a different feature space. Often, PCA only keeps a few principal components (with the largest eigenvalues)</p>
+<p>By projecting raw data onto a selective PCA basis, PCA can be used for <a class="reference external" href="#dimensionality-reduction">dimensionality reduction</a>.</p>
+<p>The data is centered such that it is translation invariant.</p>
+<div class="section" id="pca-derivations">
+<h3>PCA Derivations<a class="headerlink" href="#pca-derivations" title="Permalink to this headline">¶</a></h3>
+<p>There exist several derivations for PCA:</p>
+<div class="section" id="pca-derivation-1">
+<h4>PCA Derivation 1<a class="headerlink" href="#pca-derivation-1" title="Permalink to this headline">¶</a></h4>
+<p>Fit a Gaussian to the data in <span class="math notranslate nohighlight">\(X\)</span> (find <span class="math notranslate nohighlight">\(\mu, \Sigma\)</span>) with MLE. Then, choose <span class="math notranslate nohighlight">\(k\)</span> Gaussian axes with greatest variance. The covariance matrix is estimated with <span class="math notranslate nohighlight">\(X^TX\)</span>, so taking the eigenvectors of that is essentially equivalent.</p>
+</div>
+<div class="section" id="pca-derivation-2">
+<h4>PCA Derivation 2<a class="headerlink" href="#pca-derivation-2" title="Permalink to this headline">¶</a></h4>
+<p>Find a direction <span class="math notranslate nohighlight">\(w\)</span> that maximizes sample variance of <em>projected</em> data. Formally, find <span class="math notranslate nohighlight">\(w\)</span> that maximizes the Rayleigh quotient.</p>
+</div>
+<div class="section" id="pca-derivation-3">
+<h4>PCA Derivation 3<a class="headerlink" href="#pca-derivation-3" title="Permalink to this headline">¶</a></h4>
+<p>Find a direction <span class="math notranslate nohighlight">\(w\)</span> that minimizes mean <em>squared</em> projection distance; the line that is as close to the points as possible (“closeness” being measured by <em>shortest</em> distance from points to line, NOT vertical residual distance).</p>
+</div>
+</div>
+<div class="section" id="principal-components">
+<h3>Principal Components<a class="headerlink" href="#principal-components" title="Permalink to this headline">¶</a></h3>
+<p>For a collection of points <span class="math notranslate nohighlight">\(X \in \mathbb{R}^{n \times d}\)</span>, the principal components, or principal component directions, are <span class="math notranslate nohighlight">\(d\)</span> <em>unit</em> vectors, where vector <span class="math notranslate nohighlight">\(i\)</span> is a direction that tries to maximize variance in the data’s <em>feature values</em>. Here, a best-fitting line is defined as one that minimizes the average squared distance from the points to the line; it is the line that is as close to all the points as possible. These unit vectors are all mutually orthogonal.</p>
+<p>Principal components are eigenvectors of <span class="math notranslate nohighlight">\(X\)</span>’s covariance matrix; they are eigenvectors of <span class="math notranslate nohighlight">\(X^TX\)</span>. Principal components can be computed by <a class="reference external" href="#eigendecomposition">eigendecomposition</a> on <span class="math notranslate nohighlight">\(X^TX\)</span> or (more commonly) <a class="reference external" href="#singular-value-decomposition-svd">SVD</a> on <span class="math notranslate nohighlight">\(X\)</span>. Generally, we center variables in <span class="math notranslate nohighlight">\(X\)</span> before finding principal components.</p>
+</div>
+</div>
+<div class="section" id="singular-value-decomposition-svd">
+<h2>Singular Value Decomposition (SVD)<a class="headerlink" href="#singular-value-decomposition-svd" title="Permalink to this headline">¶</a></h2>
+<p>A factorization of a matrix <span class="math notranslate nohighlight">\(X\)</span> as <span class="math notranslate nohighlight">\(X = U \Sigma V^T\)</span>, which always exists for <span class="math notranslate nohighlight">\(X\)</span>. Matrices <span class="math notranslate nohighlight">\(U, V\)</span> are orthogonal matrices whose columns contain left and right singular vectors respectively. <span class="math notranslate nohighlight">\(\Sigma\)</span> is a diagonal matrix of <a class="reference external" href="#singular-values">singular values</a> of <span class="math notranslate nohighlight">\(X\)</span>. We can prove via eigendecomposition that columns of <span class="math notranslate nohighlight">\(V\)</span> are eigenvectors of <span class="math notranslate nohighlight">\(X^TX\)</span>, while columns of <span class="math notranslate nohighlight">\(U\)</span> are eigenvectors of <span class="math notranslate nohighlight">\(XX^T\)</span>.</p>
+<p>The singular values of <span class="math notranslate nohighlight">\(X\)</span>, and thus <span class="math notranslate nohighlight">\(\Sigma\)</span>, are unique to <span class="math notranslate nohighlight">\(X\)</span>.  However, <span class="math notranslate nohighlight">\(U\)</span> and <span class="math notranslate nohighlight">\(V\)</span> are <em>not</em> uniquely determined, so an SVD for <span class="math notranslate nohighlight">\(X\)</span> is not unique.</p>
+<p>It is important to note that <span class="math notranslate nohighlight">\(\text{rank}(X) = \text{rank}(\Sigma)\)</span>: there will be one non-zero eigenvalue per linearly independent column in <span class="math notranslate nohighlight">\(X\)</span>.</p>
+<div class="section" id="singular-values">
+<h3>Singular Values<a class="headerlink" href="#singular-values" title="Permalink to this headline">¶</a></h3>
+<p>Singular values of a matrix <span class="math notranslate nohighlight">\(X\)</span> are the square roots of eigenvalues of <span class="math notranslate nohighlight">\(X^TX\)</span>. They are also the diagonal elements of diagonal matrix <span class="math notranslate nohighlight">\(\Sigma\)</span> in the SVD of <span class="math notranslate nohighlight">\(X\)</span>.</p>
+</div>
+</div>
+<div class="section" id="spectral-clustering">
+<h2>Spectral Clustering<a class="headerlink" href="#spectral-clustering" title="Permalink to this headline">¶</a></h2>
+<p>In spectral clustering, we want to cluster a graph <span class="math notranslate nohighlight">\(G\)</span>, where the weight of edge <span class="math notranslate nohighlight">\((i,j)\)</span> represents the similarity between vertex <span class="math notranslate nohighlight">\(i\)</span> and vertex <span class="math notranslate nohighlight">\(j\)</span>. We want to cluster vertices connected with high edge weights together.</p>
+<p>The problem:</p>
+<div class="proof definition admonition" id="definition-0">
+<p class="admonition-title"><span class="caption-number">Definition 23 </span> (Spectral Clustering Optomization Problem)</p>
+<div class="definition-content section" id="proof-content">
+<p>Find cut-vector <span class="math notranslate nohighlight">\(y\)</span> that minimizes <span class="math notranslate nohighlight">\(y^TLy\)</span> subject to constraints <span class="math notranslate nohighlight">\(y^Ty = n\)</span> (relaxed binary constraint) and <span class="math notranslate nohighlight">\(1^Ty = 0\)</span> (balance constraint).</p>
+</div>
+</div><p>Note the minimization problem + relaxed binary constraint is equivalent to minimizing the Rayleigh quotient of <span class="math notranslate nohighlight">\(L\)</span> and <span class="math notranslate nohighlight">\(y\)</span>.</p>
+<p>To solve this problem:</p>
+<div class="proof algorithm admonition" id="algorithm-1">
+<p class="admonition-title"><span class="caption-number">Algorithm 24 </span> (Spectral Clustering Algorithm)</p>
+<div class="algorithm-content section" id="proof-content">
+<ol class="simple">
+<li><p>Compute Laplacian matrix <span class="math notranslate nohighlight">\(L\)</span> for <span class="math notranslate nohighlight">\(G\)</span>.</p></li>
+<li><p>Compute Fiedler vector <span class="math notranslate nohighlight">\(v_2\)</span> of <span class="math notranslate nohighlight">\(L\)</span></p></li>
+<li><p>Round <span class="math notranslate nohighlight">\(v_2\)</span> with a <a class="reference external" href="#sweep-cut">sweep cut</a>. Choose min-sparsity cut as final cut <span class="math notranslate nohighlight">\(y\)</span>.</p></li>
+</ol>
+</div>
+</div><div class="section" id="sweep-cut">
+<h3>Sweep Cut<a class="headerlink" href="#sweep-cut" title="Permalink to this headline">¶</a></h3>
+<p>In a sweep cut, we choose the cut from our Fiedler vector <span class="math notranslate nohighlight">\(v_2\)</span>. First, we sort components of <span class="math notranslate nohighlight">\(v_2\)</span> in ascending order. Then try each adjacent cut between successive components, and calculate the cut weight if that cut is chosen. We choose the cut that gives the smallest cut weight.</p>
+</div>
+<div class="section" id="spectral-clustering-vertex-masses">
+<h3>Spectral Clustering (Vertex Masses)<a class="headerlink" href="#spectral-clustering-vertex-masses" title="Permalink to this headline">¶</a></h3>
+<p>In the case that we have vertex masses indicated by <span class="math notranslate nohighlight">\(n \times n\)</span> diagonal matrix <span class="math notranslate nohighlight">\(M\)</span>, our constraints change:</p>
+<div class="proof definition admonition" id="definition-2">
+<p class="admonition-title"><span class="caption-number">Definition 25 </span> (Spectral Clustering Optomization Problem with Masses)</p>
+<div class="definition-content section" id="proof-content">
+<p>Find cut-vector <span class="math notranslate nohighlight">\(y\)</span> that minimizes <span class="math notranslate nohighlight">\(y^TLy\)</span> subject to constraints <span class="math notranslate nohighlight">\(y^TMy = \text{Mass}(G) = \sum_iM_{ii}\)</span> and <span class="math notranslate nohighlight">\(1^TMy = 0\)</span>.</p>
+</div>
+</div><p>The solution is the Fiedler vector of generalized eigensystem <span class="math notranslate nohighlight">\(Lv = \lambda Mv\)</span>.</p>
+</div>
+</div>
+<div class="section" id="sparsest-cut">
+<h2>Sparsest Cut<a class="headerlink" href="#sparsest-cut" title="Permalink to this headline">¶</a></h2>
+<p>The sparsest cut of a graph <span class="math notranslate nohighlight">\(G=(V,E)\)</span> is a cut that partitions <span class="math notranslate nohighlight">\(G\)</span> into two subgraphs <span class="math notranslate nohighlight">\(G_1,G_2\)</span> that minimize the <a class="reference external" href="#sparsity">sparsity</a> of the cut.</p>
+<div class="section" id="sparsity">
+<h3>Sparsity<a class="headerlink" href="#sparsity" title="Permalink to this headline">¶</a></h3>
+<p>The sparsity of a cut is the ratio of total weight of cut edges divided by the number of vertices in the smaller half of the partition. We could also assign <em>masses</em> to vertices with diagonal mass matrix <span class="math notranslate nohighlight">\(M\)</span>. We want cuts that minimize the number of edges crossed AND be as close as possible to a bisection  .</p>
+</div>
+</div>
+<div class="section" id="support-vector-machines-svm">
+<h2>Support Vector Machines (SVM)<a class="headerlink" href="#support-vector-machines-svm" title="Permalink to this headline">¶</a></h2>
+<p>SVMs are supervised binary linear classifiers. For data points with <span class="math notranslate nohighlight">\(d\)</span> features, SVMs find a <span class="math notranslate nohighlight">\((d-1)\)</span>-dimensional hyperplane to separate classes. Generally, we choose the maximum-margin hyperplane: the hyperplane that has the largest separation between points in classes. Once we find our optimal weights <span class="math notranslate nohighlight">\(w, \alpha\)</span>, our classifier is given as <span class="math notranslate nohighlight">\(h(x) = \text{sign}(w^Tx + \alpha)\)</span>.</p>
+<p>In the case that our data is not linearly separable, we may want to map feature vectors to a higher-dimensional space, then find a linear hyperplane there. To ensure dot products between pairs of feature vectors can be computed in terms of features from the original space, SVMs are often kernelized: dot products are replaced by nonlinear kernel functions. Points <span class="math notranslate nohighlight">\(x\)</span> in a feature space are then mapped onto a higher-dimensional space by a weighted sum of kernel computations, one for each point in the training set.</p>
+<div class="section" id="hard-margin-svm">
+<h3>Hard-Margin SVM<a class="headerlink" href="#hard-margin-svm" title="Permalink to this headline">¶</a></h3>
+<p>Hard-margin SVMs should only be used for linearly separable data.</p>
+<p>To find the MMH, hard-margin SVMs find two parallel hyperplanes, called <em>margins</em>, that maximally separate data. The MMH lies halfway in between the margins. The “right” margin is defined by <span class="math notranslate nohighlight">\(w^Tx + \alpha = 1\)</span>, and the “left” margin as <span class="math notranslate nohighlight">\(w^Tx + \alpha = -1\)</span>. We represent these as constraints: if a point <span class="math notranslate nohighlight">\(X_i\)</span> is in class C (<span class="math notranslate nohighlight">\(y_i = 1\)</span>), then <span class="math notranslate nohighlight">\(w^TX_i + \alpha \ge 1\)</span>. If it is not (<span class="math notranslate nohighlight">\(y_i=-1\)</span>), then <span class="math notranslate nohighlight">\(w^TX_i + \alpha \le -1\)</span>. We can represent all of these as a one line constraint: <span class="math notranslate nohighlight">\(y_i(w^TX_i + \alpha) \ge 1\)</span> for all training points <span class="math notranslate nohighlight">\(i\)</span>.</p>
+<p>These margins will pass at least 2 points; as these points determine the margin hyperplane, they are called <em>support vectors</em>.</p>
+<p>The distance between the margins is <span class="math notranslate nohighlight">\(\frac{2}{||w||}\)</span>. Thus, to maximize distance, we want to minimize <span class="math notranslate nohighlight">\(||w||\)</span>.</p>
+<p>Overall, the hard-margin SVM tries to solve:</p>
+<div class="proof definition admonition" id="HMSVMproblem">
+<p class="admonition-title"><span class="caption-number">Definition 26 </span> (Hard-Margin SVM problem)</p>
+<div class="definition-content section" id="proof-content">
+<p>The <em>hard-margin SVM problem</em> for a dataset <span class="math notranslate nohighlight">\(X \in \mathbb{R}^{n \times d}\)</span> is to find <span class="math notranslate nohighlight">\(w, \alpha\)</span> that minimizes <span class="math notranslate nohighlight">\(||w||^2\)</span> subject to constraint <span class="math notranslate nohighlight">\(y_i(w^TX_i + \alpha) \ge 1\)</span> for <span class="math notranslate nohighlight">\(i \in 1,...,n\)</span>.</p>
+</div>
+</div></div>
+</div>
+<div class="section" id="discriminative-models">
+<h2>Discriminative Models<a class="headerlink" href="#discriminative-models" title="Permalink to this headline">¶</a></h2>
+<p>Discriminative models attempt to model the posterior probability <span class="math notranslate nohighlight">\(P(Y|X)\)</span> for a class directly, skipping all distribution and prior probability stuff.</p>
+</div>
+<div class="section" id="generative-models">
+<h2>Generative Models<a class="headerlink" href="#generative-models" title="Permalink to this headline">¶</a></h2>
+<p>Generative models assume training points come from probability distributions. <strong>These models attempt to predict these class-conditional distributions (one per class)</strong> so it can make predictions on future data. Given the density and prior, we can use Bayes’ formula to estimate the posterior <span class="math notranslate nohighlight">\(P(Y|X)\)</span> for each class. The class with the highest posterior (* asymmetric loss) is the official prediction.</p>
+<p>In both LDA and QDA, we estimate conditional mean <span class="math notranslate nohighlight">\(\hat{\mu}_C\)</span> &amp; conditional variance <span class="math notranslate nohighlight">\(\hat{\sigma^2}_C\)</span> for each class C.</p>
+</div>
+<div class="section" id="neural-network">
+<h2>Neural Network<a class="headerlink" href="#neural-network" title="Permalink to this headline">¶</a></h2>
+<p>A neural network is a machine learning algorithm that models biological neural networks in animal brains.</p>
+<div class="section" id="activation-functions">
+<h3>Activation Functions<a class="headerlink" href="#activation-functions" title="Permalink to this headline">¶</a></h3>
+<p>The activation function in a neural network is a (nonlinear) function that is processed on the node input(s). In biological neurons, the activation function represents the rate of firing.</p>
+<div class="section" id="linear">
+<h4>Linear<a class="headerlink" href="#linear" title="Permalink to this headline">¶</a></h4>
+<p>Makes the model (at least for that layer) behave as it was a linear classifier. So if you want to capture nonlinear patterns, never use this.</p>
+</div>
+<div class="section" id="relu">
+<h4>ReLU<a class="headerlink" href="#relu" title="Permalink to this headline">¶</a></h4>
+<p>Probably the most popular activation function for deep neural networks. Advantages:</p>
+<ul class="simple">
+<li><p>Sparse activation of nodes; only around half of hidden units are activated (nonzero output) at a time.</p></li>
+<li><p>Avoids <a class="reference external" href="#vanishing-gradient-problem">vanishing gradient</a> problems, compared to sigmoid, as it saturates only in the positive direction (instead of both)</p></li>
+<li><p>Fast computation</p></li>
+</ul>
+</div>
+<div class="section" id="sigmoid">
+<h4>Sigmoid<a class="headerlink" href="#sigmoid" title="Permalink to this headline">¶</a></h4>
+<p>Sigmoid activation functions always go hand-in-hand with posterior probability problems. So in NNs where knowing that is important, we use sigmoid. Unfortunately, it is very susceptible to the vanishing gradient problem.</p>
+</div>
+<div class="section" id="softmax">
+<h4>Softmax<a class="headerlink" href="#softmax" title="Permalink to this headline">¶</a></h4>
+<p>Softmax is used for classification where we have <span class="math notranslate nohighlight">\(k \ge 3\)</span> classes. For this, we need <span class="math notranslate nohighlight">\(k\)</span> output units, each outputting a probability that the input belongs to the associated class.</p>
+<p>Note that softmax has a normalization constant that ensures all outputs sum to 1. Thus, in the special edge case for classification problems <em>where a training point can have multiple labels</em>, we’d want to choose sigmoid over softmax.</p>
+</div>
+</div>
+</div>
+<div class="section" id="k-d-tree">
+<h2>k-d Tree<a class="headerlink" href="#k-d-tree" title="Permalink to this headline">¶</a></h2>
+<p>A k-d tree is a binary tree in which every leaf node is a k-dimensional point. Every internal node implicitly splits the feature space into two half-spaces.</p>
+<div class="section" id="linear-discriminant-analysis-lda">
+<h3>Linear Discriminant Analysis (LDA)<a class="headerlink" href="#linear-discriminant-analysis-lda" title="Permalink to this headline">¶</a></h3>
+<p>Linear decision boundaries. Assumes every class-cond distribution is multivariate Gaussian. Assume same variance (width) <span class="math notranslate nohighlight">\(\sigma\)</span> for each Gaussian- i.e. same covariance matrix <span class="math notranslate nohighlight">\(\Sigma\)</span> for each class. So that means we calculate a single <em>pooled within-class variance</em> for all classes.</p>
+<p>We come up with the linear discriminant function by applying MLE to the log-posterior <span class="math notranslate nohighlight">\(P(Y=C|X=x) = f_C(x)\pi_C\)</span>. The decision boundary between two classes C and D consists of all points <span class="math notranslate nohighlight">\(x\)</span> where <span class="math notranslate nohighlight">\(\Delta_C(x) = \Delta_D(x)\)</span>.</p>
+<p>To classify, calculate linear discriminant function for each class, then pick class w/ max value.</p>
+</div>
+<div class="section" id="quadratic-discriminant-analysis-qda">
+<h3>Quadratic Discriminant Analysis (QDA)<a class="headerlink" href="#quadratic-discriminant-analysis-qda" title="Permalink to this headline">¶</a></h3>
+<p>Quadratic decision boundaries. Estimate conditional mean <span class="math notranslate nohighlight">\(\hat{\mu}_C\)</span> &amp; a <strong>different conditional variance <span class="math notranslate nohighlight">\(\hat{\sigma^2}_C\)</span> for each class C</strong>.</p>
+<p>The decision boundary between two classes C and D consists of all points <span class="math notranslate nohighlight">\(x\)</span> where <span class="math notranslate nohighlight">\(\Delta_C(x) = \Delta_D(x)\)</span>, except now <span class="math notranslate nohighlight">\(\Delta_C(x)\)</span> is the <em>quadratic discriminant function</em>. This decision boundary is now quadratic. To classify, calculate quadratic discriminant function for each class, then pick class w/ max value.</p>
+<p>QDA’s bigger flexibility with the covariance matrix can fit data better than LDA. Of course, overfit is always an issue.</p>
+</div>
+</div>
+<div class="section" id="prior-probability">
+<h2>Prior Probability<a class="headerlink" href="#prior-probability" title="Permalink to this headline">¶</a></h2>
+<p>The prior probability is the probability of an event at the start. This is usually calculated for each class, and is equal to what proportion of sample points belong to a certain class. We denote the prior probability of class <span class="math notranslate nohighlight">\(k\)</span> as <span class="math notranslate nohighlight">\(P(Y=k)\)</span>, or sometimes just as <span class="math notranslate nohighlight">\(\pi_k\)</span>.</p>
+</div>
+<div class="section" id="posterior-probability">
+<h2>Posterior Probability<a class="headerlink" href="#posterior-probability" title="Permalink to this headline">¶</a></h2>
+<p>The posterior probability is the updated probability of an event <em>after</em> some kind of data/evidence is collected. The posterior probability of class <span class="math notranslate nohighlight">\(k\)</span> given evidence <span class="math notranslate nohighlight">\(X\)</span> is denoted <span class="math notranslate nohighlight">\(P(Y=k|X)\)</span>.</p>
+<p>Many classifiers, including Bayes classifier, LDA, and GDA, involve calculating the (weighted if asymmetric loss) posterior probability for each class given a test point <span class="math notranslate nohighlight">\(X\)</span> and predicting the class with the highest posterior probability. In generative models, maximizing the posterior is equivalent to maximizing <span class="math notranslate nohighlight">\(f_C(x)\pi_C\)</span> for a class C.</p>
+</div>
+<div class="section" id="spectral-graph-clustering-multiple-eigenvectors">
+<h2>Spectral Graph Clustering (Multiple Eigenvectors)<a class="headerlink" href="#spectral-graph-clustering-multiple-eigenvectors" title="Permalink to this headline">¶</a></h2>
+<p>We can use <span class="math notranslate nohighlight">\(k\)</span> eigenvectors (solutions of <span class="math notranslate nohighlight">\(Lv = \lambda Mv\)</span>) to cluster a graph into <span class="math notranslate nohighlight">\(k\)</span> subgraphs. We scale each eigenvector <span class="math notranslate nohighlight">\(v_i\)</span> such that <span class="math notranslate nohighlight">\(v_i^TMv_i = 1\)</span>, so that <span class="math notranslate nohighlight">\(V^TMV = I\)</span> (eigenvectors are columns). Row <span class="math notranslate nohighlight">\(V_i\)</span> is called the <em>spectral vector</em> for vertex <span class="math notranslate nohighlight">\(i\)</span>. We normalize each row to have unit length; now, each spectral vector is a point on a unit hypersphere centered around the origin.</p>
+<p>Then, we k-means cluster these spectral vectors, and thus the vertices they belong to. k-means clustering will cluster together vectors that are
+separated by small angles, since vectors lie on the sphere.</p>
+<div class="section" id="soft-margin-svm">
+<h3>Soft-Margin SVM<a class="headerlink" href="#soft-margin-svm" title="Permalink to this headline">¶</a></h3>
+<p>The soft-margin relaxes constraints such that it can still find a boundary for non-linearly-separable data. To do this, it introduces <em>slack terms</em> <span class="math notranslate nohighlight">\(\xi_i\)</span>, which are values proportional to how much a point <span class="math notranslate nohighlight">\(X_i\)</span> violates the decision boundary.</p>
+<p>So now, the problem to solve changes:</p>
+<div class="proof definition admonition" id="SMSVMproblem">
+<p class="admonition-title"><span class="caption-number">Definition 27 </span> (Soft-Margin SVM problem)</p>
+<div class="definition-content section" id="proof-content">
+<p>The <em>soft-margin SVM problem</em> for a dataset <span class="math notranslate nohighlight">\(X \in \mathbb{R}^{n \times d}\)</span> is to find <span class="math notranslate nohighlight">\(w, \alpha, \xi_i\)</span> that minimizes <span class="math notranslate nohighlight">\(||w||^2 + C\sum_{i=1}^{n}\xi_i\)</span> subject to constraint <span class="math notranslate nohighlight">\(y_i(w^TX_i + \alpha) \ge 1 - \xi_i\)</span> for <span class="math notranslate nohighlight">\(i \in 1,...,n\)</span>. An additional constraint is that all slack terms must be positive: <span class="math notranslate nohighlight">\(\xi_i \ge 0\)</span> for all <span class="math notranslate nohighlight">\(i\)</span>.</p>
+</div>
+</div><p><span class="math notranslate nohighlight">\(C\)</span> is a hyperparameter: for large <span class="math notranslate nohighlight">\(C\)</span>, we penalize slack more heavily, resulting in finer adjustments to the decision boundary and increasing variance. Infinite <span class="math notranslate nohighlight">\(C\)</span> is effectively a hard-margin SVM (which allows no slack). For small <span class="math notranslate nohighlight">\(C\)</span>, we penalize less and we can get a wider margin <span class="math notranslate nohighlight">\(\frac{2}{||w||}\)</span>, but also allow for much more misclassification.</p>
+<p>For soft-margin SVM boundaries, look for big-time margin bounds with the exception of (a very few) violating points.</p>
+</div>
+</div>
+<div class="section" id="random-forest">
+<h2>Random Forest<a class="headerlink" href="#random-forest" title="Permalink to this headline">¶</a></h2>
+<p>A Random Forest is an ensembler where base learners are decision trees. Each base tree is given extra randomization during training; each node of each tree selects a subset of <span class="math notranslate nohighlight">\(m\)</span> features remaining. Because of the ensembling and randomization of trees, random forests tend to overfit less than decision trees.</p>
+</div>
+<div class="section" id="regularization">
+<h2>Regularization<a class="headerlink" href="#regularization" title="Permalink to this headline">¶</a></h2>
+<p>Regularization are techniques used for error reduction by reducing overfitting. It does so by adding a penalty term to the cost function. The optimal solution is the tangential intersection between isocontours of the regularization constraints and the (least-squares) error function.</p>
+<div class="section" id="ridge-regression">
+<h3>Ridge Regression<a class="headerlink" href="#ridge-regression" title="Permalink to this headline">¶</a></h3>
+<p>Ridge regression is the addition of the L2 penalty term on a weight vector <span class="math notranslate nohighlight">\(w\)</span> to the cost function. The ridge regression estimator is <span class="math notranslate nohighlight">\(\hat{w} = (X^TX + \lambda I)^{-1}X^Ty\)</span>, where <span class="math notranslate nohighlight">\(\lambda\)</span> is a hyperparameter related to the amount of penalty enforced. The ridge regression estimator is unique; thus, ridge regression is a means of solving ill-posed problems.</p>
+<p>Ridge regression shrinks weights but does not make them 0, in constrast to <a class="reference external" href="#lasso">LASSO</a>.</p>
+<p>Note that L2 regularization can be thought of as a constraint, with hyperspherical isocontours in feature space.</p>
+</div>
+<div class="section" id="lasso">
+<h3>LASSO<a class="headerlink" href="#lasso" title="Permalink to this headline">¶</a></h3>
+<p>LASSO is the addition of the L1 penalty term on a weight vector <span class="math notranslate nohighlight">\(w\)</span> to the cost function. Unlike ridge regression, LASSO does not have a closed-form solution. The LASSO estimator is unique when <span class="math notranslate nohighlight">\(\text{rank}(X) = p\)</span>, because the criterion is strictly convex. Unlike ridge regression, LASSO also tends to set weights to 0. Larger values of hyperparameter <span class="math notranslate nohighlight">\(\lambda\)</span> tend to lead to more zeroed weights. Because features with weight 0 are essentially useless, LASSO is a means of feature selection.</p>
+<p>Note that L1 regularization can be thought of as a constraint, with cross-polytope isocontours in feature space.</p>
+</div>
+</div>
+<div class="section" id="variance">
+<h2>Variance<a class="headerlink" href="#variance" title="Permalink to this headline">¶</a></h2>
+<p>For a machine learning model, variance is error that results from model’s sensitivity to small fluctuations in the training set. Models with high variance lead to algorithms fitting to noise in the dataset rather than the true relationship. Models with high variance are said to overfit.</p>
+<p>Generally, models with high <strong>model complexity</strong> have high variance. Complexity generally results from added features and finely tuned hyperparameters (model architecture).</p>
+</div>
+<div class="section" id="vanishing-gradient-problem">
+<h2>Vanishing Gradient Problem<a class="headerlink" href="#vanishing-gradient-problem" title="Permalink to this headline">¶</a></h2>
+<p>The vanishing gradient problem is when NN weights are too close to 0 or 1, resulting in their loss gradients being way too small. This can even go so far as effectively halting NN training completely.</p>
+<p>We see this problem for early layers in deep neural networks, as gradients of these early layers are products of gradients in later layers. Since gradients are generally between <span class="math notranslate nohighlight">\([0,1]\)</span>, since there are more terms this gradient might converge to 0.</p>
+<p>Many solutions exist to solve this problem:</p>
+<ul class="simple">
+<li><p>Use ReLU over sigmoid.</p></li>
+<li><p>Choose smaller random initial weights for units with bigger fan-in.</p></li>
+<li><p>Set target values (in <span class="math notranslate nohighlight">\(y\)</span>) to <span class="math notranslate nohighlight">\([0.15, 0.85]\)</span> instead of <span class="math notranslate nohighlight">\([0,1]\)</span>. This will help with a stuck output layer, NOT hidden layers.</p></li>
+<li><p>Modify <a class="reference external" href="#backpropagation">backpropagation</a> to add a small constant to <span class="math notranslate nohighlight">\(s'\)</span>.</p></li>
+<li><p>Use cross-entropy loss instead of squared error, which has a much larger gradient to compensate for the vanishing gradient of sigmoid. This will help with a stuck output layer, NOT hidden layers.</p></li>
+</ul>
+</div>
+<div class="section" id="saturation-neural-networks">
+<h2>Saturation (Neural Networks)<a class="headerlink" href="#saturation-neural-networks" title="Permalink to this headline">¶</a></h2>
+<p>Saturation in neural networks means that hidden layer outputs have output values close to 0 or 1. This means that input values have a very high absolute value. As a result, weights will not change much during training, and it will be very slow. Most common with sigmoid activation function.</p>
+<p>Saturation is also a sign of overfit. It is</p>
+</div>
+<div class="section" id="weak-classifier">
+<h2>Weak Classifier<a class="headerlink" href="#weak-classifier" title="Permalink to this headline">¶</a></h2>
+<p>A weak classifier generally refers to binary classifiers, which do little or no better than 50% accuracy on unseen data points. In other words, a human guessing randomly could do just as good.</p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./chapters/ML_Glossary"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="../Ch22/intro.html" title="previous page">Nearest-Neighbor Algorithms</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Kevin Moy<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>

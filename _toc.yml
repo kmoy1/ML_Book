@@ -20,7 +20,7 @@
     - file: chapters/Ch2/perceptronp3
     - file: chapters/Ch2/maxmargin
 - file: chapters/Ch3/intro
-  title: "Chapter 3: Support Vector Machapters/Chines"
+  title: "Chapter 3: Support Vector Machines"
 - file: chapters/Ch4/intro
   title: "Chapter 4: Optimization Problems"
 - file: chapters/Ch5/intro
@@ -63,6 +63,8 @@
   title: "Chapter 21: Nearest Neighbors"
 - file: chapters/Ch22/intro
   title: "Chapter 22: Optomizing k-NN"
+- file: chapters/ML_Glossary/intro
+  title: "Machine Learning Glossary"
 
 
     
