@@ -1,0 +1,631 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gaussian Discriminant Analysis &#8212; Machine Learning</title>
+    
+  <link href="../../_static/css/theme.css" rel="stylesheet">
+  <link href="../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/qstyle.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="../../_static/quiz.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Eigenvectors and Quadratic Forms" href="../Ch7/intro.html" />
+    <link rel="prev" title="Decision Theory" href="../Ch5/intro.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../../_static/ML_logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Machine Learning</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../intro.html">
+   Intro
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../notation_note.html">
+   A Quick Note on Notation and Terminology
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../Ch1/intro.html">
+   Chapter 1: Classification and ML Basics
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/trainingandtesting.html">
+     Training and Testing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/comparingmodels.html">
+     Comparing Classification Models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/MNIST.html">
+     The MNIST dataset
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/validation.html">
+     Validation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/supervisedlearn.html">
+     Supervised vs. Unsupervised Learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/summary.html">
+     Summary
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../Ch2/intro.html">
+   Chapter 2: Linear Classifiers
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/hyperplanes.html">
+     Behind the Decision Boundary
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/linearseparability.html">
+     Linear Separability of Data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/centroid.html">
+     The Centroid Method
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptron.html">
+     The Perceptron Algorithm
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptronp2.html">
+     Perceptron Algorithm, Part 2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/perceptronp3.html">
+     The Perceptron Algorithm, Part 3
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch2/maxmargin.html">
+     Maximum Margin Classfier
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch3/intro.html">
+   Chapter 3: Support Vector Machines
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch4/intro.html">
+   Chapter 4: Optimization Problems
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch5/intro.html">
+   Chapter 5: Decision Theory
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Chapter 6: Gaussian Discriminant Analysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch7/intro.html">
+   Chapter 7: Eigenvectors and Quadratic Forms
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch8/intro.html">
+   Chapter 8: Anisotropic Gaussians
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch9/intro.html">
+   Chapter 9: Regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch10/intro.html">
+   Chapter 10: Statistical Justifications for Regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch11/intro.html">
+   Chapter 11: Regularization
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../Ch12/intro.html">
+   Chapter 12: Decision Trees
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch12/intro2.html">
+     Lecture 15: Decision Trees Cont.
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch13/intro.html">
+   Chapter 13: Kernels
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../Ch14/intro.html">
+   Chapter 14: Neural Networks
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch14/intro2.html">
+     Neural Network Variations
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch15/intro.html">
+   Chapter 15: Improving Neural Network Training
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch16/intro.html">
+   Chapter 16: Unsupervised Learning and PCA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch17/intro.html">
+   Chapter 17: Singular Value Decomposition and Clustering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch18/intro.html">
+   Chapter 18: Spectral Graph Clustering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch19/intro.html">
+   Chapter 19: Multiple Eigenvectors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch20/intro.html">
+   Chapter 20: AdaBoost
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch21/intro.html">
+   Chapter 21: Nearest Neighbors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch22/intro.html">
+   Chapter 22: Optomizing k-NN
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../ML_Glossary/intro.html">
+   Machine Learning Glossary
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../../_sources/chapters/Ch6/intro.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/kmoy1/ML_Book.git"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/kmoy1/ML_Book.git/issues/new?title=Issue%20on%20page%20%2Fchapters/Ch6/intro.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#quadratic-discriminant-analysis">
+   Quadratic Discriminant Analysis
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#linear-discriminant-analysis">
+   Linear Discriminant Analysis
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#maximum-likelihood-estimation">
+   Maximum Likelihood Estimation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#likelihood-of-a-gaussian">
+     Likelihood of A Gaussian
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Gaussian Discriminant Analysis</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#quadratic-discriminant-analysis">
+   Quadratic Discriminant Analysis
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#linear-discriminant-analysis">
+   Linear Discriminant Analysis
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#maximum-likelihood-estimation">
+   Maximum Likelihood Estimation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#likelihood-of-a-gaussian">
+     Likelihood of A Gaussian
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="gaussian-discriminant-analysis">
+<h1>Gaussian Discriminant Analysis<a class="headerlink" href="#gaussian-discriminant-analysis" title="Permalink to this headline">¶</a></h1>
+<p><strong>Gaussian Discriminant Analysis</strong> is a way of doing decision analysis to create a classifier based on the fundamental assumption that <strong>real world data tends to be normally distributed</strong>.</p>
+<p>The <strong>isotropic</strong> multivariate Gaussian distribution is a distribution with mean vector <span class="math notranslate nohighlight">\(\mu \in \mathbb{R}^d\)</span> and constant covariance <span class="math notranslate nohighlight">\(\sigma^2\)</span>. The isotropic multivariate Gaussian PDF:</p>
+<div class="math notranslate nohighlight">
+\[f(x) = \frac{1}{(\sqrt{2\pi}\sigma)^d}\exp(-\frac{||x-u||^2}{2\sigma^2})\]</div>
+<p>With a constant covariance <span class="math notranslate nohighlight">\(\sigma^2\)</span>, the variance is the same in every direction (each of <span class="math notranslate nohighlight">\(d\)</span> features is a “direction”).</p>
+<p>The interesting part of this PDF is the exponential of a NEGATIVE quadratic function of <span class="math notranslate nohighlight">\(x\)</span>- this will be the determining factor in prediction. Note that the term <span class="math notranslate nohighlight">\(||x-\mu||^2\)</span> is the squared distance from point <span class="math notranslate nohighlight">\(x\)</span> to the mean of the distribution. So we assume that all points in classes come from different isotropic normal distributions.</p>
+<p>For each class C, suppose we estimate a mean for all data points in that class as <span class="math notranslate nohighlight">\(\mu_C\)</span>, as well as a variance <span class="math notranslate nohighlight">\(\sigma_C^2\)</span> AND a prior <span class="math notranslate nohighlight">\(\pi_C = P(Y = C)\)</span>. So all these values are available to us beforehand.</p>
+<p>Now, given a point <span class="math notranslate nohighlight">\(x\)</span>, we want to predict its class. We use Bayes decision rule <span class="math notranslate nohighlight">\(r^*(x)\)</span> to predict this class, since it maximizes the posterior probability (assuming a symmetric loss function), which can be represented by <span class="math notranslate nohighlight">\(f(X=x|Y=C) = f_C(x)\pi_C\)</span>: the product of the prior of class C and the class-conditional probability of <span class="math notranslate nohighlight">\(x\)</span> being in class C (basically, the density of our model at x). We ignore the denominator in maximization, since it’s constant for each class.</p>
+<p>So if the goal is to maximize our density <span class="math notranslate nohighlight">\(f_C(x)\pi_C\)</span>, so we maximize the log of it since the log function is monotonically increasing. So we maximize</p>
+<div class="math notranslate nohighlight">
+\[Q_C(x) = \ln((\sqrt{2\pi})^df_C(x)\pi_C)\]</div>
+<div class="math notranslate nohighlight">
+\[= -\frac{||x-\mu_c||^2}{2\sigma_c^2}- d\ln\sigma_c+\ln\pi_c\]</div>
+<p><strong>Note that <span class="math notranslate nohighlight">\(Q_C(x)\)</span> is quadratic, and thus much simpler to maximize.</strong></p>
+<p>We compute <span class="math notranslate nohighlight">\(Q_C(x)\)</span> for each class, then choose <span class="math notranslate nohighlight">\(C\)</span> that maximizes <span class="math notranslate nohighlight">\(Q_C(x)\)</span>.</p>
+<p>Side note: for asymmetric loss functions, we simply add a product term to the posterior probability: <span class="math notranslate nohighlight">\( f_C(x)\pi_CL(., .)\)</span>.</p>
+<div class="section" id="quadratic-discriminant-analysis">
+<h2>Quadratic Discriminant Analysis<a class="headerlink" href="#quadratic-discriminant-analysis" title="Permalink to this headline">¶</a></h2>
+<p>Suppose we have 2 classes C, D. Then our Bayes decision rule <span class="math notranslate nohighlight">\(r^*(x)\)</span> will state to pick class C if <span class="math notranslate nohighlight">\(Q_C(x) &gt; Q_D(x)\)</span>, and pick D if <span class="math notranslate nohighlight">\(Q_D(x) \ge Q_C(x)\)</span>. This means our decision function is <span class="math notranslate nohighlight">\(Q_C(x) - Q_D(x)\)</span>, and its sign will indicate which class to pick. Of course, the Bayes decision boundary is the set of points where <span class="math notranslate nohighlight">\(Q_C(x) - Q_D(x) = 0\)</span>.</p>
+<p>In one dimension, Bayes decision boundary may have 1 or (at most) 2 points. It could also have 0 points- leading to ALWAYS picking class C. However, in <span class="math notranslate nohighlight">\(d\)</span> dimensions, the BDB is the set of solutions called a <strong>quadric</strong>, or conic section.</p>
+<p>Let’s look at a diagram of 2 class-conditional distributions:</p>
+<img alt="../../_images/classconds1.png" src="../../_images/classconds1.png" />
+<p>The 2 distributions are different Gaussians with different bell curves. We see the BDB as the intersection between the blue and red: where the 2 posterior probabilities (PDFs * priors on z axis) are equal. At any point <span class="math notranslate nohighlight">\(x\)</span>, the higher curve will be the corresponding class to predict for <span class="math notranslate nohighlight">\(x\)</span>.</p>
+<p><strong>Isotropic implies isocontours of each distribution are all spheres</strong> (not ellipses).</p>
+<p>What about more than 2 classes? Fortunately, QDA extends to multiclass classification <em>very nicely</em>. For each class, simply compute a corresponding <span class="math notranslate nohighlight">\(Q_C(x)\)</span>, then use the maximum for a prediction!</p>
+<p>Here’s a visualization with many classes. We see many bell curves here, and the centers of each curve represent a <span class="math notranslate nohighlight">\(\mu_C\)</span> for each class. Note some have larger variances than others, from the wider isocontour circles. The boundaries of this diagram are all conic sections, resulting in interesting intersections.</p>
+<img alt="../../_images/isocontours.png" src="../../_images/isocontours.png" />
+<p>We can also find the exact posterior probability that a point <span class="math notranslate nohighlight">\(x\)</span> is in a predicted class <span class="math notranslate nohighlight">\(C\)</span>. We want to recover the posterior probability for each class.</p>
+<p>In a 2 class case, we use Bayes:</p>
+<div class="math notranslate nohighlight">
+\[P(Y = C|X) = \frac{P(X|Y=C)\pi_C}{f(X|Y=C)\pi_C + f(X|Y=D)\pi_D}\]</div>
+<p>Recall that <span class="math notranslate nohighlight">\(Q_C(x) = \ln((\sqrt{2\pi})^df_C(x)\pi_C)\)</span>, so <span class="math notranslate nohighlight">\(e^{Q_C(x)} = (\sqrt{2\pi})^df_C(x)\pi_C\)</span>. So we know</p>
+<p><span class="math notranslate nohighlight">\(P(Y=C|X=x) = \frac{e^{Q_C(x)}}{Q_C(x)+Q_D(x)} = \frac{1}{1+e^{Q_D(x)-Q_C(x)}}\)</span></p>
+<p>This can be reduced to the <strong>sigmoid function:</strong> <span class="math notranslate nohighlight">\(s(Q_C(x) - Q_D(x))\)</span>.</p>
+<p>Therefore, the sigmoid function <span class="math notranslate nohighlight">\(s(Q_C(x) - Q_D(x))\)</span> gives us posterior probability- basically, the probability we get our prediction correct.</p>
+</div>
+<div class="section" id="linear-discriminant-analysis">
+<h2>Linear Discriminant Analysis<a class="headerlink" href="#linear-discriminant-analysis" title="Permalink to this headline">¶</a></h2>
+<p>LDA is a variant of QDA, only this time with <strong>linear decision boundaries</strong>. It’s much less likely to overfit than QDA, and because of this, it’s actually more popular.</p>
+<p>Always use validation to decide between whether to use QDA or LDA.</p>
+<p>We make a big assumption here with LDA: <strong>all Gaussians have the same variance <span class="math notranslate nohighlight">\(\sigma^2\)</span></strong>. This assumption makes simplifying equations much easier.</p>
+<p>Let’s expand our decision function <span class="math notranslate nohighlight">\(Q_C(x) - Q_D(x)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}Q_C(x) - Q_D(x) = \frac{(\mu_C-\mu_D) \cdot x}{\sigma^2} - \frac{||\mu_C||^2 - ||\mu_D||^2}{2\sigma^2} + \ln\pi_C - \ln\pi_D$$.\\which can actually just be simplified to $w \cdot x + \alpha$, where $w = \frac{\mu_C - \mu_D}{\sigma^2}$, and $\alpha = - \frac{||\mu_C||^2 - ||\mu_D||^2}{2\sigma^2} + \ln\pi_C - \ln\pi_D$. This is a linear classifier! From this equation, gathering all the terms where $C$ is involved (actually, everything else is just canceled out in the decision func), we derive the **linear discriminant function**\\$$\frac{\mu_C \cdot x}{\sigma^2} - \frac{||\mu_C||^2}{2\sigma^2} + \ln\pi_C\end{aligned}\end{align} \]</div>
+<p>So now we just choose class <span class="math notranslate nohighlight">\(C\)</span> that maximizes the linear discriminant function.</p>
+<p>In the 2-class case, the decision boundary is where the decision function = 0: <span class="math notranslate nohighlight">\(w \cdot x + \alpha = 0\)</span>. The posterior probability <span class="math notranslate nohighlight">\(P(Y=c|X=x) = s(w \cdot x + \alpha)\)</span>.</p>
+<p>For more than 2 classes, LDA produces a <strong>Vorenoi diagram</strong>:</p>
+<img alt="../../_images/vorenoi.png" src="../../_images/vorenoi.png" />
+</div>
+<div class="section" id="maximum-likelihood-estimation">
+<h2>Maximum Likelihood Estimation<a class="headerlink" href="#maximum-likelihood-estimation" title="Permalink to this headline">¶</a></h2>
+<p>So to estimate the posterior, we need to estimate the class-conditional density <span class="math notranslate nohighlight">\(f_C(x)\)</span> AND the class’s prior <span class="math notranslate nohighlight">\(\pi_C\)</span>. How?</p>
+<p>We use <strong>maximum likelihood estimation</strong>: we are finding the parameters that MAXIMIZE the probability that they produce the observed data. Specifically, parameters that maximize the <strong>likelihood function</strong> <span class="math notranslate nohighlight">\(L\)</span>. It is one method of density estimation, where we estimate a PDF from data.</p>
+<div class="section" id="likelihood-of-a-gaussian">
+<h3>Likelihood of A Gaussian<a class="headerlink" href="#likelihood-of-a-gaussian" title="Permalink to this headline">¶</a></h3>
+<p>How do we find the best-fit Gaussian distribution (guess its parameters) given data <span class="math notranslate nohighlight">\(X_1, ..., X_n\)</span>?</p>
+<p>The likelihood of generating sample points <span class="math notranslate nohighlight">\(X_1,...,X_n\)</span> is <span class="math notranslate nohighlight">\(L(\mu, \sigma; X_1, ..., X_n) = f(X_1)f(X_2)...f(X_n)\)</span>. The probability of generating an individual point is 0, but so these aren’t really probabilities (but they kind of are).</p>
+<p>We take the <strong>log-likelihood</strong> and denote it <span class="math notranslate nohighlight">\(l(\mu, \sigma; X_1, ..., X_n)\)</span>. This can be reduced to a summation:</p>
+<div class="math notranslate nohighlight">
+\[\sum_{i=1}^{n}\ln f(X_i)\]</div>
+<div class="math notranslate nohighlight">
+\[= \sum_{i=1}^{n}-\frac{||X_i-\mu||^2}{2\sigma^2}- d\ln\sigma+\ln\pi\]</div>
+<p>Now, we want to maximize this function by setting the gradient of the log-likelihood with respect to <span class="math notranslate nohighlight">\(\mu\)</span> AND another gradient with respect to <span class="math notranslate nohighlight">\(\sigma\)</span> equal to 0. Then, solving, we get:</p>
+<div class="math notranslate nohighlight">
+\[\hat{\mu} = \frac{1}{n}\sum_{i=1}^{n}X_i\]</div>
+<div class="math notranslate nohighlight">
+\[\hat{\sigma}^2 = \frac{1}{dn}\sum_{i=1}^{n}||X_i-\hat{\mu}||^2\]</div>
+<p>Note that we don’t actually know <span class="math notranslate nohighlight">\(\mu\)</span> so we have to substitute <span class="math notranslate nohighlight">\(\hat{\mu}\)</span>.</p>
+<p>In other words, the <strong>sample mean and variance estimate the Gaussian mean and variance for class C</strong>.</p>
+<p>Extending this back to QDA, we estimate the <strong>class-conditional means and variances</strong> for each class C as <span class="math notranslate nohighlight">\(\hat{\mu}_C\)</span> and <span class="math notranslate nohighlight">\(\hat{\sigma}_C^2\)</span> by using the above formulas. Then, we estimate the priors: <span class="math notranslate nohighlight">\(\hat{\pi}_C = \frac{n_C}{\sum_{D}n_D}\)</span>. Once we have those, we can build our quadratic discriminant function and make predictions.</p>
+<p>For LDA, the process is very similar: we compute the means and priors in the exact same way as QDA. However, we made the assumption that <strong>all classes had the same variance</strong>:</p>
+<div class="math notranslate nohighlight">
+\[\hat{\sigma}^2 = \frac{1}{dn}\sum_{c}\sum_{i:y_i = c}||X_i - \hat{\mu}_C||^2\]</div>
+<p>This is called the <strong>pooled within-class variance</strong>: For every sample point, we subtract the mean FOR THAT POINT’S CLASS- so it’s “within-class variance”. But we pool it (sum it) across all classes to get our final variance estimate.</p>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./chapters/Ch6"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="../Ch5/intro.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Decision Theory</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="../Ch7/intro.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Eigenvectors and Quadratic Forms</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Kevin Moy<br/>
+    
+        &copy; Copyright 2021.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

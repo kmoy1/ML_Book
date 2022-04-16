@@ -1,0 +1,551 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Perceptron Algorithm, Part 2 &#8212; Machine Learning</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.e7340bb3dbd8dde6db86f25597f54a1b.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/proof.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/qstyle.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="The Perceptron Algorithm, Part 3" href="perceptronp3.html" />
+    <link rel="prev" title="The Perceptron Algorithm" href="perceptron.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/ML_logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Machine Learning</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../intro.html">
+   Intro
+  </a>
+ </li>
+</ul>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notation_note.html">
+   A Quick Note on Notation and Terminology
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch1/intro.html">
+   Chapter 1: Classification and ML Basics
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/trainingandtesting.html">
+     Training and Testing
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/comparingmodels.html">
+     Comparing Classification Models
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/MNIST.html">
+     The MNIST dataset
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/validation.html">
+     Validation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/supervisedlearn.html">
+     Supervised vs. Unsupervised Learning
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch1/summary.html">
+     Summary
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1 current active collapsible-parent">
+  <a class="reference internal" href="intro.html">
+   Chapter 2: Linear Classifiers
+  </a>
+  <ul class="current collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="hyperplanes.html">
+     Behind the Decision Boundary
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="linearseparability.html">
+     Linear Separability of Data
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="centroid.html">
+     The Centroid Method
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="perceptron.html">
+     The Perceptron Algorithm
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Perceptron Algorithm, Part 2
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="perceptronp3.html">
+     The Perceptron Algorithm, Part 3
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="maxmargin.html">
+     Maximum Margin Classfier
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch3/intro.html">
+   Chapter 3: Support Vector Machines
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch4/intro.html">
+   Chapter 4: Optimization Problems
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch5/intro.html">
+   Chapter 5: Decision Theory
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch6/intro.html">
+   Chapter 6: Gaussian Discriminant Analysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch7/intro.html">
+   Chapter 7: Eigenvectors and Quadratic Forms
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch8/intro.html">
+   Chapter 8: Anisotropic Gaussians
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch9/intro.html">
+   Chapter 9: Regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch10/intro.html">
+   Chapter 10: Statistical Justifications for Regression
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch11/intro.html">
+   Chapter 11: Regularization
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch12/intro.html">
+   Chapter 12: Decision Trees
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch12/intro2.html">
+     Lecture 15: Decision Trees Cont.
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch13/intro.html">
+   Chapter 13: Kernels
+  </a>
+ </li>
+ <li class="toctree-l1 collapsible-parent">
+  <a class="reference internal" href="../Ch14/intro.html">
+   Chapter 14: Neural Networks
+  </a>
+  <ul class="collapse-ul">
+   <li class="toctree-l2">
+    <a class="reference internal" href="../Ch14/intro2.html">
+     Neural Network Variations
+    </a>
+   </li>
+  </ul>
+  <i class="fas fa-chevron-down">
+  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch15/intro.html">
+   Chapter 15: Improving Neural Network Training
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch16/intro.html">
+   Chapter 16: Unsupervised Learning and PCA
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch17/intro.html">
+   Chapter 17: Singular Value Decomposition and Clustering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch18/intro.html">
+   Chapter 18: Spectral Graph Clustering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch19/intro.html">
+   Chapter 19: Multiple Eigenvectors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch20/intro.html">
+   Chapter 20: AdaBoost
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch21/intro.html">
+   Chapter 21: Nearest Neighbors
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Ch22/intro.html">
+   Chapter 22: Optomizing k-NN
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/Ch2/perceptronp2.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/kmoy1/ML_Book.git"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/kmoy1/ML_Book.git/issues/new?title=Issue%20on%20page%20%2FCh2/perceptronp2.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                    title="Fullscreen mode"><i
+                        class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i>
+            Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#x-space-vs-w-space">
+   X-space vs. W-space
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#gradient-descent">
+   Gradient Descent
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#stochastic-gradient-descent">
+   Stochastic Gradient Descent
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="perceptron-algorithm-part-2">
+<h1>Perceptron Algorithm, Part 2<a class="headerlink" href="#perceptron-algorithm-part-2" title="Permalink to this headline">¶</a></h1>
+<p>Before we plunge on, let’s review our goal.</p>
+<p>Remember that the perceptron algorithm is an algorithm for learning an underlying linear <em>decision function</em>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+f(x) = 
+    \begin{cases} 
+      1 &amp; w \cdot x + \alpha &gt; 0 \\
+      -1 &amp; \text{otherwise} \\  
+   \end{cases}
+\end{split}\]</div>
+<p>This function effectively makes our decision boundary (points where <span class="math notranslate nohighlight">\(f(x) = 0\)</span>) and classifier.</p>
+<p>Our goal is to learn the weights <span class="math notranslate nohighlight">\(w\)</span> that minimizes the <em>risk function</em> for the associated classifier: <span class="math notranslate nohighlight">\(\underset{w}{\arg\min} R(w)\)</span>. Specifically, our risk function in this case is <span class="math notranslate nohighlight">\(R(w) = \sum_{i \in V}-y_iX_i \cdot w\)</span>, where <span class="math notranslate nohighlight">\(V = \{i : y_iX_i\cdot w &lt; 0\}\)</span>: indices of all misclassified data points in the training set.</p>
+<div class="section" id="x-space-vs-w-space">
+<h2>X-space vs. W-space<a class="headerlink" href="#x-space-vs-w-space" title="Permalink to this headline">¶</a></h2>
+<p>Remember that we want to find an optimal separating hyperplane in feature space, which may also be referred to as <em>x-space</em>. Alternatively, we want to find the optimal normal vector. This is equivalent to finding an optimal point in weight space, or <em>w-space</em>.</p>
+<p>For each hyperplane in x-space, there is an associated point in w-space. For each point in x-space, then there is an associated <em>constraint hyperplane</em> in w-space. This type of transformation is extremely common not just in machine learning but mathematics in general, and is important to understand.</p>
+<!-- Visualization. --> 
+<p>So all we really need to get out of this: a point in x-space transforms to a normal vector (hyperplane) in w-space, and a normal vector in w-space (a point) translates to a hyperplane in x-space. A sample point in x-space transforms to the hyperplane in w-space whose normal vector is the sample point.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This symmetry between points and hyperplanes in x-space and w-space exists for linear decision boundaries, but will NOT necessarily exist for the more complex DBs we’ll learn later in the book.</p>
+</div>
+<p>So if we want to enforce the inequality <span class="math notranslate nohighlight">\(x \cdot w \ge 0\)</span>, then we have two possible interpretations, one for x-space and one for w-space:</p>
+<ul class="simple">
+<li><p>In x-space, <span class="math notranslate nohighlight">\(x\)</span> should be on the same side of the hyperplane <span class="math notranslate nohighlight">\(H = \{z: w \cdot z = 0\}\)</span>: a hyperplane determined by normal vector <span class="math notranslate nohighlight">\(w\)</span>.</p></li>
+<li><p>In w-space, <span class="math notranslate nohighlight">\(w\)</span> should be on the same side of the hyperplane <span class="math notranslate nohighlight">\(H = \{z: w \cdot z = 0\}\)</span>: a hyperplane determined by normal vector <span class="math notranslate nohighlight">\(x\)</span>.</p></li>
+</ul>
+<!-- Visualization, if time. NOTE: Complex. -->
+<p>After accounting for all of these constraints, for any set of points in x-space, there is an <strong>associated “green region” in w-space where our optimal weight vector is allowed to be.</strong> Choosing a weight vector in that region will result in a hyperplane which, when transformed back to x-space, will guarantee separation of points.</p>
+<p>Let’s visualize our risk function <span class="math notranslate nohighlight">\(R(w)\)</span> in weight space, in 3D. On the left is the 3D plot (z-axis is values of <span class="math notranslate nohighlight">\(R(w)\)</span>, and xy axes is the weight space). On the right is the isocontour plot.</p>
+<a class="reference internal image-reference" href="../_images/riskfuncplot.png"><img alt="Risk Func" class="align-center" src="../_images/riskfuncplot.png" style="width: 400px;" /></a>
+<p>On the left, we want a point <span class="math notranslate nohighlight">\(w = (w_1, w_2)\)</span> that minimizes <span class="math notranslate nohighlight">\(R(w)\)</span>. How can we find such a point in general? We apply <strong>gradient descent</strong> on our risk function <span class="math notranslate nohighlight">\(R\)</span>.</p>
+</div>
+<div class="section" id="gradient-descent">
+<h2>Gradient Descent<a class="headerlink" href="#gradient-descent" title="Permalink to this headline">¶</a></h2>
+<p><strong>Gradient descent</strong> is the algorithm that we apply to find minima of multivariate functions. Here’s how it works.</p>
+<p>First, we start off at some <em>starting point</em> <span class="math notranslate nohighlight">\(w\)</span>. Then, we find the <em>gradient</em> of <span class="math notranslate nohighlight">\(R\)</span> with respect to <span class="math notranslate nohighlight">\(w\)</span>, denoted as <span class="math notranslate nohighlight">\(\nabla_wR(w)\)</span>: this is the direction of steepest ascent. We are essentially calculating the slope of the curve at our point, except now we’re working with probably much more than 2 dimensions. We then take a step in the <em>opposite</em> direction of the gradient, so that we’re descending instead of ascending.</p>
+<p>Remember that the gradient of a vector-input function <span class="math notranslate nohighlight">\(R(w)\)</span> is a vector of all the partial derivatives of <span class="math notranslate nohighlight">\(R\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\nabla R(w) = \begin{bmatrix} \frac{\partial R}{\partial w_1} \\ \frac{\partial R}{\partial w_2}\\ ... \\ \frac{\partial R}{\partial w_d} \end{bmatrix}
+\end{split}\]</div>
+<p>It is also easy to work out that the gradient of a dot product <span class="math notranslate nohighlight">\(\nabla_w(z \cdot w) = z\)</span>.</p>
+<p>So to calculate the gradient of our perceptron risk function, we can apply the two equations above:</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla_wR(w) = \sum_{i \in V}\nabla(-y_iX_i \cdot w) = -\sum_{i \in V}y_iX_i
+\]</div>
+<p>And since we take the negative of the gradient, we calculate <span class="math notranslate nohighlight">\(\sum_{i \in V}y_iX_i\)</span>  at each iteration of gradient descent to “walk downhill” on the risk function, in the direction of steepest descent.</p>
+<p>So overall, we can summarize gradient descent in the perceptron algorithm by one update rule:</p>
+<div class="math notranslate nohighlight">
+\[
+w^{(t+1)} = w^{(t)} + \epsilon\sum_{i \in V}y_iX_i
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(w^{(t)}\)</span> is the calculated weights from GD at iteration <span class="math notranslate nohighlight">\(t\)</span>. We stop gradient descent when we <em>converge</em>: in other words, doing more iterations doesn’t change <span class="math notranslate nohighlight">\(w\)</span> much at all.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <span class="math notranslate nohighlight">\(\epsilon\)</span> you see in the above equation is called the <strong>learning rate</strong> or <strong>step size</strong>, and is usually chosen empirically: no general rule exists for picking one. Higher step sizes will mean faster changes to <span class="math notranslate nohighlight">\(w\)</span>, but might “overshoot” the true minima that we want. However, we will always converge if our points are linearly separable, no matter the step size.</p>
+</div>
+<p>So if the points are truly linearly separable, the perceptron algorithm will guarantee to find a weight vector <span class="math notranslate nohighlight">\(w\)</span> that will do the job.</p>
+<p>So now we’ve pretty much covered the entirety of the perceptron algorithm: given our dataset, we fit our linear model to it by finding the optimal <span class="math notranslate nohighlight">\(w\)</span> through gradient descent on <span class="math notranslate nohighlight">\(R(w)\)</span>.</p>
+<p>One big problem with the perceptron algorithm, though, is that it’s very slow! Each step takes <span class="math notranslate nohighlight">\(O(nd)\)</span> time, where <span class="math notranslate nohighlight">\(n\)</span> is the number of sample points and <span class="math notranslate nohighlight">\(d\)</span> is the number of features. How can we fix this?</p>
+</div>
+<div class="section" id="stochastic-gradient-descent">
+<h2>Stochastic Gradient Descent<a class="headerlink" href="#stochastic-gradient-descent" title="Permalink to this headline">¶</a></h2>
+<p>Remember that in normal gradient descent, we need to calculate the gradient as <span class="math notranslate nohighlight">\(\sum_{i \in V}y_iX_i\)</span>. This requires us to sum through all misclassified points at each iteration. Stochastic gradient descent improves on this time sink drastically by only requiring us to pick ONE misclassified point <span class="math notranslate nohighlight">\(X_i\)</span> at each iteration. Then, instead of doing gradient descent on <span class="math notranslate nohighlight">\(R\)</span>, all we have to do is gradient descent on the loss function <span class="math notranslate nohighlight">\(L(X_i \cdot w, y_i)\)</span>.</p>
+<p>Now, each iteration of gradient descent takes around <span class="math notranslate nohighlight">\(O(d)\)</span> time instead of <span class="math notranslate nohighlight">\(O(nd)\)</span>: a MASSIVE improvement, especially with a very large dataset! However, do note there’s always a tradeoff: we’re not using complete information of all misclassified points, so we rely more on chance to get the optimal <span class="math notranslate nohighlight">\(w\)</span> we want.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Stochastic gradient descent does not work for every problem that gradient descent works for. The perceptron risk function happens to have special properties that guarantee that SGD will always succeed. More on this in later chapters.</p>
+</div>
+<!-- TODO: Include pseudocode for SGD --></div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./Ch2"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="perceptron.html" title="previous page">The Perceptron Algorithm</a>
+    <a class='right-next' id="next-link" href="perceptronp3.html" title="next page">The Perceptron Algorithm, Part 3</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Kevin Moy<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>
